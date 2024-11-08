@@ -3,6 +3,7 @@ package services
 import (
 	"net/http"
 	"strconv"
+	"time"
 
 	"github.com/gin-gonic/gin"
 )
@@ -16,9 +17,17 @@ func GetDonors(c *gin.Context) {
 
 func CreateDonor(c *gin.Context) {
 	var newDonor Donor
-	if err := c.BindJSON(&newDonor); err != nil {
+	if err := c.ShouldBind(&newDonor); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+
+	// Handle the CarAvailable checkbox value
+	newDonor.CarAvailable = c.PostForm("CarAvailable") == "true"
+
+	newDonor.ID = len(donors) + 1 // Assign a new ID
+	newDonor.CreatedAt = time.Now()
+	newDonor.UpdatedAt = time.Now()
 	donors = append(donors, newDonor)
 	c.JSON(http.StatusCreated, newDonor)
 }
@@ -55,9 +64,15 @@ func GetPatients(c *gin.Context) {
 
 func CreatePatient(c *gin.Context) {
 	var newPatient Patient
-	if err := c.BindJSON(&newPatient); err != nil {
+	if err := c.ShouldBind(&newPatient); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+
+	// Manually set `CarAvailable` based on form submission
+	newPatient.CarAvailable = c.PostForm("CarAvailable") == "true"
+
+	newPatient.ID = len(patients) + 1 // Assign a new ID
 	patients = append(patients, newPatient)
 	c.JSON(http.StatusCreated, newPatient)
 }

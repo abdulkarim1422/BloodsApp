@@ -1,35 +1,37 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Blood Donation App</title>
+    <title>تطبيق التبرع بالدم</title>
     <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Include the header -->
+    <!-- تضمين الرأس -->
     {{ template "header.html" . }}
 
     <main>
         <section>
-            <h2>About Us</h2>
-            <p>Welcome volunteers!</p>
+            <h2>من نحن</h2>
+            <p>نحن مبادرة بلودسآب</p> 
+            <p>مرحبًا بالمتطوعين!</p>
         </section>
         <section>
-            <h2>How It Works</h2>
-            <p>Our app allows you to:</p>
+            <h2>كيف يعمل</h2>
+            <p>يتيح لك تطبيقنا:</p>
             <ul>
-                <li>Register as a blood donor</li>
-                <li>Find patients in need of blood</li>
-                <li>Donate red blood cells and platelets</li>
-                <li>Match donors with patients based on blood type compatibility</li>
+                <li>التسجيل كمتبرع بالدم</li>
+                <li>العثور على المرضى المحتاجين للدم</li>
+                <li>التبرع بخلايا الدم الحمراء والصفائح الدموية</li>
+                <li>مطابقة المتبرعين مع المرضى بناءً على توافق فصيلة الدم</li>
             </ul>
         </section>
         <section>
-            <h2>Get Started</h2>
-            <p>To get started, use the navigation menu to explore our app and find the information you need.</p>
+            <h2>ابدأ الآن</h2>
+            <p>لبدء الاستخدام، استخدم قائمة التنقل لاستكشاف تطبيقنا والعثور على المعلومات التي تحتاجها.</p>
         </section>
     </main>
 
-    <!-- Include the footer -->
+    <!-- تضمين التذييل -->
     {{ template "footer.html" . }}
 </body>
 </html>

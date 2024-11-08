@@ -1,20 +1,22 @@
 package services
 
-import "time"
+import (
+	"time"
+)
 
 type Donor struct {
 	ID            int       `json:"id"`
-	FirstName     string    `json:"first_name"`
-	LastName      string    `json:"last_name,omitempty"`
-	PhoneNumber   string    `json:"phone_number"`
-	BloodType     string    `json:"bloodType"`
-	BirthDate     time.Time `json:"birth_date,omitempty"`
-	Gender        string    `json:"gender"`
-	CarAvailable  bool      `json:"car_available,omitempty"`
+	FirstName     string    `json:"first_name" form:"FirstName"`
+	LastName      string    `json:"last_name,omitempty" form:"LastName"`
+	PhoneNumber   string    `json:"phone_number" form:"PhoneNumber"`
+	BloodType     string    `json:"bloodType" form:"BloodType"`
+	BirthDate     time.Time `json:"birth_date,omitempty" form:"BirthDate" time_format:"2006-01-02"`
+	Gender        string    `json:"gender" form:"Gender"`
+	CarAvailable  bool      `json:"car_available,omitempty" form:"CarAvailable"`
 	Paid          bool      `json:"paid,omitempty"`
 	CreatedAt     time.Time `json:"created_at"`
 	UpdatedAt     time.Time `json:"updated_at"`
-	Address       string    `json:"address"`
+	Address       string    `json:"address" form:"Address"`
 	RedTimer      time.Time `json:"red_timer"`
 	PlateletTimer time.Time `json:"platelet_timer"`
 	Score         int       `json:"score"`
@@ -22,17 +24,17 @@ type Donor struct {
 
 type Patient struct {
 	ID               int       `json:"id"`
-	FirstName        string    `json:"firstName"`
-	LastName         string    `json:"lastName,omitempty"`
-	BloodType        string    `json:"bloodType"`
-	BirthDate        time.Time `json:"birth_date,omitempty"`
-	Gender           string    `json:"gender"`
-	Address          string    `json:"address"`
-	Phone            string    `json:"phone"`
-	Urgency          int       `json:"urgency"`
-	RedQuantity      int       `json:"red-quantity"`
-	PlateletQuantity int       `json:"platelet-quantity"`
-	CarAvailable     bool      `json:"car_available"`
+	FirstName        string    `json:"firstName" form:"FirstName"`
+	LastName         string    `json:"lastName,omitempty" form:"LastName"`
+	BloodType        string    `json:"bloodType" form:"BloodType"`
+	BirthDate        time.Time `json:"birth_date,omitempty" form:"BirthDate" time_format:"2006-01-02"`
+	Gender           string    `json:"gender" form:"Gender"`
+	Address          string    `json:"address" form:"Address"`
+	Phone            string    `json:"phone" form:"Phone"`
+	Urgency          int       `json:"urgency" form:"Urgency"`
+	RedQuantity      int       `json:"red-quantity" form:"RedQuantity"`
+	PlateletQuantity int       `json:"platelet-quantity" form:"PlateletQuantity"`
+	CarAvailable     bool      `json:"car_available" form:"CarAvailable"`
 }
 
 var donors = []Donor{

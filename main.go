@@ -20,9 +20,11 @@ func main() {
 
 	router.GET("/donors", services.GetDonors)
 	router.GET("/donors/:id", services.DonorByID)
+	router.GET("/donor_form", services.ShowDonorForm)
 
 	router.GET("/patients", services.GetPatients)
 	router.GET("/patients/:id", services.PatientByID)
+	router.GET("/patient_form", services.ShowPatientForm)
 
 	router.POST("/donors", services.CreateDonor)
 	router.POST("/patients", services.CreatePatient)
