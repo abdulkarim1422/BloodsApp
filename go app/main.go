@@ -1,29 +1,30 @@
 package main
 
 import (
+	"github.com/abdulkarim1422/BloodsApp/services"
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
 	router := gin.Default()
 
-	router.GET("/donors", getDonors)
-	router.GET("/donors/:id", donorByID)
+	router.GET("/donors", services.GetDonors)
+	router.GET("/donors/:id", services.DonorByID)
 
-	router.GET("/patients", getPatients)
-	router.GET("/patients/:id", patientByID)
+	router.GET("/patients", services.GetPatients)
+	router.GET("/patients/:id", services.PatientByID)
 
-	router.POST("/donors", createDonor)
-	router.POST("/patients", createPatient)
+	router.POST("/donors", services.CreateDonor)
+	router.POST("/patients", services.CreatePatient)
 
-	router.POST("/donate-red", donateRed)
-	router.POST("/donate-platelet", donatePlatelet)
+	router.POST("/donate-red", services.DonateRed)
+	router.POST("/donate-platelet", services.DonatePlatelet)
 
-	router.GET("/match-red", matchRedDonorPatient)
-	router.GET("/match-platelet", matchPlateletDonorPatient)
+	router.GET("/match-red", services.MatchRedDonorPatient)
+	router.GET("/match-platelet", services.MatchPlateletDonorPatient)
 
-	router.GET("/match-red-ignore", matchRedDonorPatientIgnoreBloodType)
-	router.GET("/match-platelet-ignore", matchPlateletDonorPatientIgnoreBloodType)
+	router.GET("/match-red-ignore", services.MatchRedDonorPatientIgnoreBloodType)
+	router.GET("/match-platelet-ignore", services.MatchPlateletDonorPatientIgnoreBloodType)
 
 	router.Run(":8080")
 }

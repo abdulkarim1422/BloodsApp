@@ -1,4 +1,4 @@
-package main
+package services
 
 import (
 	"net/http"
@@ -7,7 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func matchRedDonorPatient(c *gin.Context) {
+func MatchRedDonorPatient(c *gin.Context) {
 	var request struct {
 		PatientID int `json:"patientId"`
 	}
@@ -16,7 +16,7 @@ func matchRedDonorPatient(c *gin.Context) {
 		return
 	}
 
-	var patient *patient
+	var patient *Patient
 	for i := range patients {
 		if patients[i].ID == request.PatientID {
 			patient = &patients[i]
@@ -28,7 +28,7 @@ func matchRedDonorPatient(c *gin.Context) {
 		return
 	}
 
-	var matchedDonor *donor
+	var matchedDonor *Donor
 	for i := range donors {
 		if donors[i].BloodType == patient.BloodType && donors[i].RedTimer.Before(time.Now()) {
 			matchedDonor = &donors[i]
@@ -48,7 +48,7 @@ func matchRedDonorPatient(c *gin.Context) {
 		"donor_name":   matchedDonor.Name,
 		"donor_type":   matchedDonor.BloodType,
 	})
-	var matchedDonors []donor
+	var matchedDonors []Donor
 	for i := range donors {
 		if donors[i].BloodType == patient.BloodType && donors[i].RedTimer.Before(time.Now()) {
 			matchedDonors = append(matchedDonors, donors[i])
@@ -67,7 +67,7 @@ func matchRedDonorPatient(c *gin.Context) {
 	})
 }
 
-func matchRedDonorPatientIgnoreBloodType(c *gin.Context) {
+func MatchRedDonorPatientIgnoreBloodType(c *gin.Context) {
 	var request struct {
 		PatientID int `json:"patientId"`
 	}
@@ -76,7 +76,7 @@ func matchRedDonorPatientIgnoreBloodType(c *gin.Context) {
 		return
 	}
 
-	var patient *patient
+	var patient *Patient
 	for i := range patients {
 		if patients[i].ID == request.PatientID {
 			patient = &patients[i]
@@ -99,7 +99,7 @@ func matchRedDonorPatientIgnoreBloodType(c *gin.Context) {
 		"AB+": {"AB+"},
 	}
 
-	var matchedDonors []donor
+	var matchedDonors []Donor
 	for i := range donors {
 		if donors[i].RedTimer.Before(time.Now()) {
 			for _, compatibleType := range compatibleBloodTypes[donors[i].BloodType] {
@@ -119,7 +119,7 @@ func matchRedDonorPatientIgnoreBloodType(c *gin.Context) {
 	})
 }
 
-func matchPlateletDonorPatient(c *gin.Context) {
+func MatchPlateletDonorPatient(c *gin.Context) {
 	var request struct {
 		PatientID int `json:"patientId"`
 	}
@@ -128,7 +128,7 @@ func matchPlateletDonorPatient(c *gin.Context) {
 		return
 	}
 
-	var patient *patient
+	var patient *Patient
 	for i := range patients {
 		if patients[i].ID == request.PatientID {
 			patient = &patients[i]
@@ -140,7 +140,7 @@ func matchPlateletDonorPatient(c *gin.Context) {
 		return
 	}
 
-	var matchedDonor *donor
+	var matchedDonor *Donor
 	for i := range donors {
 		if donors[i].BloodType == patient.BloodType && donors[i].PlateletTimer.Before(time.Now()) {
 			matchedDonor = &donors[i]
@@ -161,7 +161,7 @@ func matchPlateletDonorPatient(c *gin.Context) {
 	})
 }
 
-func matchPlateletDonorPatientIgnoreBloodType(c *gin.Context) {
+func MatchPlateletDonorPatientIgnoreBloodType(c *gin.Context) {
 	var request struct {
 		PatientID int `json:"patientId"`
 	}
@@ -170,7 +170,7 @@ func matchPlateletDonorPatientIgnoreBloodType(c *gin.Context) {
 		return
 	}
 
-	var patient *patient
+	var patient *Patient
 	for i := range patients {
 		if patients[i].ID == request.PatientID {
 			patient = &patients[i]
@@ -182,7 +182,7 @@ func matchPlateletDonorPatientIgnoreBloodType(c *gin.Context) {
 		return
 	}
 
-	var matchedDonor *donor
+	var matchedDonor *Donor
 	for i := range donors {
 		if donors[i].PlateletTimer.Before(time.Now()) {
 			matchedDonor = &donors[i]

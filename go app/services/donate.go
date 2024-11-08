@@ -1,4 +1,4 @@
-package main
+package services
 
 import (
 	"net/http"
@@ -7,7 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func donateRed(c *gin.Context) {
+func DonateRed(c *gin.Context) {
 	var request struct {
 		PatientID int `json:"patientId"`
 		DonorID   int `json:"donorId"`
@@ -17,7 +17,7 @@ func donateRed(c *gin.Context) {
 		return
 	}
 
-	var patient *patient
+	var patient *Patient
 	for i := range patients {
 		if patients[i].ID == request.PatientID {
 			patient = &patients[i]
@@ -29,7 +29,7 @@ func donateRed(c *gin.Context) {
 		return
 	}
 
-	var donor *donor
+	var donor *Donor
 	for i := range donors {
 		if donors[i].ID == request.DonorID {
 			donor = &donors[i]
@@ -72,7 +72,7 @@ func donateRed(c *gin.Context) {
 	})
 }
 
-func donatePlatelet(c *gin.Context) {
+func DonatePlatelet(c *gin.Context) {
 	var request struct {
 		PatientID int `json:"patientId"`
 		DonorID   int `json:"donorId"`
@@ -82,7 +82,7 @@ func donatePlatelet(c *gin.Context) {
 		return
 	}
 
-	var patient *patient
+	var patient *Patient
 	for i := range patients {
 		if patients[i].ID == request.PatientID {
 			patient = &patients[i]
@@ -94,7 +94,7 @@ func donatePlatelet(c *gin.Context) {
 		return
 	}
 
-	var donor *donor
+	var donor *Donor
 	for i := range donors {
 		if donors[i].ID == request.DonorID {
 			donor = &donors[i]

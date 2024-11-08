@@ -1,8 +1,8 @@
-package main
+package services
 
 import "time"
 
-type donor struct {
+type Donor struct {
 	ID            int       `json:"id"`
 	Name          string    `json:"name"`
 	BloodType     string    `json:"bloodType"`
@@ -13,7 +13,7 @@ type donor struct {
 	Score         int       `json:"score"`
 }
 
-type patient struct {
+type Patient struct {
 	ID               int    `json:"id"`
 	Name             string `json:"name"`
 	BloodType        string `json:"bloodType"`
@@ -25,7 +25,7 @@ type patient struct {
 	Capability       string `json:"capability"`
 }
 
-var donors = []donor{
+var donors = []Donor{
 	{ID: 1, Name: "John Doe", BloodType: "A+", Address: "123 Main St", Phone: "555-555-5555", RedTimer: time.Date(2024, 11, 7, 0, 0, 0, 0, time.UTC), PlateletTimer: time.Date(2024, 11, 7, 0, 0, 0, 0, time.UTC), Score: 0},
 	{ID: 2, Name: "Jane Doe", BloodType: "B+", Address: "123 Main St", Phone: "555-555-5555", RedTimer: time.Date(2024, 11, 7, 0, 0, 0, 0, time.UTC), PlateletTimer: time.Date(2024, 11, 7, 0, 0, 0, 0, time.UTC), Score: 0},
 	{ID: 3, Name: "John Smith", BloodType: "AB+", Address: "123 Main St", Phone: "555-555-5555", RedTimer: time.Date(2024, 11, 7, 0, 0, 0, 0, time.UTC), PlateletTimer: time.Date(2024, 11, 7, 0, 0, 0, 0, time.UTC), Score: 0},
@@ -38,7 +38,7 @@ var donors = []donor{
 	{ID: 10, Name: "Jane Doe", BloodType: "B+", Address: "123 Main St", Phone: "555-555-5555", RedTimer: time.Date(2024, 11, 7, 0, 0, 0, 0, time.UTC), PlateletTimer: time.Date(2024, 11, 7, 0, 0, 0, 0, time.UTC), Score: 0},
 }
 
-var patients = []patient{
+var patients = []Patient{
 	{ID: 1, Name: "Jane Smith", BloodType: "A+", Address: "123 Main St", Phone: "555-555-5555", Urgency: 0, RedQuantity: 1, PlateletQuantity: 1, Capability: "red"},
 	{ID: 2, Name: "John Smith", BloodType: "B+", Address: "123 Main St", Phone: "555-555-5555", Urgency: 0, RedQuantity: 2, PlateletQuantity: 0, Capability: "platelet"},
 	{ID: 3, Name: "Jane Doe", BloodType: "AB+", Address: "123 Main St", Phone: "555-555-5555", Urgency: 0, RedQuantity: 1, PlateletQuantity: 1, Capability: "red"},

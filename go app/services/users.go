@@ -1,4 +1,4 @@
-package main
+package services
 
 import (
 	"net/http"
@@ -7,12 +7,12 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func getDonors(c *gin.Context) {
+func GetDonors(c *gin.Context) {
 	c.JSON(http.StatusOK, donors)
 }
 
-func createDonor(c *gin.Context) {
-	var newDonor donor
+func CreateDonor(c *gin.Context) {
+	var newDonor Donor
 	if err := c.BindJSON(&newDonor); err != nil {
 		return
 	}
@@ -20,9 +20,9 @@ func createDonor(c *gin.Context) {
 	c.JSON(http.StatusCreated, newDonor)
 }
 
-func donorByID(c *gin.Context) {
+func DonorByID(c *gin.Context) {
 	id := c.Param("id")
-	d, err := getDonorByID(id)
+	d, err := GetDonorByID(id)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
@@ -34,7 +34,7 @@ func donorByID(c *gin.Context) {
 	c.JSON(http.StatusOK, d)
 }
 
-func getDonorByID(id string) (*donor, error) {
+func GetDonorByID(id string) (*Donor, error) {
 	for _, d := range donors {
 		if strconv.Itoa(d.ID) == id {
 			return &d, nil
@@ -43,12 +43,12 @@ func getDonorByID(id string) (*donor, error) {
 	return nil, nil
 }
 
-func getPatients(c *gin.Context) {
+func GetPatients(c *gin.Context) {
 	c.JSON(http.StatusOK, patients)
 }
 
-func createPatient(c *gin.Context) {
-	var newPatient patient
+func CreatePatient(c *gin.Context) {
+	var newPatient Patient
 	if err := c.BindJSON(&newPatient); err != nil {
 		return
 	}
@@ -56,9 +56,9 @@ func createPatient(c *gin.Context) {
 	c.JSON(http.StatusCreated, newPatient)
 }
 
-func patientByID(c *gin.Context) {
+func PatientByID(c *gin.Context) {
 	id := c.Param("id")
-	p, err := getPatientByID(id)
+	p, err := GetPatientByID(id)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
@@ -70,7 +70,7 @@ func patientByID(c *gin.Context) {
 	c.JSON(http.StatusOK, p)
 }
 
-func getPatientByID(id string) (*patient, error) {
+func GetPatientByID(id string) (*Patient, error) {
 	for _, p := range patients {
 		if strconv.Itoa(p.ID) == id {
 			return &p, nil
