@@ -35,6 +35,7 @@ def send_whatsapp (data_file_excel,message_file_text,x_cord=958,y_cord=968):
             time.sleep (4)
             k.press_and_release('ctrl+w')
             time.sleep(1)
+            k.press_and_release('enter')
             counter+=1
             print (counter, "-Message sent..!!")
             with open("done.txt", "a") as x:
