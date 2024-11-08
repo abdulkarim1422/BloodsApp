@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Donors List - Blood Donation App</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+<body>
+    <!-- Include the header -->
+    {{ template "header.html" . }}
+    <main>
+        <section>
+            <h2>Donors List</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Blood Type</th>
+                        <th>Phone Number</th>
+                        <th>Address</th>
+                        <th>Red Timer</th>
+                        <th>Platelet Timer</th>
+                        <th>Score</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{ range .donors }}
+                    <tr>
+                        <td>{{ .ID }}</td>
+                        <td>{{ .FirstName }}</td>
+                        <td>{{ .LastName }}</td>
+                        <td>{{ .BloodType }}</td>
+                        <td>{{ .PhoneNumber }}</td>
+                        <td>{{ .Address }}</td>
+                        <td>{{ .RedTimer }}</td>
+                        <td>{{ .PlateletTimer }}</td>
+                        <td>{{ .Score }}</td>
+                    </tr>
+                    {{ end }}
+                </tbody>
+            </table>
+        </section>
+    </main>
+    <!-- Include the footer -->
+    {{ template "footer.html" . }}
+</body>
+</html>

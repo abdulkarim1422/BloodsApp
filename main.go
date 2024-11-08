@@ -11,7 +11,12 @@ func main() {
 
 	router := gin.New()
 
+	router.Static("/css", "./templates/css")
+	router.LoadHTMLGlob("templates/*.html")
+
 	router.Use(gin.Recovery(), middlewares.Logger(), middlewares.BasicAuth())
+
+	router.GET("/", services.Main_Page)
 
 	router.GET("/donors", services.GetDonors)
 	router.GET("/donors/:id", services.DonorByID)

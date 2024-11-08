@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Blood Donation App</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+<body>
+    <!-- Include the header -->
+    {{ template "header.html" . }}
+
+    <main>
+        <section>
+            <h2>About Us</h2>
+            <p>Welcome volunteers!</p>
+        </section>
+        <section>
+            <h2>How It Works</h2>
+            <p>Our app allows you to:</p>
+            <ul>
+                <li>Register as a blood donor</li>
+                <li>Find patients in need of blood</li>
+                <li>Donate red blood cells and platelets</li>
+                <li>Match donors with patients based on blood type compatibility</li>
+            </ul>
+        </section>
+        <section>
+            <h2>Get Started</h2>
+            <p>To get started, use the navigation menu to explore our app and find the information you need.</p>
+        </section>
+    </main>
+
+    <!-- Include the footer -->
+    {{ template "footer.html" . }}
+</body>
+</html>

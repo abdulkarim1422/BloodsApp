@@ -8,7 +8,10 @@ import (
 )
 
 func GetDonors(c *gin.Context) {
-	c.JSON(http.StatusOK, donors)
+	c.HTML(http.StatusOK, "donors.html", gin.H{
+		"title":  "Donors List",
+		"donors": donors,
+	})
 }
 
 func CreateDonor(c *gin.Context) {
@@ -44,7 +47,10 @@ func GetDonorByID(id string) (*Donor, error) {
 }
 
 func GetPatients(c *gin.Context) {
-	c.JSON(http.StatusOK, patients)
+	c.HTML(http.StatusOK, "patients.html", gin.H{
+		"title":    "Patients List",
+		"patients": patients,
+	})
 }
 
 func CreatePatient(c *gin.Context) {
