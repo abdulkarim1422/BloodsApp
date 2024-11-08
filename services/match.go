@@ -41,12 +41,14 @@ func MatchRedDonorPatient(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"message":      "Matching donor found",
-		"patient_id":   patient.ID,
-		"patient_name": patient.Name,
-		"donor_id":     matchedDonor.ID,
-		"donor_name":   matchedDonor.Name,
-		"donor_type":   matchedDonor.BloodType,
+		"message":            "Matching donor found",
+		"patient_id":         patient.ID,
+		"patient_first_name": patient.FirstName,
+		"patient_last_name":  patient.LastName,
+		"donor_id":           matchedDonor.ID,
+		"donor_first_name":   matchedDonor.FirstName,
+		"donor_last_name":    matchedDonor.LastName,
+		"donor_type":         matchedDonor.BloodType,
 	})
 	var matchedDonors []Donor
 	for i := range donors {
@@ -60,10 +62,11 @@ func MatchRedDonorPatient(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"message":      "Matching donors found",
-		"patient_id":   patient.ID,
-		"patient_name": patient.Name,
-		"donors":       matchedDonors,
+		"message":            "Matching donors found",
+		"patient_id":         patient.ID,
+		"patient_first_name": patient.FirstName,
+		"patient_last_name":  patient.LastName,
+		"donors":             matchedDonors,
 	})
 }
 
@@ -153,11 +156,13 @@ func MatchPlateletDonorPatient(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"message":      "Matching donor found",
-		"patient_id":   patient.ID,
-		"patient_name": patient.Name,
-		"donor_id":     matchedDonor.ID,
-		"donor_name":   matchedDonor.Name,
+		"message":            "Matching donor found",
+		"patient_id":         patient.ID,
+		"patient_first_name": patient.FirstName,
+		"patient_last_name":  patient.LastName,
+		"donor_id":           matchedDonor.ID,
+		"donor_first_name":   matchedDonor.FirstName,
+		"donor_last_name":    matchedDonor.LastName,
 	})
 }
 
@@ -195,10 +200,12 @@ func MatchPlateletDonorPatientIgnoreBloodType(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"message":      "Matching donor found",
-		"patient_id":   patient.ID,
-		"patient_name": patient.Name,
-		"donor_id":     matchedDonor.ID,
-		"donor_name":   matchedDonor.Name,
+		"message":            "Matching donor found",
+		"patient_id":         patient.ID,
+		"patient_first_name": patient.FirstName,
+		"patient_last_name":  patient.LastName,
+		"donor_id":           matchedDonor.ID,
+		"donor_first_name":   matchedDonor.FirstName,
+		"donor_last_name":    matchedDonor.LastName,
 	})
 }

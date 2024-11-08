@@ -61,14 +61,16 @@ func DonateRed(c *gin.Context) {
 	donor.Score += 1
 
 	c.JSON(http.StatusOK, gin.H{
-		"message":         "Patient red quantity updated and donor red timer increased",
-		"patient_id":      patient.ID,
-		"patient_name":    patient.Name,
-		"donor_id":        donor.ID,
-		"donor_name":      donor.Name,
-		"donor-score":     donor.Score,
-		"donor-red-timer": donor.RedTimer,
-		"remaining_red":   patient.RedQuantity,
+		"message":            "Patient red quantity updated and donor red timer increased",
+		"patient_id":         patient.ID,
+		"patient_first_name": patient.FirstName,
+		"patient_last_name":  patient.LastName,
+		"donor_id":           donor.ID,
+		"donor_first_name":   donor.FirstName,
+		"donor_last_name":    donor.LastName,
+		"donor_score":        donor.Score,
+		"donor_red_timer":    donor.RedTimer,
+		"remaining_red":      patient.RedQuantity,
 	})
 }
 
@@ -128,11 +130,13 @@ func DonatePlatelet(c *gin.Context) {
 	response := gin.H{
 		"message":             "Patient platelet quantity updated and donor platelet timer increased",
 		"patient_id":          patient.ID,
-		"patient_name":        patient.Name,
+		"patient_first_name":  patient.FirstName,
+		"patient_last_name":   patient.LastName,
 		"donor_id":            donor.ID,
-		"donor_name":          donor.Name,
-		"donor-score":         donor.Score,
-		"donor-platlet-timer": donor.PlateletTimer,
+		"donor_first_name":    donor.FirstName,
+		"donor_last_name":     donor.LastName,
+		"donor_score":         donor.Score,
+		"donor_platlet-timer": donor.PlateletTimer,
 		"remaining_platelet":  patient.PlateletQuantity,
 	}
 
