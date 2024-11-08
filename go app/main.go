@@ -1,12 +1,17 @@
 package main
 
 import (
+	"github.com/abdulkarim1422/BloodsApp/middlewares"
 	"github.com/abdulkarim1422/BloodsApp/services"
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
-	router := gin.Default()
+	middlewares.SetupLogOutput()
+
+	router := gin.New()
+
+	router.Use(gin.Recovery(), middlewares.Logger(), middlewares.BasicAuth())
 
 	router.GET("/donors", services.GetDonors)
 	router.GET("/donors/:id", services.DonorByID)
