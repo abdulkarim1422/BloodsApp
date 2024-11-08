@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Match Donor and Patient - Blood Donation App</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Include the header -->
+    {{ template "header.html" . }}
+    <main>
+        <section>
+            <h2>بحث عن متبرّع متطابق</h2>
+            <form action="/process-match" method="POST">
+                <label for="patient_id">اختر المريض:</label>
+                <select id="patient_id" name="patient_id" required>
+                    {{ range .patients }}
+                    <option value="{{ .ID }}">{{ .FirstName }} {{ .LastName }} (ID: {{ .ID }})</option>
+                    {{ end }}
+                </select>
+                
+                <label for="match_type">اختر نوع الكيس اللازم:</label>
+                <select id="match_type" name="match_type" required>
+                    <option value="red">دم أحمر</option>
+                    <option value="platelet">صفائح دمويّة</option>
+                </select>
+                
+                <label for="ignore_blood_type">تجاهل زمرة الدم:</label>
+                <select id="ignore_blood_type" name="ignore_blood_type" required>
+                    <option value="no">No</option>
+                    <option value="yes">Yes</option>
+                </select>
+                
+                <button type="submit">Match</button>
+            </form>
+            <div id="result"></div>
+        </section>
+    </main>
+    <!-- Include the footer -->
+    {{ template "footer.html" . }}
+</body>
+</html>

@@ -21,3 +21,10 @@ func ShowDonorForm(c *gin.Context) {
 		"title": "Donor Registration",
 	})
 }
+
+func ShowMatchForm(c *gin.Context) {
+	c.HTML(http.StatusOK, "match.html", gin.H{
+		"title":    "Match Donor and Patient",
+		"patients": patients,
+	})
+}

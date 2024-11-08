@@ -32,11 +32,17 @@ func main() {
 	router.POST("/donate-red", services.DonateRed)
 	router.POST("/donate-platelet", services.DonatePlatelet)
 
-	router.GET("/match-red", services.MatchRedDonorPatient)
-	router.GET("/match-platelet", services.MatchPlateletDonorPatient)
-
-	router.GET("/match-red-ignore", services.MatchRedDonorPatientIgnoreBloodType)
-	router.GET("/match-platelet-ignore", services.MatchPlateletDonorPatientIgnoreBloodType)
+	// Apply BasicAuth middleware only to match routes
+	matchRoutes := router.Group("/")
+	matchRoutes.Use(middlewares.BasicAuth())
+	{
+		matchRoutes.GET("/match-red", services.MatchRedDonorPatient)
+		matchRoutes.GET("/match-platelet", services.MatchPlateletDonorPatient)
+		matchRoutes.GET("/match-red-ignore", services.MatchRedDonorPatientIgnoreBloodType)
+		matchRoutes.GET("/match-platelet-ignore", services.MatchPlateletDonorPatientIgnoreBloodType)
+		matchRoutes.GET("/match", services.ShowMatchForm)
+		matchRoutes.POST("/process-match", services.ProcessMatchForm)
+	}
 
 	router.Run(":8080")
 }
