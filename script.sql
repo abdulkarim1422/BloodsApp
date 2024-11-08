@@ -1,3 +1,18 @@
+create table addresses
+(
+    id         bigint unsigned auto_increment
+        primary key,
+    name       varchar(191)    not null,
+    donor_id   bigint unsigned not null,
+    city_id    bigint unsigned not null,
+    town_id    bigint unsigned not null,
+    latitude   varchar(191)    not null,
+    longitude  varchar(191)    not null,
+    created_at timestamp       null,
+    updated_at timestamp       null
+)
+    collate = utf8mb4_unicode_ci;
+
 create table beneficiaries_requests
 (
     id             bigint unsigned auto_increment
@@ -26,7 +41,9 @@ create table blood_groups
         primary key,
     code       varchar(191) not null,
     created_at timestamp    null,
-    updated_at timestamp    null
+    updated_at timestamp    null,
+    constraint blood_groups_code_unique
+        unique (code)
 )
     collate = utf8mb4_unicode_ci;
 
@@ -62,8 +79,10 @@ create table cities
 (
     id         bigint unsigned auto_increment
         primary key,
-    created_at timestamp null,
-    updated_at timestamp null
+    name       varchar(191)    not null,
+    country_id bigint unsigned not null,
+    created_at timestamp       null,
+    updated_at timestamp       null
 )
     collate = utf8mb4_unicode_ci;
 
@@ -71,8 +90,9 @@ create table countries
 (
     id         bigint unsigned auto_increment
         primary key,
-    created_at timestamp null,
-    updated_at timestamp null
+    name       varchar(191) not null,
+    created_at timestamp    null,
+    updated_at timestamp    null
 )
     collate = utf8mb4_unicode_ci;
 
@@ -107,13 +127,10 @@ create table donors
     last_name      varchar(191)            not null,
     phone_number   varchar(191)            not null,
     blood_group_id bigint unsigned         not null,
-    city_id        bigint unsigned         not null,
-    residence_id   bigint unsigned         not null,
     birth_date     timestamp               not null,
     gender         enum ('male', 'female') not null,
     car_available  tinyint(1)              not null,
-    latitude       varchar(191)            not null,
-    longitude      varchar(191)            not null,
+    paid           tinyint(1) default 0    not null,
     created_at     timestamp               null,
     updated_at     timestamp               null,
     constraint donors_phone_number_unique
@@ -140,8 +157,9 @@ create table hospitals
 (
     id         bigint unsigned auto_increment
         primary key,
-    created_at timestamp null,
-    updated_at timestamp null
+    name       varchar(191) not null,
+    created_at timestamp    null,
+    updated_at timestamp    null
 )
     collate = utf8mb4_unicode_ci;
 
@@ -197,10 +215,15 @@ create table password_reset_tokens
 
 create table request_feedback
 (
-    id         bigint unsigned auto_increment
+    id                 bigint unsigned auto_increment
         primary key,
-    created_at timestamp null,
-    updated_at timestamp null
+    request_id         bigint unsigned not null,
+    beneficiaries_note text            not null,
+    donor_note         text            not null,
+    donor_rate         int             not null,
+    beneficiaries_rate int             not null,
+    created_at         timestamp       null,
+    updated_at         timestamp       null
 )
     collate = utf8mb4_unicode_ci;
 
@@ -254,5 +277,4 @@ create table users
         unique (email)
 )
     collate = utf8mb4_unicode_ci;
-
 
