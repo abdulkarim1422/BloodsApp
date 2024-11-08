@@ -462,11 +462,11 @@ func main() {
 	router.POST("/donate-red", updatePatientRedQuantity)
 	router.POST("/donate-platelet", updatePatientPlateletQuantity)
 
-	router.POST("/match-red", matchRedDonorPatient)
-	router.POST("/match-platelet", matchPlateletDonorPatient)
+	router.GET("/match-red", matchRedDonorPatient)
+	router.GET("/match-platelet", matchPlateletDonorPatient)
 
-	router.POST("/match-red-ignore", matchRedDonorPatientIgnoreBloodType)
-	router.POST("/match-platelet-ignore", matchPlateletDonorPatientIgnoreBloodType)
+	router.GET("/match-red-ignore", matchRedDonorPatientIgnoreBloodType)
+	router.GET("/match-platelet-ignore", matchPlateletDonorPatientIgnoreBloodType)
 
 	router.Run(":8080")
 }
