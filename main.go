@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/abdulkarim1422/BloodsApp/middlewares"
+	"github.com/abdulkarim1422/BloodsApp/scripts"
 	"github.com/abdulkarim1422/BloodsApp/services"
 	"github.com/gin-gonic/gin"
 )
@@ -12,6 +13,8 @@ func main() {
 	router := gin.New()
 
 	router.Static("/css", "./templates/css")
+	router.Static("/js", "./templates/js")
+
 	router.LoadHTMLGlob("templates/*.html")
 
 	router.Use(gin.Recovery(), middlewares.Logger())
@@ -44,6 +47,9 @@ func main() {
 
 		matchRoutes.GET("/match", services.ShowMatchForm)
 		matchRoutes.POST("/process-match", services.ProcessMatchForm)
+
+		matchRoutes.GET("/whats", scripts.PyWhatsapp)
+		matchRoutes.POST("/send", services.SendMatchResult)
 	}
 
 	router.Run(":8080")

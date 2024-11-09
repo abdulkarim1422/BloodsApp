@@ -11,13 +11,14 @@
     <main>
         <section>
             <h2>نتيجة التّطابق</h2>
-            <p>{{ .message }}</p>
-            <p>المريض: {{ .patient_first_name }} {{ .patient_last_name }}</p>
-            <p>فصيلة الدم: {{ .patient_blood_type }}</p>
+            <p id="message">{{ .message }}</p>
+            <p>المريض: <span id="patient_first_name">{{ .patient_first_name }}</span> <span id="patient_last_name">{{ .patient_last_name }}</span></p>
+            <p>فصيلة الدم: <span id="patient_blood_type">{{ .patient_blood_type }}</span></p>
             <h3>المتبرّعين المتطابقين:</h3>
             <table>
                 <thead>
                     <tr>
+                        <th>اختيار</th>
                         <th>ID</th>
                         <th>الاسم</th>
                         <th>اللقب</th>
@@ -32,6 +33,7 @@
                 <tbody>
                     {{ range .donors }}
                     <tr>
+                        <td><input type="checkbox" class="donor-checkbox" data-id="{{ .id }}"></td>
                         <td>{{ .id }}</td>
                         <td>{{ .first_name }}</td>
                         <td>{{ .last_name }}</td>
@@ -45,9 +47,12 @@
                     {{ end }}
                 </tbody>
             </table>
+            <button id="sendButton">Send Match Result</button>
+            <div id="sendResult"></div>
         </section>
     </main>
     <!-- Include the footer -->
     {{ template "footer.html" . }}
+    <script src="js/match_result.js"></script>
 </body>
 </html>

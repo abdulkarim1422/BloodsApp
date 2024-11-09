@@ -1,3 +1,4 @@
+import sys
 import keyboard as k
 import pyautogui
 import time
@@ -8,9 +9,8 @@ from PIL import Image
 # import win32clipboard
 # import io
 
-
-def send_whatsapp (data_file_excel,message_file_text,x_cord=958,y_cord=968):
-    df = pd.read_excel(data_file_excel, dtype={str: str})
+def send_whatsapp (data_file_csv,message_file_text,x_cord=958,y_cord=968):
+    df = pd.read_csv(data_file_csv, dtype={str: str})
     name = df['Name'].values
     contact = df['Number'].values
     user = df['username'].values
@@ -46,7 +46,16 @@ def send_whatsapp (data_file_excel,message_file_text,x_cord=958,y_cord=968):
             print(f"Failed to send message to {b}: {e}")
     print ("Done!")
 
-excel_path=r"D:\work\24-Q4\python tests\contacts.xlsx"
-msg_path=r"D:\work\24-Q4\python tests\message.txt"
+# csv_path=r"contacts.csv"
+# msg_path=r"message.txt"
 
-send_whatsapp(excel_path,msg_path)
+# send_whatsapp(csv_path, msg_path)
+
+
+if __name__ == "__main__":
+    data_file_csv = sys.argv[1]
+    message_file_text = sys.argv[2]
+    x_cord = int(sys.argv[3])
+    y_cord = int(sys.argv[4])
+    send_whatsapp(data_file_csv, message_file_text, x_cord, y_cord)
+

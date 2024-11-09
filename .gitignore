@@ -20,10 +20,12 @@
 # Go workspace file
 go.work
 go.work.sum
-gin.log
+*.log
 
 # env file
 .env
 
 #other
-body.json
+*.json
+*.csv
+*.txt
