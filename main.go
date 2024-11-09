@@ -22,6 +22,7 @@ func main() {
 
 	router.GET("/donor_form", services.ShowDonorForm)
 	router.GET("/patient_form", services.ShowPatientForm)
+	router.GET("/donation_form", services.ShowDonationForm)
 
 	matchRoutes := router.Group("/")
 	matchRoutes.Use(middlewares.BasicAuth())

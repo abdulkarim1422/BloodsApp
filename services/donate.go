@@ -1,6 +1,7 @@
 package services
 
 import (
+	"fmt"
 	"net/http"
 	"time"
 
@@ -9,13 +10,17 @@ import (
 
 func DonateRed(c *gin.Context) {
 	var request struct {
-		PatientID int `json:"patientId"`
-		DonorID   int `json:"donorId"`
+		PatientID int `json:"patient_id"`
+		DonorID   int `json:"donor_id"`
 	}
 	if err := c.BindJSON(&request); err != nil {
+		fmt.Printf("Error parsing request: %v\n", err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request"})
 		return
 	}
+
+	// Log the parsed request data
+	fmt.Printf("Received DonateRed request: %+v\n", request)
 
 	var patient *Patient
 	for i := range patients {
@@ -76,13 +81,17 @@ func DonateRed(c *gin.Context) {
 
 func DonatePlatelet(c *gin.Context) {
 	var request struct {
-		PatientID int `json:"patientId"`
-		DonorID   int `json:"donorId"`
+		PatientID int `json:"patient_id"`
+		DonorID   int `json:"donor_id"`
 	}
 	if err := c.BindJSON(&request); err != nil {
+		fmt.Printf("Error parsing request: %v\n", err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request"})
 		return
 	}
+
+	// Log the parsed request data
+	fmt.Printf("Received DonatePlatelet request: %+v\n", request)
 
 	var patient *Patient
 	for i := range patients {

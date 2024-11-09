@@ -19,6 +19,7 @@
                 
                 <label for="blood_type">فصيلة الدم:</label>
                 <select id="blood_type" name="BloodType" required>
+                    <option value="" selected disabled>اختر فصيلة الدم</option>
                     <option value="A+">A+</option>
                     <option value="A-">A-</option>
                     <option value="B+">B+</option>
@@ -34,6 +35,7 @@
 
                 <label for="gender">الجنس:</label>
                 <select id="gender" name="Gender" required>
+                    <option value="" selected disabled>اختر الجنس</option>
                     <option value="male">ذكر</option>
                     <option value="female">أنثى</option>
                 </select>
@@ -55,6 +57,7 @@
 
             <div id="verificationSection" style="display:none;">
                 <label for="verification_code">رمز التحقق:</label>
+                <p>سيتم إرسال رمز التحقق إلى رقم الواتساب الخاص بك في غضون 45 ثانية.</p>
                 <input type="text" id="verification_code" name="VerificationCode" required>
                 <button id="verifyButton">تحقق</button>
             </div>

@@ -28,3 +28,10 @@ func ShowMatchForm(c *gin.Context) {
 		"patients": patients,
 	})
 }
+
+func ShowDonationForm(c *gin.Context) {
+	c.HTML(http.StatusOK, "donation_form.html", gin.H{
+		"donors":   donors,   // Assuming donors is a slice of donor objects
+		"patients": patients, // Assuming patients is a slice of patient objects
+	})
+}

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Donation Form - Blood Donation App</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+<body>
+    <!-- Include the header -->
+    {{ template "header.html" . }}
+    <main>
+        <section>
+            <h2>Donation Form</h2>
+            <form id="donationForm">
+                <label for="donor_id">Select Donor:</label>
+                <select id="donor_id" name="donor_id" required>
+                    {{ range .donors }}
+                    <option value="{{ .ID }}">{{ .BloodType }} \ {{ .FirstName }} {{ .LastName }} (ID: {{ .ID }})</option>
+                    {{ end }}
+                </select>
+                
+                <label for="patient_id">Select Patient:</label>
+                <select id="patient_id" name="patient_id" required>
+                    {{ range .patients }}
+                    <option value="{{ .ID }}">{{ .BloodType }} \ {{ .FirstName }} {{ .LastName }} (ID: {{ .ID }})</option>
+                    {{ end }}
+                </select>
+                
+                <label for="donation_type">Select Donation Type:</label>
+                <select id="donation_type" name="donation_type" required>
+                    <option value="red">Red Blood Cells</option>
+                    <option value="platelet">Platelet</option>
+                </select>
+                
+                <button type="submit">Submit</button>
+            </form>
+        </section>
+    </main>
+    <!-- Include the footer -->
+    {{ template "footer.html" . }}
+    <script>
+        document.getElementById('donationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            const donationType = formData.get('donation_type');
+            const url = donationType === 'red' ? '/donate-red' : '/donate-platelet';
+            
+            const data = Object.fromEntries(formData);
+            data.donor_id = parseInt(data.donor_id, 10);
+            data.patient_id = parseInt(data.patient_id, 10);
+            console.log('Form Data:', data); // Log the form data to ensure it is correct
+    
+            fetch(url, {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    alert(data.error);
+                } else {
+                    alert('Donation recorded successfully');
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    </script>    </body>
+</html>

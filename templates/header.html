@@ -1,24 +1,31 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard - BloodsApp</title>
     <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
     <header>
-        <h1>BloodsApp</h1>
+        <!-- <h1>BloodsApp</h1> -->
         <nav>
-            <ul>
+            <div class="menu-icon" onclick="toggleMenu()">&#9776;</div>
+            <ul class="nav-links">
                 <li><a href="/">الصفحة الرئيسيّة</a></li>
                 <li><a href="/donors">قائمة المتبرّعين</a></li>
                 <li><a href="/patients">قائمة المرضى</a></li>
-            </ul>
-            <ul>
                 <li><a href="/patient_form">فورم المريض</a></li>
                 <li><a href="/donor_form">فورم المتبرع</a></li>
                 <li><a href="/match">بحث عن تطابق</a></li>
+                <li><a href="/donation_form">فورم التبرّع</a></li>
             </ul>
         </nav>
     </header>
+    <script>
+        function toggleMenu() {
+            const navLinks = document.querySelector('.nav-links');
+            navLinks.classList.toggle('active');
+        }
+    </script>
 </body>
 </html>
