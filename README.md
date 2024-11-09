@@ -1,6 +1,5 @@
 # Blood Donation App
-'اللغة العربية في الأسفل'
-
+**`اللغة العربية في الأسفل`**
 ## Overview
 The Blood Donation App is a web application designed to facilitate the process of blood donation. It allows users to register as donors, find patients in need of blood, and manage donations efficiently.
 
