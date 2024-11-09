@@ -50,6 +50,7 @@ func MatchRedDonorPatient(c *gin.Context) {
 		"patient_first_name": patient.FirstName,
 		"patient_last_name":  patient.LastName,
 		"patient_blood_type": patient.BloodType,
+		"hospital_name":      patient.HospitalName,
 		"donors":             matchedDonors,
 	})
 }
@@ -108,6 +109,7 @@ func MatchRedDonorPatientIgnoreBloodType(c *gin.Context) {
 		"patient_first_name": patient.FirstName,
 		"patient_last_name":  patient.LastName,
 		"patient_blood_type": patient.BloodType,
+		"hospital_name":      patient.HospitalName,
 		"donors":             matchedDonors,
 	})
 }
@@ -150,6 +152,7 @@ func MatchPlateletDonorPatient(c *gin.Context) {
 		"patient_first_name": patient.FirstName,
 		"patient_last_name":  patient.LastName,
 		"patient_blood_type": patient.BloodType,
+		"hospital_name":      patient.HospitalName,
 		"donors":             matchedDonors,
 	})
 }
@@ -192,6 +195,7 @@ func MatchPlateletDonorPatientIgnoreBloodType(c *gin.Context) {
 		"patient_first_name": patient.FirstName,
 		"patient_last_name":  patient.LastName,
 		"patient_blood_type": patient.BloodType,
+		"hospital_name":      patient.HospitalName,
 		"donors":             matchedDonors,
 	})
 }

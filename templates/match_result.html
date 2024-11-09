@@ -11,10 +11,13 @@
     <main>
         <section>
             <h2>نتيجة التّطابق</h2>
-            <p id="message">{{ .message }}</p>
+            <p>عدد المتبرّعين المتطابقين: <span id="match_count">{{ len .donors }}</span></p>
             <p>المريض: <span id="patient_first_name">{{ .patient_first_name }}</span> <span id="patient_last_name">{{ .patient_last_name }}</span></p>
             <p>فصيلة الدم: <span id="patient_blood_type">{{ .patient_blood_type }}</span></p>
+            <p>المستشفى: <span id="hospital">{{ .hospital_name }}</span></p>
             <h3>المتبرّعين المتطابقين:</h3>
+            <button id="selectAllButton">اختيار الجميع</button>
+            <button id="deselectAllButton">إلغاء اختيار الجميع</button>
             <table>
                 <thead>
                     <tr>
@@ -47,8 +50,11 @@
                     {{ end }}
                 </tbody>
             </table>
-            <button id="sendButton">Send Match Result</button>
+            <button id="sendButton">إرسال رسائل الوتسآب</button>
             <div id="sendResult"></div>
+            <div id="progressBarContainer">
+                <div id="progressBar"></div>
+            </div>
         </section>
     </main>
     <!-- Include the footer -->

@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"os/exec"
+	"path/filepath"
 
 	"github.com/gin-gonic/gin"
 )
@@ -34,18 +35,18 @@ func SendMatchResult(c *gin.Context) {
 		return
 	}
 
-	// Run the PyWhatsapp function
-	cmd0 := exec.Command("powershell", "pwd")
-	output, err := cmd0.CombinedOutput()
+	// Change the working directory to scripts
+	scriptsDir, err := filepath.Abs("scripts")
 	if err != nil {
-		fmt.Printf("Error running PyWhatsapp: %v\n", err)
-		fmt.Printf("Command output: %s\n", output)
-		c.JSON(http.StatusInternalServerError, gin.H{"error": fmt.Sprintf("Failed to run PyWhatsapp: %s", err)})
+		fmt.Printf("Error getting absolute path: %v\n", err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to get absolute path"})
 		return
 	}
 
-	cmd := exec.Command("python", "scripts/whatsapp.py", "scripts/body.json", "scripts/message.txt", "958", "968")
-	output, err = cmd.CombinedOutput()
+	// Run the PyWhatsapp function
+	cmd := exec.Command("python", "whatsapp.py", "body.json", "message.txt", "958", "968")
+	cmd.Dir = scriptsDir
+	output, err := cmd.CombinedOutput()
 	if err != nil {
 		fmt.Printf("Error running PyWhatsapp: %v\n", err)
 		fmt.Printf("Command output: %s\n", output)
@@ -56,5 +57,5 @@ func SendMatchResult(c *gin.Context) {
 	// Log the output of the command
 	fmt.Printf("Command output: %s\n", output)
 
-	c.JSON(http.StatusOK, gin.H{"message": "Match result sent successfully", "output": string(output)})
+	c.JSON(http.StatusOK, gin.H{"message": "تمّ انتهاء عمل البرنامج بنجاح", "output": string(output)})
 }

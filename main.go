@@ -2,7 +2,6 @@ package main
 
 import (
 	"github.com/abdulkarim1422/BloodsApp/middlewares"
-	"github.com/abdulkarim1422/BloodsApp/scripts"
 	"github.com/abdulkarim1422/BloodsApp/services"
 	"github.com/gin-gonic/gin"
 )
@@ -48,7 +47,6 @@ func main() {
 		matchRoutes.GET("/match", services.ShowMatchForm)
 		matchRoutes.POST("/process-match", services.ProcessMatchForm)
 
-		matchRoutes.GET("/whats", scripts.PyWhatsapp)
 		matchRoutes.POST("/send", services.SendMatchResult)
 	}
 

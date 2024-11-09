@@ -5,7 +5,6 @@ import time
 import json
 import webbrowser as web
 from urllib.parse import quote
-from PIL import Image
 
 def send_whatsapp(data_file_json, message_file_text, x_cord=958, y_cord=968):
     with open(data_file_json, 'r', encoding='utf-8') as f:
@@ -13,7 +12,6 @@ def send_whatsapp(data_file_json, message_file_text, x_cord=958, y_cord=968):
     
     donors = data['donors']
     files = message_file_text
-
     with open(files, encoding='utf-8') as f:
         file_data = f.read()
     
@@ -44,11 +42,6 @@ def send_whatsapp(data_file_json, message_file_text, x_cord=958, y_cord=968):
                 error_file.write(f"{phone_number} - {name} - {blood} / {patient_name}\n")
             print(f"Failed to send message to {phone_number}: {e}")
     print("Done!")
-
-
-# data_file_json = "body.json"
-# message_file_text = "message.txt"
-# send_whatsapp(data_file_json, message_file_text)
 
 if __name__ == "__main__":
     data_file_json = sys.argv[1]
