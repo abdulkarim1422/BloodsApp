@@ -20,7 +20,7 @@ type Donor struct {
 	RedTimer      time.Time `json:"red_timer"`
 	PlateletTimer time.Time `json:"platelet_timer"`
 	Score         int       `json:"score"`
-	verify        string    `json:"verify,omitempty"`
+	Verify        string    `json:"verify,omitempty"`
 }
 
 type Patient struct {
@@ -31,13 +31,13 @@ type Patient struct {
 	BirthDate        time.Time `json:"birth_date,omitempty" form:"BirthDate" time_format:"2006-01-02"`
 	Gender           string    `json:"gender" form:"Gender"`
 	Address          string    `json:"address" form:"Address"`
-	Phone            string    `json:"phone" form:"Phone"`
+	PhoneNumber      string    `json:"phone" form:"Phone"`
 	Urgency          int       `json:"urgency" form:"Urgency"`
 	RedQuantity      int       `json:"red-quantity" form:"RedQuantity"`
 	PlateletQuantity int       `json:"platelet-quantity" form:"PlateletQuantity"`
 	CarAvailable     bool      `json:"car_available" form:"CarAvailable"`
 	HospitalName     string    `json:"hospital_name" form:"HospitalName"`
-	verify           string    `json:"verify,omitempty"`
+	Verify           string    `json:"verify,omitempty"`
 }
 
 var donors = []Donor{
@@ -56,7 +56,7 @@ var donors = []Donor{
 }
 
 var patients = []Patient{
-	{ID: 1, FirstName: "Patient One", LastName: "PPP", BloodType: "A+", Address: "123 Main St", Phone: "555-555-5555", Urgency: 0, RedQuantity: 1, PlateletQuantity: 1, CarAvailable: true, HospitalName: "Hospital One"},
-	{ID: 2, FirstName: "Patient Two", LastName: "PPP", BloodType: "B+", Address: "123 Main St", Phone: "555-555-5555", Urgency: 0, RedQuantity: 2, PlateletQuantity: 0, CarAvailable: false, HospitalName: "Hospital Two"},
-	{ID: 3, FirstName: "Patient Three", LastName: "PPP", BloodType: "AB+", Address: "123 Main St", Phone: "555-555-5555", Urgency: 0, RedQuantity: 1, PlateletQuantity: 1, CarAvailable: true, HospitalName: "Hospital Three"},
+	{ID: 1, FirstName: "Patient One", LastName: "PPP", BloodType: "A+", Address: "123 Main St", PhoneNumber: "555-555-5555", Urgency: 0, RedQuantity: 1, PlateletQuantity: 1, CarAvailable: true, HospitalName: "Hospital One"},
+	{ID: 2, FirstName: "Patient Two", LastName: "PPP", BloodType: "B+", Address: "123 Main St", PhoneNumber: "555-555-5555", Urgency: 0, RedQuantity: 2, PlateletQuantity: 0, CarAvailable: false, HospitalName: "Hospital Two"},
+	{ID: 3, FirstName: "Patient Three", LastName: "PPP", BloodType: "AB+", Address: "123 Main St", PhoneNumber: "555-555-5555", Urgency: 0, RedQuantity: 1, PlateletQuantity: 1, CarAvailable: true, HospitalName: "Hospital Three"},
 }

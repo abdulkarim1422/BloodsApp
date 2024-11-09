@@ -4,9 +4,11 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"math/rand"
 	"net/http"
 	"os/exec"
 	"path/filepath"
+	"time"
 
 	"github.com/gin-gonic/gin"
 )
@@ -58,4 +60,20 @@ func SendMatchResult(c *gin.Context) {
 	fmt.Printf("Command output: %s\n", output)
 
 	c.JSON(http.StatusOK, gin.H{"message": "تمّ انتهاء عمل البرنامج بنجاح", "output": string(output)})
+}
+
+func generateVerificationCode() string {
+	rand.Seed(int64(time.Now().UnixNano()))
+	return fmt.Sprintf("%06d", rand.Intn(1000000))
+}
+
+func sendVerificationCode(phone, code string) {
+	cmd := exec.Command("python", "scripts/whatsapp_verify.py", phone, code, "958", "968")
+	output, err := cmd.CombinedOutput()
+	if err != nil {
+		fmt.Printf("Error sending verification code: %v\n", err)
+		fmt.Printf("Command output: %s\n", output)
+		return
+	}
+	fmt.Printf("Verification code sent successfully: %s\n", output)
 }

@@ -25,6 +25,12 @@ func CreateDonor(c *gin.Context) {
 	// Handle the CarAvailable checkbox value
 	newDonor.CarAvailable = c.PostForm("CarAvailable") == "true"
 
+	// Generate and assign verification code
+	newDonor.Verify = generateVerificationCode()
+
+	// Send verification code via WhatsApp
+	go sendVerificationCode(newDonor.PhoneNumber, newDonor.Verify)
+
 	newDonor.ID = len(donors) + 1 // Assign a new ID
 	newDonor.CreatedAt = time.Now()
 	newDonor.UpdatedAt = time.Now()
@@ -71,6 +77,12 @@ func CreatePatient(c *gin.Context) {
 
 	// Manually set `CarAvailable` based on form submission
 	newPatient.CarAvailable = c.PostForm("CarAvailable") == "true"
+
+	// Generate and assign verification code
+	newPatient.Verify = generateVerificationCode()
+
+	// Send verification code via WhatsApp
+	go sendVerificationCode(newPatient.PhoneNumber, newPatient.Verify)
 
 	newPatient.ID = len(patients) + 1 // Assign a new ID
 	patients = append(patients, newPatient)

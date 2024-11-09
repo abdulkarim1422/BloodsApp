@@ -41,7 +41,7 @@ document.getElementById('sendButton').addEventListener('click', function() {
     console.log('Sending JSON:', JSON.stringify(jsonResponse)); // Log the JSON data
 
     // Calculate the estimated time
-    const estimatedTime = 60 + (18 * selectedDonors.length);
+    const estimatedTime = 20 + (18 * selectedDonors.length);
     document.getElementById('sendResult').innerText = `يتمّ التحميل الآن... الوقت التخميني : ${estimatedTime} ثانية`;
     document.getElementById('sendResult').innerText += '\nيرجى عدم إرسال أمر آخر أثناء عمل البرنامج';
 
