@@ -12,32 +12,34 @@ type Donor struct {
 	BloodType     string    `json:"bloodType" form:"BloodType"`
 	BirthDate     time.Time `json:"birth_date,omitempty" form:"BirthDate" time_format:"2006-01-02"`
 	Gender        string    `json:"gender" form:"Gender"`
+	Address       string    `json:"address" form:"Address"`
 	CarAvailable  bool      `json:"car_available,omitempty" form:"CarAvailable"`
 	Paid          bool      `json:"paid,omitempty"`
-	CreatedAt     time.Time `json:"created_at"`
-	UpdatedAt     time.Time `json:"updated_at"`
-	Address       string    `json:"address" form:"Address"`
 	RedTimer      time.Time `json:"red_timer"`
 	PlateletTimer time.Time `json:"platelet_timer"`
 	Score         int       `json:"score"`
 	Verify        string    `json:"verify,omitempty"`
+	CreatedAt     time.Time `json:"created_at"`
+	UpdatedAt     time.Time `json:"updated_at"`
 }
 
 type Patient struct {
 	ID               int       `json:"id"`
 	FirstName        string    `json:"firstName" form:"FirstName"`
 	LastName         string    `json:"lastName,omitempty" form:"LastName"`
+	PhoneNumber      string    `json:"phone_number" form:"PhoneNumber"`
 	BloodType        string    `json:"bloodType" form:"BloodType"`
 	BirthDate        time.Time `json:"birth_date,omitempty" form:"BirthDate" time_format:"2006-01-02"`
 	Gender           string    `json:"gender" form:"Gender"`
 	Address          string    `json:"address" form:"Address"`
-	PhoneNumber      string    `json:"phone" form:"Phone"`
+	CarAvailable     bool      `json:"car_available" form:"CarAvailable"`
 	Urgency          int       `json:"urgency" form:"Urgency"`
 	RedQuantity      int       `json:"red-quantity" form:"RedQuantity"`
 	PlateletQuantity int       `json:"platelet-quantity" form:"PlateletQuantity"`
-	CarAvailable     bool      `json:"car_available" form:"CarAvailable"`
 	HospitalName     string    `json:"hospital_name" form:"HospitalName"`
 	Verify           string    `json:"verify,omitempty"`
+	CreatedAt        time.Time `json:"created_at"`
+	UpdatedAt        time.Time `json:"updated_at"`
 }
 
 var donors = []Donor{

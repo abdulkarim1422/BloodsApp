@@ -8,6 +8,9 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+var unverifiedDonors = make(map[string]Donor)
+var unverifiedPatients = make(map[string]Patient)
+
 func GetDonors(c *gin.Context) {
 	c.HTML(http.StatusOK, "donors.html", gin.H{
 		"title":  "Donors List",
@@ -31,11 +34,45 @@ func CreateDonor(c *gin.Context) {
 	// Send verification code via WhatsApp
 	go sendVerificationCode(newDonor.PhoneNumber, newDonor.Verify)
 
-	newDonor.ID = len(donors) + 1 // Assign a new ID
-	newDonor.CreatedAt = time.Now()
-	newDonor.UpdatedAt = time.Now()
-	donors = append(donors, newDonor)
-	c.JSON(http.StatusCreated, newDonor)
+	// Temporarily store the donor data
+	tempID := strconv.Itoa(len(unverifiedDonors) + 1)
+	unverifiedDonors[tempID] = newDonor
+
+	c.JSON(http.StatusCreated, gin.H{"id": tempID})
+}
+
+func VerifyDonor(c *gin.Context) {
+	donorID := c.Param("id")
+	var request struct {
+		VerificationCode string `json:"verificationCode"`
+	}
+	if err := c.BindJSON(&request); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request"})
+		return
+	}
+
+	donor, exists := unverifiedDonors[donorID]
+	if !exists {
+		c.JSON(http.StatusNotFound, gin.H{"error": "Donor not found"})
+		return
+	}
+
+	if donor.Verify != request.VerificationCode {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid verification code"})
+		return
+	}
+
+	// Verification successful, clear the verification code and add to donors
+	donor.Verify = ""
+	donor.ID = len(donors) + 1
+	donor.CreatedAt = time.Now()
+	donor.UpdatedAt = time.Now()
+	donors = append(donors, donor)
+
+	// Remove from unverified donors
+	delete(unverifiedDonors, donorID)
+
+	c.JSON(http.StatusOK, gin.H{"message": "Verification successful"})
 }
 
 func DonorByID(c *gin.Context) {
@@ -53,9 +90,9 @@ func DonorByID(c *gin.Context) {
 }
 
 func GetDonorByID(id string) (*Donor, error) {
-	for _, d := range donors {
-		if strconv.Itoa(d.ID) == id {
-			return &d, nil
+	for i := range donors {
+		if strconv.Itoa(donors[i].ID) == id {
+			return &donors[i], nil
 		}
 	}
 	return nil, nil
@@ -84,9 +121,45 @@ func CreatePatient(c *gin.Context) {
 	// Send verification code via WhatsApp
 	go sendVerificationCode(newPatient.PhoneNumber, newPatient.Verify)
 
-	newPatient.ID = len(patients) + 1 // Assign a new ID
-	patients = append(patients, newPatient)
-	c.JSON(http.StatusCreated, newPatient)
+	// Temporarily store the patient data
+	tempID := strconv.Itoa(len(unverifiedPatients) + 1)
+	unverifiedPatients[tempID] = newPatient
+
+	c.JSON(http.StatusCreated, gin.H{"id": tempID})
+}
+
+func VerifyPatient(c *gin.Context) {
+	patientID := c.Param("id")
+	var request struct {
+		VerificationCode string `json:"verificationCode"`
+	}
+	if err := c.BindJSON(&request); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request"})
+		return
+	}
+
+	patient, exists := unverifiedPatients[patientID]
+	if !exists {
+		c.JSON(http.StatusNotFound, gin.H{"error": "Patient not found"})
+		return
+	}
+
+	if patient.Verify != request.VerificationCode {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid verification code"})
+		return
+	}
+
+	// Verification successful, clear the verification code and add to patients
+	patient.Verify = ""
+	patient.ID = len(patients) + 1
+	patient.CreatedAt = time.Now()
+	patient.UpdatedAt = time.Now()
+	patients = append(patients, patient)
+
+	// Remove from unverified patients
+	delete(unverifiedPatients, patientID)
+
+	c.JSON(http.StatusOK, gin.H{"message": "Verification successful"})
 }
 
 func PatientByID(c *gin.Context) {

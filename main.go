@@ -48,6 +48,9 @@ func main() {
 		matchRoutes.POST("/process-match", services.ProcessMatchForm)
 
 		matchRoutes.POST("/send", services.SendMatchResult)
+
+		router.POST("/verify-donor/:id", services.VerifyDonor)
+		router.POST("/verify-patient/:id", services.VerifyPatient)
 	}
 
 	router.Run(":8080")

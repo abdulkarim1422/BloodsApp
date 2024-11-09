@@ -10,7 +10,7 @@
     <main>
         <section>
             <h2>تسجيل المريض</h2>
-            <form action="/patients" method="POST">
+            <form id="patientForm">
                 <label for="first_name">الاسم الأول:</label>
                 <input type="text" id="first_name" name="FirstName" required>
                 
@@ -28,26 +28,26 @@
                     <option value="O+">O+</option>
                     <option value="O-">O-</option>
                 </select>
-                
+
                 <label for="birth_date">تاريخ الميلاد:</label>
                 <input type="date" id="birth_date" name="BirthDate" required>
-                
+
                 <label for="gender">الجنس:</label>
                 <select id="gender" name="Gender" required>
                     <option value="male">ذكر</option>
                     <option value="female">أنثى</option>
                 </select>
-                
+
                 <label for="phone">رقم الهاتف:</label>
                 <input type="text" id="phone" name="PhoneNumber" required>
-                
+
                 <label for="address">العنوان:</label>
                 <input type="text" id="address" name="Address" required>
-                
+
                 <label for="urgency">درجة الاستعجال:</label>
                 <input type="number" id="urgency" name="Urgency" required>
-                
-                <label for="red_quantity">كمية الدم الأحمر:</label>
+
+                <label for="red_quantity">عدد أكياس الدم الحمراء اللازمة:</label>
                 <select id="red_quantity" name="RedQuantity" required>
                     <option value="0">0</option>
                     <option value="1">1</option>
@@ -61,8 +61,8 @@
                     <option value="9">9</option>
                     <option value="10">10</option>
                 </select>
-                
-                <label for="platelet_quantity">كمية الصفائح الدموية:</label>
+
+                <label for="platelet_quantity">عدد أكياس الصفائح الدموية اللازمة:</label>
                 <select id="platelet_quantity" name="PlateletQuantity" required>
                     <option value="0">0</option>
                     <option value="1">1</option>
@@ -72,9 +72,6 @@
                     <option value="5">5</option>
                     <option value="6">6</option>
                     <option value="7">7</option>
-                    <option value="8">8</option>
-                    <option value="9">9</option>
-                    <option value="10">10</option>
                 </select>
 
                 <label for="carAvailable">هل السيارة متاحة:</label>
@@ -82,10 +79,15 @@
                   <option value="false">لا</option>
                   <option value="true">نعم</option>
                 </select>
-                                
-                                
+
                 <button type="submit">إرسال</button>
             </form>
+
+            <div id="verificationSection" style="display:none;">
+                <label for="verification_code">رمز التحقق:</label>
+                <input type="text" id="verification_code" name="VerificationCode" required>
+                <button id="verifyButton">تحقق</button>
+            </div>
         </section>
     </main>
     <!-- Include the footer -->
@@ -95,6 +97,48 @@
             if (!this.value.startsWith('+')) {
                 this.value = '+' + this.value;
             }
+        });
+
+        document.getElementById('patientForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            fetch('/patients', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    alert(data.error);
+                } else {
+                    document.getElementById('patientForm').style.display = 'none';
+                    document.getElementById('verificationSection').style.display = 'block';
+                    localStorage.setItem('patientId', data.id);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
+
+        document.getElementById('verifyButton').addEventListener('click', function() {
+            const verificationCode = document.getElementById('verification_code').value;
+            const patientId = localStorage.getItem('patientId');
+            fetch(`/verify-patient/${patientId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ verificationCode })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    alert(data.error);
+                } else {
+                    alert('تم التحقق بنجاح');
+                    window.location.href = '/patients';
+                }
+            })
+            .catch(error => console.error('Error:', error));
         });
     </script>
 </body>

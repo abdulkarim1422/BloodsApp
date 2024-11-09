@@ -37,10 +37,10 @@ def send_whatsapp(data_file_json, message_file_text, x_cord=958, y_cord=968):
             k.press_and_release('enter')
             counter += 1
             print(counter, "-Message sent..!!", f"{phone_number} - {name} - {blood} / {patient_name}\n")
-            with open("done.txt", "a") as x:
+            with open("scripts/donors_sent.txt", "a") as x:
                 x.write(f"{phone_number} - {name} - {blood} / patient: {patient_name} - {time.strftime('%Y-%m-%d %H:%M:%S')}\n")
         except Exception as e:
-            with open("error.txt", "a") as error_file:
+            with open("scripts/donors_sent_error.txt", "a") as error_file:
                 error_file.write(f"{phone_number} - {name} - {blood} / patient: {patient_name} - {time.strftime('%Y-%m-%d %H:%M:%S')}\n")
             print(f"Failed to send message to {phone_number}: {e}")
     print("Done!")
