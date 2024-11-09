@@ -21,7 +21,9 @@
                         <th>العنوان</th>
                         <th>الطارئية</th>
                         <th>عدد أكياء الدم الحمراء المحتاجة</th>
+                        <th>عدد أكياء الدم الحمراء المستلمة</th>
                         <th>عدد أكياس الصفيحات المحتاجة</th>
+                        <th>عدد أكياس الصفيحات المستلمة</th>
                         <th>توفّر سيارة</th>
                     </tr>
                 </thead>
@@ -35,8 +37,10 @@
                         <td>{{ .PhoneNumber }}</td>
                         <td>{{ .Address }}</td>
                         <td>{{ .Urgency }}</td>
-                        <td>{{ .RedQuantity }}</td>
-                        <td>{{ .PlateletQuantity }}</td>
+                        <td><strong>{{ .RedRequired }}</strong></td>
+                        <td>{{ .RedReceived }}</td>
+                        <td><strong>{{ .PlateletRequired }}</strong></td>
+                        <td>{{ .PlateletReceived }}</td>
                         <td>{{ .CarAvailable }}</td>
                     </tr>
                     {{ end }}

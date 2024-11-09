@@ -34,8 +34,10 @@ type Patient struct {
 	Address          string    `json:"address" form:"Address"`
 	CarAvailable     bool      `json:"car_available" form:"CarAvailable"`
 	Urgency          int       `json:"urgency" form:"Urgency"`
-	RedQuantity      int       `json:"red-quantity" form:"RedQuantity"`
-	PlateletQuantity int       `json:"platelet-quantity" form:"PlateletQuantity"`
+	RedRequired      int       `json:"red-required" form:"RedRequired"`
+	RedReceived      int       `json:"red-recieved" form:"RedReceived"`
+	PlateletRequired int       `json:"platelet-required" form:"PlateletRequired"`
+	PlateletReceived int       `json:"platelet-recieved" form:"PlateletReceived"`
 	HospitalName     string    `json:"hospital_name" form:"HospitalName"`
 	Verify           string    `json:"verify,omitempty"`
 	CreatedAt        time.Time `json:"created_at"`
@@ -58,7 +60,7 @@ var donors = []Donor{
 }
 
 var patients = []Patient{
-	{ID: 1, FirstName: "Patient One", LastName: "PPP", BloodType: "A+", Address: "123 Main St", PhoneNumber: "555-555-5555", Urgency: 0, RedQuantity: 1, PlateletQuantity: 1, CarAvailable: true, HospitalName: "Hospital One"},
-	{ID: 2, FirstName: "Patient Two", LastName: "PPP", BloodType: "B+", Address: "123 Main St", PhoneNumber: "555-555-5555", Urgency: 0, RedQuantity: 2, PlateletQuantity: 0, CarAvailable: false, HospitalName: "Hospital Two"},
-	{ID: 3, FirstName: "Patient Three", LastName: "PPP", BloodType: "AB+", Address: "123 Main St", PhoneNumber: "555-555-5555", Urgency: 0, RedQuantity: 1, PlateletQuantity: 1, CarAvailable: true, HospitalName: "Hospital Three"},
+	{ID: 1, FirstName: "Patient One", LastName: "PPP", BloodType: "A+", Address: "123 Main St", PhoneNumber: "555-555-5555", Urgency: 0, RedRequired: 1, RedReceived: 0, PlateletRequired: 1, PlateletReceived: 0, CarAvailable: true, HospitalName: "Hospital One"},
+	{ID: 2, FirstName: "Patient Two", LastName: "PPP", BloodType: "B+", Address: "123 Main St", PhoneNumber: "555-555-5555", Urgency: 0, RedRequired: 2, RedReceived: 0, PlateletRequired: 0, PlateletReceived: 0, CarAvailable: false, HospitalName: "Hospital Two"},
+	{ID: 3, FirstName: "Patient Three", LastName: "PPP", BloodType: "AB+", Address: "123 Main St", PhoneNumber: "555-555-5555", Urgency: 0, RedRequired: 1, RedReceived: 0, PlateletRequired: 1, PlateletReceived: 0, CarAvailable: true, HospitalName: "Hospital Three"},
 }

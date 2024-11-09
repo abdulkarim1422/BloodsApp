@@ -56,12 +56,13 @@ func DonateRed(c *gin.Context) {
 		return
 	}
 
-	if patient.RedQuantity < 1 {
+	if patient.RedRequired < 1 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "No quantity needed"})
 		return
 	}
 
-	patient.RedQuantity -= 1
+	patient.RedRequired -= 1
+	patient.RedReceived += 1
 	donor.RedTimer = time.Now().AddDate(0, 0, 90)
 	donor.Score += 1
 
@@ -75,7 +76,7 @@ func DonateRed(c *gin.Context) {
 		"donor_last_name":    donor.LastName,
 		"donor_score":        donor.Score,
 		"donor_red_timer":    donor.RedTimer,
-		"remaining_red":      patient.RedQuantity,
+		"remaining_red":      patient.RedRequired,
 	})
 }
 
@@ -127,12 +128,13 @@ func DonatePlatelet(c *gin.Context) {
 		warning = "Blood types do not match"
 	}
 
-	if patient.PlateletQuantity < 1 {
+	if patient.PlateletRequired < 1 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "No quantity needed"})
 		return
 	}
 
-	patient.PlateletQuantity -= 1
+	patient.PlateletRequired -= 1
+	patient.PlateletReceived += 1
 	donor.PlateletTimer = time.Now().AddDate(0, 0, 7)
 	donor.Score += 1
 
@@ -146,7 +148,7 @@ func DonatePlatelet(c *gin.Context) {
 		"donor_last_name":     donor.LastName,
 		"donor_score":         donor.Score,
 		"donor_platlet-timer": donor.PlateletTimer,
-		"remaining_platelet":  patient.PlateletQuantity,
+		"remaining_platelet":  patient.PlateletRequired,
 	}
 
 	if warning != "" {
