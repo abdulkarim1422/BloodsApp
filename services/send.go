@@ -46,7 +46,7 @@ func SendMatchResult(c *gin.Context) {
 	}
 
 	// Run the PyWhatsapp function
-	cmd := exec.Command("python", "whatsapp.py", "body.json", "message.txt", "958", "968")
+	cmd := exec.Command("python3", "whatsapp.py", "body.json", "message.txt", "958", "968")
 	cmd.Dir = scriptsDir
 	output, err := cmd.CombinedOutput()
 	if err != nil {
@@ -68,7 +68,7 @@ func generateVerificationCode() string {
 }
 
 func sendVerificationCode(phone, code string) {
-	cmd := exec.Command("python", "scripts/whatsapp_verify.py", phone, code, "958", "968")
+	cmd := exec.Command("python3", "scripts/whatsapp_verify.py", phone, code, "958", "968")
 	output, err := cmd.CombinedOutput()
 	if err != nil {
 		fmt.Printf("Error sending verification code: %v\n", err)
