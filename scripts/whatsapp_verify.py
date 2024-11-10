@@ -1,5 +1,9 @@
+from dotenv import load_dotenv
+load_dotenv()
+
 import os
-os.environ['DISPLAY'] = ':10' # echo $DISPLAY # ps aux | grep Xorg
+os.environ['DISPLAY'] = os.getenv('DISPLAY') # echo $DISPLAY # ps aux | grep Xorg
+
 import sys
 import pyautogui
 import time
