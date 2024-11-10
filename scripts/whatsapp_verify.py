@@ -1,25 +1,30 @@
+import os
+os.environ['DISPLAY'] = ':10' # echo $DISPLAY # ps aux | grep Xorg
 import sys
-import keyboard as k
 import pyautogui
 import time
 import pandas as pd
 import webbrowser as web
 from urllib.parse import quote
 from PIL import Image
-
+# import keyboard as k # Windows
 
 def send_whatsapp (phone,code,x_cord=958,y_cord=968):
     try:
         msg=f"رسالة التحقّق هي: {code}"
         web.open(f"https://web.whatsapp.com/send?phone={phone}&text={quote(msg)}")
         time.sleep (20)
+
         pyautogui.click(x_cord, y_cord)
         time.sleep (2)
-        k.press_and_release('enter')
+
+        pyautogui.press('enter')
         time.sleep (4)
-        k.press_and_release('ctrl+w')
+
+        pyautogui.hotkey('ctrl+w')
         time.sleep(1)
-        k.press_and_release('enter')
+        pyautogui.hotkey('enter')
+        
         print ("-Message sent..!!", f"{phone} - {code}\n")
         with open("scripts/verify_sent.txt", "a") as x:
             x.write(f"{phone} - {code} - {time.strftime('%Y-%m-%d %H:%M:%S')}\n")

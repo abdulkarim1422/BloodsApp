@@ -1,10 +1,18 @@
+from dotenv import load_dotenv
+load_dotenv()
+
+import os
+os.environ['DISPLAY'] = os.getenv('DISPLAY') # echo $DISPLAY # ps aux | grep Xorg
+
 import sys
-import keyboard as k
 import pyautogui
 import time
-import json
+import pandas as pd
 import webbrowser as web
 from urllib.parse import quote
+from PIL import Image
+import json
+# import keyboard as k # Windows
 
 def send_whatsapp(data_file_json, message_file_text, x_cord=958, y_cord=968):
     with open(data_file_json, 'r', encoding='utf-8') as f:
@@ -28,13 +36,17 @@ def send_whatsapp(data_file_json, message_file_text, x_cord=958, y_cord=968):
             if counter == 0:
                 time.sleep(20)
             time.sleep(10)
+
             pyautogui.click(x_cord, y_cord)
             time.sleep(2)
-            k.press_and_release('enter')
+
+            pyautogui.click('enter')
             time.sleep(4)
-            k.press_and_release('ctrl+w')
+
+            pyautogui.click('ctrl+w')
             time.sleep(1)
-            k.press_and_release('enter')
+            pyautogui.click('enter')
+
             counter += 1
             print(counter, "-Message sent..!!", f"{phone_number} - {name} - {blood} / {patient_name}\n")
             with open("scripts/donors_sent.txt", "a") as x:
