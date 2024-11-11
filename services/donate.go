@@ -66,6 +66,9 @@ func DonateRed(c *gin.Context) {
 	donor.RedTimer = time.Now().AddDate(0, 0, 90)
 	donor.Score += 1
 
+	// SEND FEEDBACK FORMS TO THE PATIENT ANF DONOR
+	// ???
+
 	c.JSON(http.StatusOK, gin.H{
 		"message":            "Patient red quantity updated and donor red timer increased",
 		"patient_id":         patient.ID,

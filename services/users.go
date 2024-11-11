@@ -125,6 +125,10 @@ func CreatePatient(c *gin.Context) {
 	tempID := strconv.Itoa(len(unverifiedPatients) + 1)
 	unverifiedPatients[tempID] = newPatient
 
+	// IF VERIFIED ADD REQUEST
+	// ADD QUERY FOR PHONE NUMBER
+	// ???
+
 	c.JSON(http.StatusCreated, gin.H{"id": tempID})
 }
 
@@ -175,6 +179,8 @@ func PatientByID(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, p)
 }
+
+// PATIENT BY NUMBER
 
 func GetPatientByID(id string) (*Patient, error) {
 	for _, p := range patients {
