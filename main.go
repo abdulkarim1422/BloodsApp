@@ -2,13 +2,14 @@ package main
 
 import (
 	"github.com/abdulkarim1422/BloodsApp/db"
+	"github.com/abdulkarim1422/BloodsApp/lib"
 	"github.com/abdulkarim1422/BloodsApp/middlewares"
 	"github.com/abdulkarim1422/BloodsApp/services"
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
-	middlewares.SetupLogOutput()
+	lib.SetupLogOutput()
 
 	dbConn := db.DbConn()
 	defer dbConn.Close()
@@ -20,7 +21,7 @@ func main() {
 
 	router.LoadHTMLGlob("templates/*.html")
 
-	router.Use(gin.Recovery(), middlewares.Logger())
+	router.Use(gin.Recovery(), lib.Logger())
 
 	router.GET("/", services.Main_Page)
 
