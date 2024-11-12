@@ -5,11 +5,12 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/abdulkarim1422/BloodsApp/models"
 	"github.com/gin-gonic/gin"
 )
 
-var unverifiedDonors = make(map[string]Donor)
-var unverifiedPatients = make(map[string]Patient)
+var unverifiedDonors = make(map[string]models.Donor)
+var unverifiedPatients = make(map[string]models.Patient)
 
 func GetDonors(c *gin.Context) {
 	c.HTML(http.StatusOK, "donors.html", gin.H{
@@ -19,7 +20,7 @@ func GetDonors(c *gin.Context) {
 }
 
 func CreateDonor(c *gin.Context) {
-	var newDonor Donor
+	var newDonor models.Donor
 	if err := c.ShouldBind(&newDonor); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -89,7 +90,7 @@ func DonorByID(c *gin.Context) {
 	c.JSON(http.StatusOK, d)
 }
 
-func GetDonorByID(id string) (*Donor, error) {
+func GetDonorByID(id string) (*models.Donor, error) {
 	for i := range donors {
 		if strconv.Itoa(donors[i].ID) == id {
 			return &donors[i], nil
@@ -106,7 +107,7 @@ func GetPatients(c *gin.Context) {
 }
 
 func CreatePatient(c *gin.Context) {
-	var newPatient Patient
+	var newPatient models.Patient
 	if err := c.ShouldBind(&newPatient); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -182,7 +183,7 @@ func PatientByID(c *gin.Context) {
 
 // PATIENT BY NUMBER
 
-func GetPatientByID(id string) (*Patient, error) {
+func GetPatientByID(id string) (*models.Patient, error) {
 	for _, p := range patients {
 		if strconv.Itoa(p.ID) == id {
 			return &p, nil

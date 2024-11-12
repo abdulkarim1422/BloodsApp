@@ -9,6 +9,7 @@ import (
 	"os"
 	"time"
 
+	"github.com/abdulkarim1422/BloodsApp/models"
 	"github.com/gin-gonic/gin"
 )
 
@@ -21,7 +22,7 @@ func MatchRedDonorPatient(c *gin.Context) {
 		return
 	}
 
-	var patient *Patient
+	var patient *models.Patient
 	for i := range patients {
 		if patients[i].ID == request.PatientID {
 			patient = &patients[i]
@@ -33,7 +34,7 @@ func MatchRedDonorPatient(c *gin.Context) {
 		return
 	}
 
-	var matchedDonors []Donor
+	var matchedDonors []models.Donor
 	for i := range donors {
 		if donors[i].BloodType == patient.BloodType && donors[i].RedTimer.Before(time.Now()) {
 			matchedDonors = append(matchedDonors, donors[i])
@@ -64,7 +65,7 @@ func MatchRedDonorPatientIgnoreBloodType(c *gin.Context) {
 		return
 	}
 
-	var patient *Patient
+	var patient *models.Patient
 	for i := range patients {
 		if patients[i].ID == request.PatientID {
 			patient = &patients[i]
@@ -87,7 +88,7 @@ func MatchRedDonorPatientIgnoreBloodType(c *gin.Context) {
 		"AB+": {"AB+"},
 	}
 
-	var matchedDonors []Donor
+	var matchedDonors []models.Donor
 	for i := range donors {
 		if donors[i].RedTimer.Before(time.Now()) {
 			for _, compatibleType := range compatibleBloodTypes[patient.BloodType] {
@@ -123,7 +124,7 @@ func MatchPlateletDonorPatient(c *gin.Context) {
 		return
 	}
 
-	var patient *Patient
+	var patient *models.Patient
 	for i := range patients {
 		if patients[i].ID == request.PatientID {
 			patient = &patients[i]
@@ -135,7 +136,7 @@ func MatchPlateletDonorPatient(c *gin.Context) {
 		return
 	}
 
-	var matchedDonors []Donor
+	var matchedDonors []models.Donor
 	for i := range donors {
 		if donors[i].BloodType == patient.BloodType && donors[i].PlateletTimer.Before(time.Now()) {
 			matchedDonors = append(matchedDonors, donors[i])
@@ -166,7 +167,7 @@ func MatchPlateletDonorPatientIgnoreBloodType(c *gin.Context) {
 		return
 	}
 
-	var patient *Patient
+	var patient *models.Patient
 	for i := range patients {
 		if patients[i].ID == request.PatientID {
 			patient = &patients[i]
@@ -178,7 +179,7 @@ func MatchPlateletDonorPatientIgnoreBloodType(c *gin.Context) {
 		return
 	}
 
-	var matchedDonors []Donor
+	var matchedDonors []models.Donor
 	for i := range donors {
 		if donors[i].PlateletTimer.Before(time.Now()) {
 			matchedDonors = append(matchedDonors, donors[i])

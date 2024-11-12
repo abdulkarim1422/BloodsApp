@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/abdulkarim1422/BloodsApp/models"
 	"github.com/gin-gonic/gin"
 )
 
@@ -22,7 +23,7 @@ func DonateRed(c *gin.Context) {
 	// Log the parsed request data
 	fmt.Printf("Received DonateRed request: %+v\n", request)
 
-	var patient *Patient
+	var patient *models.Patient
 	for i := range patients {
 		if patients[i].ID == request.PatientID {
 			patient = &patients[i]
@@ -34,7 +35,7 @@ func DonateRed(c *gin.Context) {
 		return
 	}
 
-	var donor *Donor
+	var donor *models.Donor
 	for i := range donors {
 		if donors[i].ID == request.DonorID {
 			donor = &donors[i]
@@ -97,7 +98,7 @@ func DonatePlatelet(c *gin.Context) {
 	// Log the parsed request data
 	fmt.Printf("Received DonatePlatelet request: %+v\n", request)
 
-	var patient *Patient
+	var patient *models.Patient
 	for i := range patients {
 		if patients[i].ID == request.PatientID {
 			patient = &patients[i]
@@ -109,7 +110,7 @@ func DonatePlatelet(c *gin.Context) {
 		return
 	}
 
-	var donor *Donor
+	var donor *models.Donor
 	for i := range donors {
 		if donors[i].ID == request.DonorID {
 			donor = &donors[i]

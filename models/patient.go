@@ -22,9 +22,3 @@ type Patient struct {
 	CreatedAt        time.Time `json:"created_at"`
 	UpdatedAt        time.Time `json:"updated_at"`
 }
-
-var patients = []Patient{
-	{ID: 1, FirstName: "Patient One", LastName: "PPP", BloodType: "A+", Address: "123 Main St", PhoneNumber: "555-555-5555", Urgency: 0, RedRequired: 1, RedReceived: 0, PlateletRequired: 1, PlateletReceived: 0, CarAvailable: true, HospitalName: "Hospital One"},
-	{ID: 2, FirstName: "Patient Two", LastName: "PPP", BloodType: "B+", Address: "123 Main St", PhoneNumber: "555-555-5555", Urgency: 0, RedRequired: 2, RedReceived: 0, PlateletRequired: 0, PlateletReceived: 0, CarAvailable: false, HospitalName: "Hospital Two"},
-	{ID: 3, FirstName: "Patient Three", LastName: "PPP", BloodType: "AB+", Address: "123 Main St", PhoneNumber: "555-555-5555", Urgency: 0, RedRequired: 1, RedReceived: 0, PlateletRequired: 1, PlateletReceived: 0, CarAvailable: true, HospitalName: "Hospital Three"},
-}
