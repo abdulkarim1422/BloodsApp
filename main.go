@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/abdulkarim1422/BloodsApp/db"
 	"github.com/abdulkarim1422/BloodsApp/middlewares"
 	"github.com/abdulkarim1422/BloodsApp/services"
 	"github.com/gin-gonic/gin"
@@ -8,6 +9,9 @@ import (
 
 func main() {
 	middlewares.SetupLogOutput()
+
+	dbConn := db.DbConn()
+	defer dbConn.Close()
 
 	router := gin.New()
 
