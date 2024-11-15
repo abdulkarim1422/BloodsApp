@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"os"
 	"time"
@@ -56,6 +57,16 @@ func MatchRedDonorPatient(c *gin.Context) {
 	})
 }
 
+func Matches(c *gin.Context) {
+	compatibleBloodTypes, err := GetCompatibleBloodTypes()
+	if err != nil {
+		log.Fatal("Error executing query:", err)
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"message":    "Matching donors found",
+		"patient_id": compatibleBloodTypes,
+	})
+}
 func MatchRedDonorPatientIgnoreBloodType(c *gin.Context) {
 	var request struct {
 		PatientID int `json:"patientId"`
@@ -76,17 +87,21 @@ func MatchRedDonorPatientIgnoreBloodType(c *gin.Context) {
 		c.JSON(http.StatusNotFound, gin.H{"error": "Patient not found"})
 		return
 	}
-
-	compatibleBloodTypes := map[string][]string{
-		"O-":  {"O-", "O+", "A-", "A+", "B-", "B+", "AB-", "AB+"},
-		"O+":  {"O+", "A+", "B+", "AB+"},
-		"A-":  {"A-", "A+", "AB-", "AB+"},
-		"A+":  {"A+", "AB+"},
-		"B-":  {"B-", "B+", "AB-", "AB+"},
-		"B+":  {"B+", "AB+"},
-		"AB-": {"AB-", "AB+"},
-		"AB+": {"AB+"},
+	compatibleBloodTypes, err := GetCompatibleBloodTypes()
+	if err != nil {
+		log.Fatal("Error executing query:", err)
 	}
+
+	// compatibleBloodTypes := map[string][]string{
+	// 	"O-":  {"O-", "O+", "A-", "A+", "B-", "B+", "AB-", "AB+"},
+	// 	"O+":  {"O+", "A+", "B+", "AB+"},
+	// 	"A-":  {"A-", "A+", "AB-", "AB+"},
+	// 	"A+":  {"A+", "AB+"},
+	// 	"B-":  {"B-", "B+", "AB-", "AB+"},
+	// 	"B+":  {"B+", "AB+"},
+	// 	"AB-": {"AB-", "AB+"},
+	// 	"AB+": {"AB+"},
+	// }
 
 	var matchedDonors []models.Donor
 	for i := range donors {

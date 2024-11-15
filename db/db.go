@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strings"
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/joho/godotenv"
@@ -16,7 +17,7 @@ func DbConn() *sql.DB {
 	// Load environment variables from .env file
 	err := godotenv.Load()
 	if err != nil {
-		log.Fatal("Error loading .env file")
+		log.Fatal("Error loading .env file ")
 	}
 
 	// Get database connection details from environment variables
@@ -43,4 +44,35 @@ func DbConn() *sql.DB {
 
 	fmt.Println("Successfully connected to the database!")
 	return db
+}
+
+func GetQuery(query string) (map[string][]string, error) {
+
+	compatibleBloodTypes := make(map[string][]string)
+
+	rows, err := db.Query(query)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var bloodType string
+		var compatibleTypes string
+
+		err := rows.Scan(&bloodType, &compatibleTypes)
+		if err != nil {
+			return nil, err
+		}
+
+		typesArray := strings.Split(compatibleTypes, ",")
+		compatibleBloodTypes[bloodType] = typesArray
+	}
+
+	err = rows.Err()
+	if err != nil {
+		return nil, err
+	}
+
+	return compatibleBloodTypes, nil
 }

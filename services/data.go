@@ -1,10 +1,45 @@
 package services
 
 import (
+	"strings"
 	"time"
 
+	"github.com/abdulkarim1422/BloodsApp/db"
 	"github.com/abdulkarim1422/BloodsApp/models"
 )
+
+func GetCompatibleBloodTypes() (map[string][]string, error) {
+	compatibleBloodTypes := make(map[string][]string)
+
+	dbConn := db.DbConn()
+	defer dbConn.Close()
+
+	rows, err := dbConn.Query("SELECT blood_type, compatible_types FROM blood_compatibilities")
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var bloodType string
+		var compatibleTypes string
+
+		err := rows.Scan(&bloodType, &compatibleTypes)
+		if err != nil {
+			return nil, err
+		}
+
+		typesArray := strings.Split(compatibleTypes, ",")
+		compatibleBloodTypes[bloodType] = typesArray
+	}
+
+	err = rows.Err()
+	if err != nil {
+		return nil, err
+	}
+
+	return compatibleBloodTypes, nil
+}
 
 var donors = []models.Donor{
 	{ID: 1, FirstName: "Donor One", LastName: "DDD", BloodType: "A+", Address: "123 Main St", PhoneNumber: "555-555-5555", RedTimer: time.Date(2024, 11, 7, 0, 0, 0, 0, time.UTC), PlateletTimer: time.Date(2024, 11, 7, 0, 0, 0, 0, time.UTC), Score: 0},

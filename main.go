@@ -34,7 +34,7 @@ func main() {
 	{
 		router.GET("/donors", services.GetDonors)
 		router.GET("/donors/:id", services.DonorByID)
-
+		router.GET("/db", services.Matches)
 		router.GET("/patients", services.GetPatients)
 		router.GET("/patients/:id", services.PatientByID)
 
@@ -58,6 +58,5 @@ func main() {
 		router.POST("/verify-donor/:id", services.VerifyDonor)
 		router.POST("/verify-patient/:id", services.VerifyPatient)
 	}
-
-	router.Run(":8080")
+	router.Run(":8000")
 }
