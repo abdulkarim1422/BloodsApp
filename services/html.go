@@ -10,6 +10,10 @@ func Main_Page(c *gin.Context) {
 	c.HTML(http.StatusOK, "index.html", gin.H{"title": "Main Page"})
 }
 
+func Dashboard_Page(c *gin.Context) {
+	c.HTML(http.StatusOK, "dashboard.html", gin.H{"title": "Dashboard"})
+}
+
 func ShowPatientForm(c *gin.Context) {
 	c.HTML(http.StatusOK, "patient_form.html", gin.H{
 		"title": "Patient Registration",
