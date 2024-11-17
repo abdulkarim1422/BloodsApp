@@ -1,7 +1,6 @@
 package main
 
 import (
-	"github.com/abdulkarim1422/BloodsApp/db"
 	"github.com/abdulkarim1422/BloodsApp/lib"
 	"github.com/abdulkarim1422/BloodsApp/middlewares"
 	"github.com/abdulkarim1422/BloodsApp/services"
@@ -11,8 +10,8 @@ import (
 func main() {
 	lib.SetupLogOutput()
 
-	dbConn := db.DbConn()
-	defer dbConn.Close()
+	// dbConn := db.DbConn()
+	// defer dbConn.Close()
 
 	router := gin.New()
 
@@ -24,6 +23,7 @@ func main() {
 	router.Use(gin.Recovery(), lib.Logger())
 
 	router.GET("/", services.Main_Page)
+	router.GET("/dashboard", services.Dashboard_Page)
 
 	router.GET("/donor_form", services.ShowDonorForm)
 	router.GET("/patient_form", services.ShowPatientForm)

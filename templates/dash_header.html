@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - BloodsApp</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
+</head>
+<body>
+    <header>
+        <!-- <h1>BloodsApp</h1> -->
+        <nav>
+            <div class="menu-icon" onclick="toggleMenu()">&#9776;</div>
+            <ul class="nav-links">
+                <li><a href="/donors">قائمة المتبرّعين</a></li>
+                <li><a href="/patients">قائمة المرضى</a></li>
+                <li><a href="/patient_form">فورم المريض</a></li>
+                <li><a href="/donor_form">فورم المتبرع</a></li>
+                <li><a href="/match">بحث عن تطابق</a></li>
+                <li><a href="/donation_form">فورم التبرّع</a></li>
+            </ul>
+        </nav>
+    </header>
+    <script>
+        function toggleMenu() {
+            const navLinks = document.querySelector('.nav-links');
+            navLinks.classList.toggle('active');
+        }
+    </script>
+    <!-- Include jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Include DataTables JS -->
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+    <!-- Include main.js -->
+    <script src="js/main.js"></script>
+</body>
+</html>
