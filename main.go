@@ -1,17 +1,20 @@
 package main
 
 import (
+	"github.com/abdulkarim1422/BloodsApp/initializers"
 	"github.com/abdulkarim1422/BloodsApp/lib"
 	"github.com/abdulkarim1422/BloodsApp/middlewares"
 	"github.com/abdulkarim1422/BloodsApp/services"
 	"github.com/gin-gonic/gin"
 )
 
+func init() {
+	initializers.LoadEnv()
+	initializers.ConnectDatabase()
+}
+
 func main() {
 	lib.SetupLogOutput()
-
-	// dbConn := db.DbConn()
-	// defer dbConn.Close()
 
 	router := gin.New()
 
@@ -34,7 +37,9 @@ func main() {
 	{
 		router.GET("/donors", services.GetDonors)
 		router.GET("/donors/:id", services.DonorByID)
+
 		router.GET("/db", services.Matches)
+
 		router.GET("/patients", services.GetPatients)
 		router.GET("/patients/:id", services.PatientByID)
 
@@ -58,5 +63,5 @@ func main() {
 		router.POST("/verify-donor/:id", services.VerifyDonor)
 		router.POST("/verify-patient/:id", services.VerifyPatient)
 	}
-	router.Run(":8000")
+	router.Run(":8080")
 }
