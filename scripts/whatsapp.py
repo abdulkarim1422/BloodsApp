@@ -2,7 +2,11 @@ from dotenv import load_dotenv
 load_dotenv()
 
 import os
-os.environ['DISPLAY'] = os.getenv('DISPLAY') # echo $DISPLAY # ps aux | grep Xorg
+try:
+    os.environ['DISPLAY'] = os.getenv('DISPLAY') # echo $DISPLAY # ps aux | grep Xorg
+except:
+    print("DISPLAY not set, using default Display")
+    pass
 
 import sys
 import pyautogui

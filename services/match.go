@@ -5,12 +5,12 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
-	"log"
 	"net/http"
 	"os"
 	"time"
 
 	"github.com/abdulkarim1422/BloodsApp/models"
+	"github.com/abdulkarim1422/BloodsApp/repositories"
 	"github.com/gin-gonic/gin"
 )
 
@@ -23,18 +23,21 @@ func MatchRedDonorPatient(c *gin.Context) {
 		return
 	}
 
-	var patient *models.Patient
-	for i := range patients {
-		if patients[i].ID == request.PatientID {
-			patient = &patients[i]
-			break
-		}
+	patient, err := repositories.GetPatientByID(request.PatientID)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
 	}
 	if patient == nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": "Patient not found"})
+		c.JSON(http.StatusNotFound, gin.H{"error": "patient not found"})
 		return
 	}
 
+	donors, err := repositories.GetAllDonors()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
 	var matchedDonors []models.Donor
 	for i := range donors {
 		if donors[i].BloodType == patient.BloodType && donors[i].RedTimer.Before(time.Now()) {
@@ -57,16 +60,6 @@ func MatchRedDonorPatient(c *gin.Context) {
 	})
 }
 
-func Matches(c *gin.Context) {
-	compatibleBloodTypes, err := GetCompatibleBloodTypes()
-	if err != nil {
-		log.Fatal("Error executing query:", err)
-	}
-	c.JSON(http.StatusOK, gin.H{
-		"message":    "Matching donors found",
-		"patient_id": compatibleBloodTypes,
-	})
-}
 func MatchRedDonorPatientIgnoreBloodType(c *gin.Context) {
 	var request struct {
 		PatientID int `json:"patientId"`
@@ -76,33 +69,32 @@ func MatchRedDonorPatientIgnoreBloodType(c *gin.Context) {
 		return
 	}
 
-	var patient *models.Patient
-	for i := range patients {
-		if patients[i].ID == request.PatientID {
-			patient = &patients[i]
-			break
-		}
-	}
-	if patient == nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": "Patient not found"})
+	patient, err := repositories.GetPatientByID(request.PatientID)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
-	compatibleBloodTypes, err := GetCompatibleBloodTypes()
-	if err != nil {
-		log.Fatal("Error executing query:", err)
+	if patient == nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "patient not found"})
+		return
 	}
 
-	// compatibleBloodTypes := map[string][]string{
-	// 	"O-":  {"O-", "O+", "A-", "A+", "B-", "B+", "AB-", "AB+"},
-	// 	"O+":  {"O+", "A+", "B+", "AB+"},
-	// 	"A-":  {"A-", "A+", "AB-", "AB+"},
-	// 	"A+":  {"A+", "AB+"},
-	// 	"B-":  {"B-", "B+", "AB-", "AB+"},
-	// 	"B+":  {"B+", "AB+"},
-	// 	"AB-": {"AB-", "AB+"},
-	// 	"AB+": {"AB+"},
-	// }
+	compatibleBloodTypes := map[string][]string{
+		"O-":  {"O-", "O+", "A-", "A+", "B-", "B+", "AB-", "AB+"},
+		"O+":  {"O+", "A+", "B+", "AB+"},
+		"A-":  {"A-", "A+", "AB-", "AB+"},
+		"A+":  {"A+", "AB+"},
+		"B-":  {"B-", "B+", "AB-", "AB+"},
+		"B+":  {"B+", "AB+"},
+		"AB-": {"AB-", "AB+"},
+		"AB+": {"AB+"},
+	}
 
+	donors, err := repositories.GetAllDonors()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
 	var matchedDonors []models.Donor
 	for i := range donors {
 		if donors[i].RedTimer.Before(time.Now()) {
@@ -139,18 +131,21 @@ func MatchPlateletDonorPatient(c *gin.Context) {
 		return
 	}
 
-	var patient *models.Patient
-	for i := range patients {
-		if patients[i].ID == request.PatientID {
-			patient = &patients[i]
-			break
-		}
+	patient, err := repositories.GetPatientByID(request.PatientID)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
 	}
 	if patient == nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": "Patient not found"})
+		c.JSON(http.StatusNotFound, gin.H{"error": "patient not found"})
 		return
 	}
 
+	donors, err := repositories.GetAllDonors()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
 	var matchedDonors []models.Donor
 	for i := range donors {
 		if donors[i].BloodType == patient.BloodType && donors[i].PlateletTimer.Before(time.Now()) {
@@ -182,18 +177,21 @@ func MatchPlateletDonorPatientIgnoreBloodType(c *gin.Context) {
 		return
 	}
 
-	var patient *models.Patient
-	for i := range patients {
-		if patients[i].ID == request.PatientID {
-			patient = &patients[i]
-			break
-		}
+	patient, err := repositories.GetPatientByID(request.PatientID)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
 	}
 	if patient == nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": "Patient not found"})
+		c.JSON(http.StatusNotFound, gin.H{"error": "patient not found"})
 		return
 	}
 
+	donors, err := repositories.GetAllDonors()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
 	var matchedDonors []models.Donor
 	for i := range donors {
 		if donors[i].PlateletTimer.Before(time.Now()) {

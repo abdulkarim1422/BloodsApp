@@ -3,6 +3,7 @@ package services
 import (
 	"net/http"
 
+	"github.com/abdulkarim1422/BloodsApp/repositories"
 	"github.com/gin-gonic/gin"
 )
 
@@ -27,6 +28,11 @@ func ShowDonorForm(c *gin.Context) {
 }
 
 func ShowMatchForm(c *gin.Context) {
+	patients, err := repositories.GetAllPatients()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
 	c.HTML(http.StatusOK, "match.html", gin.H{
 		"title":    "Match Donor and Patient",
 		"patients": patients,
@@ -34,8 +40,19 @@ func ShowMatchForm(c *gin.Context) {
 }
 
 func ShowDonationForm(c *gin.Context) {
+	patients, err := repositories.GetAllPatients()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	donors, err := repositories.GetAllDonors()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
 	c.HTML(http.StatusOK, "donation_form.html", gin.H{
-		"donors":   donors,   // Assuming donors is a slice of donor objects
-		"patients": patients, // Assuming patients is a slice of patient objects
+		"donors":   donors,
+		"patients": patients,
 	})
 }

@@ -68,7 +68,7 @@ func generateVerificationCode() string {
 }
 
 func sendVerificationCode(phone, code string) {
-	cmd := exec.Command("python3", "scripts/whatsapp_verify.py", phone, code, "958", "968")
+	cmd := exec.Command("py", "scripts/whatsapp_verify.py", phone, code, "958", "968")
 	output, err := cmd.CombinedOutput()
 	if err != nil {
 		fmt.Printf("Error sending verification code: %v\n", err)

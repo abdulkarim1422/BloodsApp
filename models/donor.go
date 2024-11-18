@@ -1,9 +1,13 @@
 package models
 
-import "time"
+import (
+	"time"
+
+	"gorm.io/gorm"
+)
 
 type Donor struct {
-	ID            int       `json:"id"`
+	gorm.Model
 	FirstName     string    `json:"first_name" form:"FirstName"`
 	LastName      string    `json:"last_name,omitempty" form:"LastName"`
 	PhoneNumber   string    `json:"phone_number" form:"PhoneNumber"`
@@ -18,6 +22,4 @@ type Donor struct {
 	PlateletTimer time.Time `json:"platelet_timer"`
 	Score         int       `json:"score"`
 	Verify        string    `json:"verify,omitempty"`
-	CreatedAt     time.Time `json:"created_at"`
-	UpdatedAt     time.Time `json:"updated_at"`
 }

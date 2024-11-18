@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/abdulkarim1422/BloodsApp/models"
+	"github.com/abdulkarim1422/BloodsApp/repositories"
 	"github.com/gin-gonic/gin"
 )
 
@@ -23,27 +23,24 @@ func DonateRed(c *gin.Context) {
 	// Log the parsed request data
 	fmt.Printf("Received DonateRed request: %+v\n", request)
 
-	var patient *models.Patient
-	for i := range patients {
-		if patients[i].ID == request.PatientID {
-			patient = &patients[i]
-			break
-		}
+	// Get the patient and donor from the request
+	patient, err := repositories.GetPatientByID(request.PatientID)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
 	}
 	if patient == nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": "Patient not found"})
+		c.JSON(http.StatusNotFound, gin.H{"error": "patient not found"})
 		return
 	}
 
-	var donor *models.Donor
-	for i := range donors {
-		if donors[i].ID == request.DonorID {
-			donor = &donors[i]
-			break
-		}
+	donor, err := repositories.GetDonorByID(request.DonorID)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
 	}
 	if donor == nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": "Donor not found"})
+		c.JSON(http.StatusNotFound, gin.H{"error": "donor not found"})
 		return
 	}
 
@@ -60,14 +57,28 @@ func DonateRed(c *gin.Context) {
 	if patient.RedRequired < 1 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "No quantity needed"})
 		return
+	} else if patient.RedRequired == 1 {
+		patient.RedRequired = 0
+	} else {
+		patient.RedRequired -= 1
 	}
 
-	patient.RedRequired -= 1
 	patient.RedReceived += 1
 	donor.RedTimer = time.Now().AddDate(0, 0, 90)
 	donor.Score += 1
 
-	// SEND FEEDBACK FORMS TO THE PATIENT ANF DONOR
+	// Update the patient and donor in the database
+	if err := repositories.UpdatePatient(patient); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	if err := repositories.UpdateDonor(donor); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	// SEND FEEDBACK FORMS TO THE PATIENT AND DONOR
 	// ???
 
 	c.JSON(http.StatusOK, gin.H{
@@ -98,27 +109,24 @@ func DonatePlatelet(c *gin.Context) {
 	// Log the parsed request data
 	fmt.Printf("Received DonatePlatelet request: %+v\n", request)
 
-	var patient *models.Patient
-	for i := range patients {
-		if patients[i].ID == request.PatientID {
-			patient = &patients[i]
-			break
-		}
+	// Get the patient and donor from the request
+	patient, err := repositories.GetPatientByID(request.PatientID)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
 	}
 	if patient == nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": "Patient not found"})
+		c.JSON(http.StatusNotFound, gin.H{"error": "patient not found"})
 		return
 	}
 
-	var donor *models.Donor
-	for i := range donors {
-		if donors[i].ID == request.DonorID {
-			donor = &donors[i]
-			break
-		}
+	donor, err := repositories.GetDonorByID(request.DonorID)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
 	}
 	if donor == nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": "Donor not found"})
+		c.JSON(http.StatusNotFound, gin.H{"error": "donor not found"})
 		return
 	}
 
@@ -135,12 +143,29 @@ func DonatePlatelet(c *gin.Context) {
 	if patient.PlateletRequired < 1 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "No quantity needed"})
 		return
+	} else if patient.PlateletRequired == 1 {
+		patient.PlateletRequired = 0
+	} else {
+		patient.PlateletRequired -= 1
 	}
 
-	patient.PlateletRequired -= 1
 	patient.PlateletReceived += 1
 	donor.PlateletTimer = time.Now().AddDate(0, 0, 7)
 	donor.Score += 1
+
+	// Update the patient and donor in the database
+	if err := repositories.UpdatePatient(patient); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	if err := repositories.UpdateDonor(donor); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	// SEND FEEDBACK FORMS TO THE PATIENT AND DONOR
+	// ???
 
 	response := gin.H{
 		"message":             "Patient platelet quantity updated and donor platelet timer increased",

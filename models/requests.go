@@ -1,7 +1,9 @@
 package models
 
+import "gorm.io/gorm"
+
 type Requests struct {
-	ID               int    `json:"id"`
+	gorm.Model
 	PatientID        int    `json:"patient_id"`
 	DonorID          int    `json:"donor_id,omitempty"`
 	Red              int    `json:"red" form:"Red"`

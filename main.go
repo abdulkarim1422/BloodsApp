@@ -38,8 +38,6 @@ func main() {
 		router.GET("/donors", services.GetDonors)
 		router.GET("/donors/:id", services.DonorByID)
 
-		router.GET("/db", services.Matches)
-
 		router.GET("/patients", services.GetPatients)
 		router.GET("/patients/:id", services.PatientByID)
 

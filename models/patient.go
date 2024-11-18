@@ -1,9 +1,13 @@
 package models
 
-import "time"
+import (
+	"time"
+
+	"gorm.io/gorm"
+)
 
 type Patient struct {
-	ID               int       `json:"id"`
+	gorm.Model
 	FirstName        string    `json:"firstName" form:"FirstName"`
 	LastName         string    `json:"lastName,omitempty" form:"LastName"`
 	PhoneNumber      string    `json:"phone_number" form:"PhoneNumber"`
@@ -19,6 +23,4 @@ type Patient struct {
 	PlateletReceived int       `json:"platelet-recieved" form:"PlateletReceived"` // Requests
 	HospitalName     string    `json:"hospital_name" form:"HospitalName"`         // Requests
 	Verify           string    `json:"verify,omitempty"`
-	CreatedAt        time.Time `json:"created_at"`
-	UpdatedAt        time.Time `json:"updated_at"`
 }

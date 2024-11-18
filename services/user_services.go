@@ -3,9 +3,9 @@ package services
 import (
 	"net/http"
 	"strconv"
-	"time"
 
 	"github.com/abdulkarim1422/BloodsApp/models"
+	"github.com/abdulkarim1422/BloodsApp/repositories"
 	"github.com/gin-gonic/gin"
 )
 
@@ -13,6 +13,13 @@ var unverifiedDonors = make(map[string]models.Donor)
 var unverifiedPatients = make(map[string]models.Patient)
 
 func GetDonors(c *gin.Context) {
+	var donors []models.Donor
+	donors, err := repositories.GetAllDonors()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
 	c.HTML(http.StatusOK, "donors.html", gin.H{
 		"title":  "Donors List",
 		"donors": donors,
@@ -65,12 +72,15 @@ func VerifyDonor(c *gin.Context) {
 
 	// Verification successful, clear the verification code and add to donors
 	donor.Verify = ""
-	donor.ID = len(donors) + 1
-	donor.CreatedAt = time.Now()
-	donor.UpdatedAt = time.Now()
-	donors = append(donors, donor)
 
-	// Remove from unverified donors
+	// Create a new donor in the database
+	create_err := repositories.CreateDonor(&donor)
+	if create_err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": create_err.Error()})
+		return
+	}
+
+	// Remove from unverified donors after successful verification and commit
 	delete(unverifiedDonors, donorID)
 
 	c.JSON(http.StatusOK, gin.H{"message": "Verification successful"})
@@ -78,7 +88,12 @@ func VerifyDonor(c *gin.Context) {
 
 func DonorByID(c *gin.Context) {
 	id := c.Param("id")
-	d, err := GetDonorByID(id)
+	intID, err := strconv.Atoi(id)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid ID format"})
+		return
+	}
+	d, err := repositories.GetDonorByID(intID)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
@@ -90,16 +105,14 @@ func DonorByID(c *gin.Context) {
 	c.JSON(http.StatusOK, d)
 }
 
-func GetDonorByID(id string) (*models.Donor, error) {
-	for i := range donors {
-		if strconv.Itoa(donors[i].ID) == id {
-			return &donors[i], nil
-		}
-	}
-	return nil, nil
-}
-
 func GetPatients(c *gin.Context) {
+	var patients []models.Patient
+	patients, err := repositories.GetAllPatients()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
 	c.HTML(http.StatusOK, "patients.html", gin.H{
 		"title":    "Patients List",
 		"patients": patients,
@@ -126,9 +139,7 @@ func CreatePatient(c *gin.Context) {
 	tempID := strconv.Itoa(len(unverifiedPatients) + 1)
 	unverifiedPatients[tempID] = newPatient
 
-	// IF VERIFIED ADD REQUEST
-	// ADD QUERY FOR PHONE NUMBER
-	// ???
+	// ADD REQUEST
 
 	c.JSON(http.StatusCreated, gin.H{"id": tempID})
 }
@@ -143,25 +154,30 @@ func VerifyPatient(c *gin.Context) {
 		return
 	}
 
+	// Retrieve the unverified patient data
 	patient, exists := unverifiedPatients[patientID]
 	if !exists {
 		c.JSON(http.StatusNotFound, gin.H{"error": "Patient not found"})
 		return
 	}
 
+	// Check if the verification code matches
 	if patient.Verify != request.VerificationCode {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid verification code"})
 		return
 	}
 
-	// Verification successful, clear the verification code and add to patients
+	// Verification successful, clear the verification code
 	patient.Verify = ""
-	patient.ID = len(patients) + 1
-	patient.CreatedAt = time.Now()
-	patient.UpdatedAt = time.Now()
-	patients = append(patients, patient)
 
-	// Remove from unverified patients
+	// Create a new patient in the database
+	create_err := repositories.CreatePatient(&patient)
+	if create_err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": create_err.Error()})
+		return
+	}
+
+	// Remove from unverified patients after successful verification and commit
 	delete(unverifiedPatients, patientID)
 
 	c.JSON(http.StatusOK, gin.H{"message": "Verification successful"})
@@ -169,7 +185,12 @@ func VerifyPatient(c *gin.Context) {
 
 func PatientByID(c *gin.Context) {
 	id := c.Param("id")
-	p, err := GetPatientByID(id)
+	intID, err := strconv.Atoi(id)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid ID format"})
+		return
+	}
+	p, err := repositories.GetPatientByID(intID)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
@@ -179,15 +200,4 @@ func PatientByID(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, p)
-}
-
-// PATIENT BY NUMBER
-
-func GetPatientByID(id string) (*models.Patient, error) {
-	for _, p := range patients {
-		if strconv.Itoa(p.ID) == id {
-			return &p, nil
-		}
-	}
-	return nil, nil
 }

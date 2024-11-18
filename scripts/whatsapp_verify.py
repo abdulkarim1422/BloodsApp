@@ -1,8 +1,12 @@
 from dotenv import load_dotenv
+import os
 load_dotenv()
 
-import os
-os.environ['DISPLAY'] = os.getenv('DISPLAY') # echo $DISPLAY # ps aux | grep Xorg
+try:
+    os.environ['DISPLAY'] = os.getenv('DISPLAY') # echo $DISPLAY # ps aux | grep Xorg
+except:
+    print("DISPLAY not set, using default Display")
+    pass
 
 import sys
 import pyautogui
@@ -26,7 +30,7 @@ def send_whatsapp (phone,code,x_cord=958,y_cord=968):
         time.sleep (4)
 
         pyautogui.hotkey('ctrl+w')
-        time.sleep(1)
+        time.sleep (1)
         pyautogui.hotkey('enter')
         
         print ("-Message sent..!!", f"{phone} - {code}\n")
