@@ -19,4 +19,6 @@ func main() {
 	initializers.DB.AutoMigrate(&models.Cities{})
 	initializers.DB.AutoMigrate(&models.District{})
 	initializers.DB.AutoMigrate(&models.Hospitals{})
+
+	initializers.DB.AutoMigrate(&models.User{})
 }

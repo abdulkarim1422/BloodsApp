@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/abdulkarim1422/BloodsApp/initializers"
 	"github.com/abdulkarim1422/BloodsApp/lib"
+	"github.com/abdulkarim1422/BloodsApp/middlewares"
 	"github.com/abdulkarim1422/BloodsApp/services"
 	"github.com/gin-gonic/gin"
 )
@@ -56,6 +57,18 @@ func main() {
 
 	router.POST("/verify-donor/:id", services.VerifyDonor)
 	router.POST("/verify-patient/:id", services.VerifyPatient)
+
+	// Protected routes
+	protected := router.Group("/")
+	protected.Use(middlewares.JWTAuthMiddleware())
+	{
+		protected.POST("/protected-route", services.ProtectedRoute)
+	}
+
+	router.POST("/login", services.Login)
+	router.POST("/logout", services.Logout)
+	router.POST("/signup", services.Signup)
+	router.GET("/users", services.GetUsers)
 
 	router.Run(":8080")
 }
