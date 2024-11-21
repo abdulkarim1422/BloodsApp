@@ -1,12 +1,14 @@
 package services
 
 import (
+	"fmt"
 	"net/http"
 	"os"
 	"time"
 
-	"github.com/abdulkarim1422/BloodsApp/initializers"
 	"github.com/abdulkarim1422/BloodsApp/models"
+	"github.com/abdulkarim1422/BloodsApp/repositories"
+
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v4"
 	"golang.org/x/crypto/bcrypt"
@@ -35,8 +37,8 @@ func Login(c *gin.Context) {
 		return
 	}
 
-	var user models.User
-	if err := initializers.DB.Where("username = ? OR email = ?", request.Identifier, request.Identifier).First(&user).Error; err != nil {
+	user, err := repositories.GetUserByIdentifier(request.Identifier)
+	if err != nil {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid credentials"})
 		return
 	}
@@ -98,7 +100,7 @@ func Signup(c *gin.Context) {
 		Password: string(hashedPassword),
 	}
 
-	if err := initializers.DB.Create(&user).Error; err != nil {
+	if err := repositories.CreateUser(user); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create user"})
 		return
 	}
@@ -122,15 +124,57 @@ func GetUsers(c *gin.Context) {
 		return
 	}
 
-	var users []models.User
-	if err := initializers.DB.Select("username", "email").Find(&users).Error; err != nil {
+	users, err := repositories.GetAllUsers()
+	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to retrieve users"})
 		return
 	}
 
 	c.JSON(http.StatusOK, users)
 }
-func ProtectedRoute(c *gin.Context) {
+
+func CheckLogin(c *gin.Context) {
 	username, _ := c.Get("username")
 	c.JSON(http.StatusOK, gin.H{"message": "Welcome!", "username": username})
+}
+
+func UserForgotPassword(c *gin.Context) {
+	var request struct {
+		Email string `json:"email" binding:"required"`
+	}
+	if err := c.BindJSON(&request); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request"})
+		return
+	}
+
+	user, err := repositories.GetUserByIdentifier(request.Email)
+	if err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "User not found"})
+		return
+	}
+
+	// Generate reset token
+	resetToken, err := GenerateJWT(user.Username)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to generate reset token"})
+		return
+	}
+
+	// Create reset password link
+	resetLink := fmt.Sprintf("http://localhost:8099/reset-password?token=%s", resetToken)
+
+	// Prepare email request
+	emailReq := EmailRequest{
+		To:      user.Email,
+		Subject: "Password Reset Request",
+		Body:    fmt.Sprintf("Click the link to reset your password: %s", resetLink),
+	}
+
+	// Send email
+	if err := SendMail(c, emailReq); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to send email"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "Password reset email sent successfully"})
 }

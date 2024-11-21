@@ -12,7 +12,7 @@ import (
 var unverifiedDonors = make(map[string]models.Donor)
 var unverifiedPatients = make(map[string]models.Patient)
 
-func GetDonors(c *gin.Context) {
+func ShowDonorsPage(c *gin.Context) {
 	var donors []models.Donor
 	donors, err := repositories.GetAllDonors()
 	if err != nil {
@@ -105,7 +105,7 @@ func DonorByID(c *gin.Context) {
 	c.JSON(http.StatusOK, d)
 }
 
-func GetPatients(c *gin.Context) {
+func ShowPatientsPage(c *gin.Context) {
 	var patients []models.Patient
 	patients, err := repositories.GetAllPatients()
 	if err != nil {

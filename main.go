@@ -3,72 +3,16 @@ package main
 import (
 	"github.com/abdulkarim1422/BloodsApp/initializers"
 	"github.com/abdulkarim1422/BloodsApp/lib"
-	"github.com/abdulkarim1422/BloodsApp/middlewares"
-	"github.com/abdulkarim1422/BloodsApp/services"
-	"github.com/gin-gonic/gin"
+	"github.com/abdulkarim1422/BloodsApp/routers"
 )
 
 func init() {
 	initializers.LoadEnv()
 	initializers.ConnectDatabase()
+
+	lib.SetupLogOutput()
 }
 
 func main() {
-	lib.SetupLogOutput()
-
-	router := gin.New()
-
-	router.Static("/css", "./templates/css")
-	router.Static("/js", "./templates/js")
-
-	router.LoadHTMLGlob("templates/*.html")
-
-	router.Use(gin.Recovery(), lib.Logger())
-
-	router.GET("/", services.Main_Page)
-	router.GET("/dashboard", services.Dashboard_Page)
-
-	router.GET("/donor_form", services.ShowDonorForm)
-	router.GET("/patient_form", services.ShowPatientForm)
-	router.GET("/donation_form", services.ShowDonationForm)
-
-	router.GET("/donors", services.GetDonors)
-	router.GET("/donors/:id", services.DonorByID)
-
-	router.GET("/patients", services.GetPatients)
-	router.GET("/patients/:id", services.PatientByID)
-
-	router.POST("/donors", services.CreateDonor)
-	router.POST("/patients", services.CreatePatient)
-
-	router.POST("/donate-red", services.DonateRed)
-	router.POST("/donate-platelet", services.DonatePlatelet)
-
-	router.GET("/match-red", services.MatchRedDonorPatient)
-	router.GET("/match-platelet", services.MatchPlateletDonorPatient)
-
-	router.GET("/match-red-ignore", services.MatchRedDonorPatientIgnoreBloodType)
-	router.GET("/match-platelet-ignore", services.MatchPlateletDonorPatientIgnoreBloodType)
-
-	router.GET("/match", services.ShowMatchForm)
-	router.POST("/process-match", services.ProcessMatchForm)
-
-	router.POST("/send", services.SendMatchResult)
-
-	router.POST("/verify-donor/:id", services.VerifyDonor)
-	router.POST("/verify-patient/:id", services.VerifyPatient)
-
-	// Protected routes
-	protected := router.Group("/")
-	protected.Use(middlewares.JWTAuthMiddleware())
-	{
-		protected.POST("/protected-route", services.ProtectedRoute)
-	}
-
-	router.POST("/login", services.Login)
-	router.POST("/logout", services.Logout)
-	router.POST("/signup", services.Signup)
-	router.GET("/users", services.GetUsers)
-
-	router.Run(":8080")
+	routers.AllRouters()
 }
