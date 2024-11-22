@@ -130,7 +130,7 @@
                 } else {
                     document.getElementById('patientForm').style.display = 'none';
                     document.getElementById('verificationSection').style.display = 'block';
-                    localStorage.setItem('patientId', data.id);
+                    localStorage.setItem('patient_id', data.id);
                 }
             })
             .catch(error => console.error('Error:', error));
@@ -138,8 +138,8 @@
 
         document.getElementById('verifyButton').addEventListener('click', function() {
             const verificationCode = document.getElementById('verification_code').value;
-            const patientId = localStorage.getItem('patientId');
-            fetch(`/verify-patient/${patientId}`, {
+            const patient_id = localStorage.getItem('patient_id');
+            fetch(`/verify-patient/${patient_id}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

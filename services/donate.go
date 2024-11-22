@@ -3,6 +3,7 @@ package services
 import (
 	"fmt"
 	"net/http"
+	"strconv"
 	"time"
 
 	"github.com/abdulkarim1422/BloodsApp/repositories"
@@ -10,21 +11,22 @@ import (
 )
 
 func DonateRed(c *gin.Context) {
-	var request struct {
-		PatientID int `json:"patient_id"`
-		DonorID   int `json:"donor_id"`
+	patientID, err := strconv.Atoi(c.Query("patient_id"))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid or missing patient_id query parameter"})
+		return
 	}
-	if err := c.BindJSON(&request); err != nil {
-		fmt.Printf("Error parsing request: %v\n", err)
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request"})
+	donorID, err := strconv.Atoi(c.Query("donor_id"))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid or missing patient_id query parameter"})
 		return
 	}
 
 	// Log the parsed request data
-	fmt.Printf("Received DonateRed request: %+v\n", request)
+	fmt.Printf("Received DonateRed request >> patient: %+v donor: %v\n", patientID, donorID)
 
 	// Get the patient and donor from the request
-	patient, err := repositories.GetPatientByID(request.PatientID)
+	patient, err := repositories.GetPatientByID(patientID)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
@@ -34,7 +36,7 @@ func DonateRed(c *gin.Context) {
 		return
 	}
 
-	donor, err := repositories.GetDonorByID(request.DonorID)
+	donor, err := repositories.GetDonorByID(donorID)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
@@ -96,21 +98,22 @@ func DonateRed(c *gin.Context) {
 }
 
 func DonatePlatelet(c *gin.Context) {
-	var request struct {
-		PatientID int `json:"patient_id"`
-		DonorID   int `json:"donor_id"`
+	patientID, err := strconv.Atoi(c.Query("patient_id"))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid or missing patient_id query parameter"})
+		return
 	}
-	if err := c.BindJSON(&request); err != nil {
-		fmt.Printf("Error parsing request: %v\n", err)
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request"})
+	donorID, err := strconv.Atoi(c.Query("donor_id"))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid or missing donorId query parameter"})
 		return
 	}
 
 	// Log the parsed request data
-	fmt.Printf("Received DonatePlatelet request: %+v\n", request)
+	fmt.Printf("Received DonatePlatelet request >> patient: %+v donor: %v\n", patientID, donorID)
 
 	// Get the patient and donor from the request
-	patient, err := repositories.GetPatientByID(request.PatientID)
+	patient, err := repositories.GetPatientByID(patientID)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
@@ -120,7 +123,7 @@ func DonatePlatelet(c *gin.Context) {
 		return
 	}
 
-	donor, err := repositories.GetDonorByID(request.DonorID)
+	donor, err := repositories.GetDonorByID(donorID)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return

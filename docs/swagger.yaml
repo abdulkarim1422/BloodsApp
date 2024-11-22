@@ -1,4 +1,7 @@
 definitions:
+  gin.H:
+    additionalProperties: {}
+    type: object
   gorm.DeletedAt:
     properties:
       time:
@@ -35,7 +38,96 @@ definitions:
       username:
         type: string
     type: object
+  models.Donor:
+    description: Donor represents a donor in the system
+    properties:
+      address:
+        type: string
+      birth_date:
+        type: string
+      bloodType:
+        type: string
+      car_available:
+        type: boolean
+      city:
+        type: string
+      createdAt:
+        type: string
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      first_name:
+        type: string
+      gender:
+        type: string
+      id:
+        type: integer
+      last_name:
+        type: string
+      paid:
+        type: boolean
+      phone_number:
+        type: string
+      platelet_timer:
+        type: string
+      red_timer:
+        type: string
+      score:
+        type: integer
+      updatedAt:
+        type: string
+      verify:
+        type: string
+    type: object
+  models.Patient:
+    description: Patient represents a patient in the system
+    properties:
+      address:
+        type: string
+      birth_date:
+        type: string
+      bloodType:
+        type: string
+      car_available:
+        type: boolean
+      createdAt:
+        type: string
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      firstName:
+        type: string
+      gender:
+        type: string
+      hospital_name:
+        description: Requests
+        type: string
+      id:
+        type: integer
+      lastName:
+        type: string
+      phone_number:
+        type: string
+      platelet-recieved:
+        description: Requests
+        type: integer
+      platelet-required:
+        description: Requests
+        type: integer
+      red-recieved:
+        description: Requests
+        type: integer
+      red-required:
+        description: Requests
+        type: integer
+      updatedAt:
+        type: string
+      urgency:
+        description: Requests
+        type: integer
+      verify:
+        type: string
+    type: object
   models.User:
+    description: User represents a user in the system
     properties:
       createdAt:
         type: string
@@ -74,22 +166,86 @@ paths:
     post:
       consumes:
       - application/json
-      description: Donate platelet to a patient
+      description: Donate blood to a patient
       operationId: donate-platelet
+      parameters:
+      - description: Patient ID
+        in: query
+        name: patient_id
+        required: true
+        type: integer
       produces:
       - application/json
-      responses: {}
-      summary: Donate platelet to a patient
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Donate blood to a patient
+      tags:
+      - donate
   /donate-red:
     post:
       consumes:
       - application/json
-      description: Donate blood to a patient
-      operationId: donate-blood
+      description: Donate Red Blood to a patient
+      operationId: donate-red
+      parameters:
+      - description: Patient ID
+        in: query
+        name: patient_id
+        required: true
+        type: integer
+      - description: Donor ID
+        in: query
+        name: donor_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Donate Red Blood to a patient
+      tags:
+      - donate
+  /donor:
+    post:
+      consumes:
+      - application/json
+      description: Create a donor
+      operationId: create-donor
+      parameters:
+      - description: Donor input
+        in: body
+        name: donor
+        required: true
+        schema:
+          $ref: '#/definitions/models.Donor'
       produces:
       - application/json
       responses: {}
-      summary: Donate blood to a patient
+      summary: Create a donor
+      tags:
+      - donors
+  /donor/{id}:
+    get:
+      description: Get a donor by ID
+      operationId: get-donor-by-id
+      parameters:
+      - description: Donor ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses: {}
+      summary: Get a donor by ID
+      tags:
+      - donors
   /forgot-password:
     post:
       consumes:
@@ -149,6 +305,131 @@ paths:
       summary: Logout
       tags:
       - auth
+  /match-platelet:
+    get:
+      consumes:
+      - application/json
+      description: Match a platelet donor with a patient based on blood type and platelet
+        donation timer
+      parameters:
+      - description: Patient ID
+        in: query
+        name: patient_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Match a platelet donor with a patient
+      tags:
+      - match
+  /match-platelet-ignore:
+    get:
+      consumes:
+      - application/json
+      description: Match a platelet donor with a patient based on platelet donation
+        timer
+      parameters:
+      - description: Patient ID
+        in: query
+        name: patient_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Match a platelet donor with a patient (ignoring same type)
+      tags:
+      - match
+  /match-red:
+    get:
+      consumes:
+      - application/json
+      description: Match a red blood donor with a patient based on blood type and
+        red blood cell donation timer
+      parameters:
+      - description: Patient ID
+        in: query
+        name: patient_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Match a red blood donor with a patient
+      tags:
+      - match
+  /match-red-ignore:
+    get:
+      consumes:
+      - application/json
+      description: Match a red blood donor with a patient based on red blood cell
+        donation timer
+      parameters:
+      - description: Patient ID
+        in: query
+        name: patient_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Match a red blood donor with a patient (ignoring same type)
+      tags:
+      - match
+  /patients:
+    post:
+      consumes:
+      - application/json
+      description: Create a patient
+      operationId: create-patient
+      parameters:
+      - description: Patient object
+        in: body
+        name: patient
+        required: true
+        schema:
+          $ref: '#/definitions/models.Patient'
+      produces:
+      - application/json
+      responses: {}
+      summary: Create a patient
+      tags:
+      - patients
+  /patients/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get a patient by ID
+      operationId: get-patient-by-id
+      parameters:
+      - description: Patient ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      summary: Get a patient by ID
+      tags:
+      - patients
   /signup:
     post:
       consumes:

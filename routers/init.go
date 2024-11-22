@@ -36,6 +36,7 @@ func AllRouters() {
 
 		RegisterProtectedHTMLRoutes(router)
 		RegisterProtectedPatientRoutes(router)
+		RegisterProtectedDonorRoutes(router)
 		RegisterProtectedDonationRoutes(router)
 		RegisterProtectedMatchRoutes(router)
 	}

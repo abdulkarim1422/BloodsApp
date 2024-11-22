@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"os"
+	"strconv"
 	"time"
 
 	"github.com/abdulkarim1422/BloodsApp/models"
@@ -15,21 +16,19 @@ import (
 )
 
 func MatchRedDonorPatient(c *gin.Context) {
-	var request struct {
-		PatientID int `json:"patientId"`
-	}
-	if err := c.BindJSON(&request); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request"})
+	patientID, err := strconv.Atoi(c.Query("patient_id"))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid or missing patient_id query parameter"})
 		return
 	}
 
-	patient, err := repositories.GetPatientByID(request.PatientID)
+	patient, err := repositories.GetPatientByID(patientID)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 	if patient == nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": "patient not found"})
+		c.JSON(http.StatusNotFound, gin.H{"error": "Patient not found"})
 		return
 	}
 
@@ -38,12 +37,14 @@ func MatchRedDonorPatient(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
+
 	var matchedDonors []models.Donor
 	for i := range donors {
 		if donors[i].BloodType == patient.BloodType && donors[i].RedTimer.Before(time.Now()) {
 			matchedDonors = append(matchedDonors, donors[i])
 		}
 	}
+
 	if len(matchedDonors) == 0 {
 		c.JSON(http.StatusNotFound, gin.H{"error": "No matching donors found"})
 		return
@@ -61,15 +62,13 @@ func MatchRedDonorPatient(c *gin.Context) {
 }
 
 func MatchRedDonorPatientIgnoreBloodType(c *gin.Context) {
-	var request struct {
-		PatientID int `json:"patientId"`
-	}
-	if err := c.BindJSON(&request); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request"})
+	patientID, err := strconv.Atoi(c.Query("patient_id"))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid or missing patient_id query parameter"})
 		return
 	}
 
-	patient, err := repositories.GetPatientByID(request.PatientID)
+	patient, err := repositories.GetPatientByID(patientID)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
@@ -123,15 +122,13 @@ func MatchRedDonorPatientIgnoreBloodType(c *gin.Context) {
 }
 
 func MatchPlateletDonorPatient(c *gin.Context) {
-	var request struct {
-		PatientID int `json:"patientId"`
-	}
-	if err := c.BindJSON(&request); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request"})
+	patientID, err := strconv.Atoi(c.Query("patient_id"))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid or missing patient_id query parameter"})
 		return
 	}
 
-	patient, err := repositories.GetPatientByID(request.PatientID)
+	patient, err := repositories.GetPatientByID(patientID)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
@@ -169,15 +166,13 @@ func MatchPlateletDonorPatient(c *gin.Context) {
 }
 
 func MatchPlateletDonorPatientIgnoreBloodType(c *gin.Context) {
-	var request struct {
-		PatientID int `json:"patientId"`
-	}
-	if err := c.BindJSON(&request); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request"})
+	patientID, err := strconv.Atoi(c.Query("patient_id"))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid or missing patient_id query parameter"})
 		return
 	}
 
-	patient, err := repositories.GetPatientByID(request.PatientID)
+	patient, err := repositories.GetPatientByID(patientID)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return

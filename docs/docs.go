@@ -40,20 +40,6 @@ const docTemplate = `{
         },
         "/donate-platelet": {
             "post": {
-                "description": "Donate platelet to a patient",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "summary": "Donate platelet to a patient",
-                "operationId": "donate-platelet",
-                "responses": {}
-            }
-        },
-        "/donate-red": {
-            "post": {
                 "description": "Donate blood to a patient",
                 "consumes": [
                     "application/json"
@@ -61,8 +47,118 @@ const docTemplate = `{
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "donate"
+                ],
                 "summary": "Donate blood to a patient",
-                "operationId": "donate-blood",
+                "operationId": "donate-platelet",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Patient ID",
+                        "name": "patient_id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    }
+                }
+            }
+        },
+        "/donate-red": {
+            "post": {
+                "description": "Donate Red Blood to a patient",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "donate"
+                ],
+                "summary": "Donate Red Blood to a patient",
+                "operationId": "donate-red",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Patient ID",
+                        "name": "patient_id",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Donor ID",
+                        "name": "donor_id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    }
+                }
+            }
+        },
+        "/donor": {
+            "post": {
+                "description": "Create a donor",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "donors"
+                ],
+                "summary": "Create a donor",
+                "operationId": "create-donor",
+                "parameters": [
+                    {
+                        "description": "Donor input",
+                        "name": "donor",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Donor"
+                        }
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/donor/{id}": {
+            "get": {
+                "description": "Get a donor by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "donors"
+                ],
+                "summary": "Get a donor by ID",
+                "operationId": "get-donor-by-id",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Donor ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
                 "responses": {}
             }
         },
@@ -157,6 +253,188 @@ const docTemplate = `{
                 }
             }
         },
+        "/match-platelet": {
+            "get": {
+                "description": "Match a platelet donor with a patient based on blood type and platelet donation timer",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "match"
+                ],
+                "summary": "Match a platelet donor with a patient",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Patient ID",
+                        "name": "patient_id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    }
+                }
+            }
+        },
+        "/match-platelet-ignore": {
+            "get": {
+                "description": "Match a platelet donor with a patient based on platelet donation timer",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "match"
+                ],
+                "summary": "Match a platelet donor with a patient (ignoring same type)",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Patient ID",
+                        "name": "patient_id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    }
+                }
+            }
+        },
+        "/match-red": {
+            "get": {
+                "description": "Match a red blood donor with a patient based on blood type and red blood cell donation timer",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "match"
+                ],
+                "summary": "Match a red blood donor with a patient",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Patient ID",
+                        "name": "patient_id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    }
+                }
+            }
+        },
+        "/match-red-ignore": {
+            "get": {
+                "description": "Match a red blood donor with a patient based on red blood cell donation timer",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "match"
+                ],
+                "summary": "Match a red blood donor with a patient (ignoring same type)",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Patient ID",
+                        "name": "patient_id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    }
+                }
+            }
+        },
+        "/patients": {
+            "post": {
+                "description": "Create a patient",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "patients"
+                ],
+                "summary": "Create a patient",
+                "operationId": "create-patient",
+                "parameters": [
+                    {
+                        "description": "Patient object",
+                        "name": "patient",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Patient"
+                        }
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/patients/{id}": {
+            "get": {
+                "description": "Get a patient by ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "patients"
+                ],
+                "summary": "Get a patient by ID",
+                "operationId": "get-patient-by-id",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Patient ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {}
+            }
+        },
         "/signup": {
             "post": {
                 "description": "Signup",
@@ -230,6 +508,10 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "gin.H": {
+            "type": "object",
+            "additionalProperties": {}
+        },
         "gorm.DeletedAt": {
             "type": "object",
             "properties": {
@@ -286,7 +568,137 @@ const docTemplate = `{
                 }
             }
         },
+        "models.Donor": {
+            "description": "Donor represents a donor in the system",
+            "type": "object",
+            "properties": {
+                "address": {
+                    "type": "string"
+                },
+                "birth_date": {
+                    "type": "string"
+                },
+                "bloodType": {
+                    "type": "string"
+                },
+                "car_available": {
+                    "type": "boolean"
+                },
+                "city": {
+                    "type": "string"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "deletedAt": {
+                    "$ref": "#/definitions/gorm.DeletedAt"
+                },
+                "first_name": {
+                    "type": "string"
+                },
+                "gender": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "last_name": {
+                    "type": "string"
+                },
+                "paid": {
+                    "type": "boolean"
+                },
+                "phone_number": {
+                    "type": "string"
+                },
+                "platelet_timer": {
+                    "type": "string"
+                },
+                "red_timer": {
+                    "type": "string"
+                },
+                "score": {
+                    "type": "integer"
+                },
+                "updatedAt": {
+                    "type": "string"
+                },
+                "verify": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.Patient": {
+            "description": "Patient represents a patient in the system",
+            "type": "object",
+            "properties": {
+                "address": {
+                    "type": "string"
+                },
+                "birth_date": {
+                    "type": "string"
+                },
+                "bloodType": {
+                    "type": "string"
+                },
+                "car_available": {
+                    "type": "boolean"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "deletedAt": {
+                    "$ref": "#/definitions/gorm.DeletedAt"
+                },
+                "firstName": {
+                    "type": "string"
+                },
+                "gender": {
+                    "type": "string"
+                },
+                "hospital_name": {
+                    "description": "Requests",
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "lastName": {
+                    "type": "string"
+                },
+                "phone_number": {
+                    "type": "string"
+                },
+                "platelet-recieved": {
+                    "description": "Requests",
+                    "type": "integer"
+                },
+                "platelet-required": {
+                    "description": "Requests",
+                    "type": "integer"
+                },
+                "red-recieved": {
+                    "description": "Requests",
+                    "type": "integer"
+                },
+                "red-required": {
+                    "description": "Requests",
+                    "type": "integer"
+                },
+                "updatedAt": {
+                    "type": "string"
+                },
+                "urgency": {
+                    "description": "Requests",
+                    "type": "integer"
+                },
+                "verify": {
+                    "type": "string"
+                }
+            }
+        },
         "models.User": {
+            "description": "User represents a user in the system",
             "type": "object",
             "properties": {
                 "createdAt": {

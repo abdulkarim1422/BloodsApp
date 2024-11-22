@@ -2,6 +2,8 @@ package models
 
 import "gorm.io/gorm"
 
+// Requests represents a request in the system
+// @Description Requests represents a request in the system
 type Requests struct {
 	gorm.Model
 	PatientID        int    `json:"patient_id"`

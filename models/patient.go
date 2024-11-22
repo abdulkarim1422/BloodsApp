@@ -6,6 +6,8 @@ import (
 	"gorm.io/gorm"
 )
 
+// Patient represents a patient in the system
+// @Description Patient represents a patient in the system
 type Patient struct {
 	gorm.Model
 	FirstName        string    `json:"firstName" form:"FirstName"`

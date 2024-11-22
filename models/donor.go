@@ -6,6 +6,8 @@ import (
 	"gorm.io/gorm"
 )
 
+// Donor represents a donor in the system
+// @Description Donor represents a donor in the system
 type Donor struct {
 	gorm.Model
 	FirstName     string    `json:"first_name" form:"FirstName"`
