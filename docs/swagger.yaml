@@ -1,0 +1,198 @@
+definitions:
+  gorm.DeletedAt:
+    properties:
+      time:
+        type: string
+      valid:
+        description: Valid is true if Time is not NULL
+        type: boolean
+    type: object
+  handlers.AdminTokenRequest:
+    properties:
+      admin_token:
+        type: string
+    type: object
+  handlers.ForgotPasswordRequest:
+    properties:
+      email:
+        type: string
+    type: object
+  handlers.LoginRequest:
+    properties:
+      identifier:
+        type: string
+      password:
+        type: string
+    type: object
+  handlers.SignupRequest:
+    properties:
+      admin_token:
+        type: string
+      email:
+        type: string
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+  models.User:
+    properties:
+      createdAt:
+        type: string
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      email:
+        type: string
+      id:
+        type: integer
+      password:
+        type: string
+      updatedAt:
+        type: string
+      username:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /check-login:
+    post:
+      consumes:
+      - application/json
+      description: Check login
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Login successful
+          schema:
+            type: string
+      summary: Check login
+      tags:
+      - auth
+  /donate-platelet:
+    post:
+      consumes:
+      - application/json
+      description: Donate platelet to a patient
+      operationId: donate-platelet
+      produces:
+      - application/json
+      responses: {}
+      summary: Donate platelet to a patient
+  /donate-red:
+    post:
+      consumes:
+      - application/json
+      description: Donate blood to a patient
+      operationId: donate-blood
+      produces:
+      - application/json
+      responses: {}
+      summary: Donate blood to a patient
+  /forgot-password:
+    post:
+      consumes:
+      - application/json
+      description: Send reset password link
+      parameters:
+      - description: Request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.ForgotPasswordRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Password reset email sent successfully
+          schema:
+            type: string
+      summary: Forgot Password
+      tags:
+      - auth
+  /login:
+    post:
+      consumes:
+      - application/json
+      description: Login
+      parameters:
+      - description: Request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Login successful
+          schema:
+            type: string
+      summary: Login
+      tags:
+      - auth
+  /logout:
+    post:
+      consumes:
+      - application/json
+      description: Logout
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Logout successful
+          schema:
+            type: string
+      summary: Logout
+      tags:
+      - auth
+  /signup:
+    post:
+      consumes:
+      - application/json
+      description: Signup
+      parameters:
+      - description: Request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.SignupRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: User created successfully
+          schema:
+            type: string
+      summary: Signup
+      tags:
+      - auth
+  /users:
+    get:
+      consumes:
+      - application/json
+      description: Get users
+      parameters:
+      - description: Request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.AdminTokenRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.User'
+            type: array
+      summary: Get users
+      tags:
+      - auth
+swagger: "2.0"
