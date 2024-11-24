@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <title>مريض خاص</title>
+</head>
+<body>
+    <!-- Include the header -->
+    {{ template "dash_header.html" . }}
+    <main>
+        <section>
+            <h2>تسجيل مريض خاص</h2>
+            <form action="/special-patient" method="POST">
+                <label for="patient_id">اختر المريض:</label>
+                <select id="patient_id" name="patient_id" required>
+                    {{ range .patients }}
+                    <option value="{{ .ID }}">{{ .BloodType }} \ {{ .FirstName }} {{ .LastName }} (ID: {{ .ID }})</option>
+                    {{ end }}
+                </select>
+                
+                <label for="request_interval">الفاصل الزمني بين الطلبات:</label>
+                <input type="number" id="request_interval" name="request_interval" required>
+
+                <label for="request_frequency">تكرار الطلب:</label>
+                <select id="request_frequency" name="request_frequency" required>
+                    <option value="1">مرة واحدة</option>
+                    <option value="2">مرتين</option>
+                    <option value="3">ثلاث مرات</option>
+                    <option value="4">أربع مرات</option>
+                    <option value="5">خمس مرات</option>
+                </select>
+
+                <label for="disease_name">اسم المرض:</label>
+                <input type="text" id="disease_name" name="disease_name" required>
+
+                <label for="next_request_date">تاريخ الطلب التالي:</label>
+                <input type="date" id="next_request_date" name="next_request_date" required>
+                
+                <button type="submit">تسجيل</button>
+            </form>
+        </section>
+    </main>    
+</body>
+</html>

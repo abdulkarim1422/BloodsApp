@@ -21,6 +21,18 @@ func ShowPatientForm(c *gin.Context) {
 	})
 }
 
+func ShowSpecialPatientForm(c *gin.Context) {
+	patients, err := repositories.GetAllPatients()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	c.HTML(http.StatusOK, "special_patient_form.html", gin.H{
+		"title":    "Special Patient Registration",
+		"patients": patients,
+	})
+}
+
 func ShowDonorForm(c *gin.Context) {
 	c.HTML(http.StatusOK, "donor_form.html", gin.H{
 		"title": "Donor Registration",
