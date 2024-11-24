@@ -33,11 +33,11 @@ import (
 // @Description SchedualedRequest represents a schedualed request in the system
 type SchedualedRequest struct {
 	gorm.Model
-	PatientID        int       `json:"patient_id"`
+	PatientID        int       `json:"patient_id" form:"patient_id"`
 	RequestInterval  int       `json:"request_interval" form:"RequestInterval"`
 	RequestFrequency int       `json:"request_frequency" form:"RequestFrequency"`
-	NextRequestDate  time.Time `json:"next_request_date" form:"NextRequestDate"`
 	DiseaseName      string    `json:"disease_name" form:"DiseaseName"`
+	NextRequestDate  time.Time `json:"next_request_date" form:"NextRequestDate"`
 	RequestsDone     int       `json:"requests_done" form:"RequestsDone"`
 	// Status           int       `json:"status"`
 }
