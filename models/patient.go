@@ -13,6 +13,7 @@ type Patient struct {
 	FirstName        string    `json:"firstName" form:"FirstName"`
 	LastName         string    `json:"lastName,omitempty" form:"LastName"`
 	PhoneNumber      string    `json:"phone_number" form:"PhoneNumber"`
+	Email            string    `json:"email" form:"Email"`
 	BloodType        string    `json:"bloodType" form:"BloodType"`
 	BirthDate        time.Time `json:"birth_date,omitempty" form:"BirthDate" time_format:"2006-01-02"`
 	Gender           string    `json:"gender" form:"Gender"`

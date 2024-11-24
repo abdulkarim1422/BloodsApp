@@ -19,6 +19,7 @@ func main() {
 	initializers.DB.AutoMigrate(&models.Disease{})
 	initializers.DB.AutoMigrate(&models.Feedback{})
 
+	initializers.DB.AutoMigrate(&models.Address{})
 	initializers.DB.AutoMigrate(&models.Country{})
 	initializers.DB.AutoMigrate(&models.City{})
 	initializers.DB.AutoMigrate(&models.District{})

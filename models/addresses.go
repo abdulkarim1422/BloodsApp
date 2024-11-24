@@ -2,6 +2,15 @@ package models
 
 import "gorm.io/gorm"
 
+// Address represents an address in the system
+// @Description Address represents an address in the system
+type Address struct {
+	gorm.Model
+	CountryID  int `json:"country_id" form:"CountryID"`
+	CityID     int `json:"city_id" form:"CityID"`
+	DistrictID int `json:"district_id" form:"DistrictID"`
+}
+
 // Countries represents a country in the system
 // @Description Countries represents a country in the system
 type Country struct {

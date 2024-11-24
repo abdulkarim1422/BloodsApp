@@ -54,7 +54,7 @@ func UpdateDonor(donor *models.Donor) error {
 		BloodType:     donor.BloodType,
 		BirthDate:     donor.BirthDate,
 		Gender:        donor.Gender,
-		Address:       donor.Address,
+		Addresses:     donor.Addresses,
 		City:          donor.City,
 		CarAvailable:  donor.CarAvailable,
 		Paid:          donor.Paid,
