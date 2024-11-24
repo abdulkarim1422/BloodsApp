@@ -29,8 +29,8 @@
                     {{ range .requests }}
                     <tr>
                         <td>{{ .PatientID }}</td>
-                        <td>{{ .PatientName }}</td>
-                        <td>{{ .BloodType }}</td>
+                        <td>{{ .Patient.FirstName }} {{ .Patient.LastName }}</td>
+                        <td>{{ .Patient.BloodType }}</td>
                         <td>{{ .RequestInterval }}</td>
                         <td>{{ .RequestFrequency }}</td>
                         <td>{{ .DiseaseName }}</td>

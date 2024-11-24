@@ -34,12 +34,12 @@ import (
 type SchedualedRequest struct {
 	gorm.Model
 	PatientID        int       `json:"patient_id" form:"patient_id"`
-	RequestInterval  int       `json:"request_interval" form:"RequestInterval"`
-	RequestFrequency int       `json:"request_frequency" form:"RequestFrequency"`
-	DiseaseName      string    `json:"disease_name" form:"DiseaseName"`
-	NextRequestDate  time.Time `json:"next_request_date" form:"NextRequestDate"`
-	RequestsDone     int       `json:"requests_done" form:"RequestsDone"`
-	// Status           int       `json:"status"`
+	RequestInterval  int       `json:"request_interval" form:"request_interval"`
+	RequestFrequency int       `json:"request_frequency" form:"request_frequency"`
+	DiseaseName      string    `json:"disease_name" form:"disease_name"`
+	NextRequestDate  time.Time `json:"next_request_date" form:"next_request_date"`
+	RequestsDone     int       `json:"requests_done" form:"requests_done"`
+	Patient          Patient   `gorm:"foreignKey:PatientID"`
 }
 
 // Disease represents a disease in the system

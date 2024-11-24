@@ -76,20 +76,3 @@ func DeletePatient(id int) error {
 	}
 	return nil
 }
-
-func CreateSchedualedRequest(request *models.SchedualedRequest) error {
-	result := initializers.DB.Create(request)
-	if result.Error != nil {
-		return result.Error
-	}
-	return nil
-}
-
-func GetAllSchedualedRequests() ([]models.SchedualedRequest, error) {
-	var requests []models.SchedualedRequest
-	result := initializers.DB.Find(&requests)
-	if result.Error != nil {
-		return nil, result.Error
-	}
-	return requests, nil
-}

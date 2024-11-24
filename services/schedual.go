@@ -2,6 +2,7 @@ package services
 
 import (
 	"net/http"
+	"strconv"
 
 	"github.com/abdulkarim1422/BloodsApp/models"
 	"github.com/abdulkarim1422/BloodsApp/repositories"
@@ -37,4 +38,19 @@ func RegisterSchedualedRequest(c *gin.Context) {
 
 	// Return success
 	c.JSON(http.StatusOK, gin.H{"message": "Schedualed request created successfully"})
+}
+
+func DeleteScheduledRequest(c *gin.Context) {
+	id := c.Param("id")
+	intID, err := strconv.Atoi(id)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid ID format"})
+		return
+	}
+	err = repositories.DeleteScheduledRequest(intID)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"message": "Scheduled request deleted successfully"})
 }
