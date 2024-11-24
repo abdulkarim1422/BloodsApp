@@ -65,7 +65,7 @@ if __name__ == "__main__":
     data_file_json = sys.argv[1]
     message_file_text = sys.argv[2]
     try:
-        x_cord: = int(sys.argv[3])
+        x_cord = int(sys.argv[3])
     except:
         pass
     try:
