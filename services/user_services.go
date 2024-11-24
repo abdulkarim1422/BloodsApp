@@ -201,3 +201,39 @@ func PatientByID(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, p)
 }
+
+func UpdatePatient(c *gin.Context) {
+	id := c.Param("id")
+	intID, err := strconv.Atoi(id)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid ID format"})
+		return
+	}
+	var updatedPatient models.Patient
+	if err := c.ShouldBind(&updatedPatient); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	updatedPatient.ID = uint(intID)
+	err = repositories.UpdatePatient(&updatedPatient)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"message": "Patient updated successfully"})
+}
+
+func DeletePatient(c *gin.Context) {
+	id := c.Param("id")
+	intID, err := strconv.Atoi(id)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid ID format"})
+		return
+	}
+	err = repositories.DeletePatient(intID)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"message": "Patient deleted successfully"})
+}
