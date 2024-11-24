@@ -6,7 +6,6 @@ import (
 	"os"
 	"strings"
 
-	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 )
 
@@ -16,7 +15,7 @@ type EmailRequest struct {
 	Body    string `json:"body" binding:"required"`
 }
 
-func SendMail(c *gin.Context, emailReq EmailRequest) error {
+func SendMail(emailReq EmailRequest) error {
 	err := godotenv.Load()
 	if err != nil {
 		log.Fatalf("Error loading .env file")
