@@ -4,7 +4,7 @@ import "gorm.io/gorm"
 
 // Countries represents a country in the system
 // @Description Countries represents a country in the system
-type Countries struct {
+type Country struct {
 	gorm.Model
 	CodeNumber  string `json:"code_number" form:"CodeNumber"`
 	CountryName string `json:"country_name" form:"CountryName"`
@@ -12,7 +12,7 @@ type Countries struct {
 
 // Cities represents a city in the system
 // @Description Cities represents a city in the system
-type Cities struct {
+type City struct {
 	gorm.Model
 	CodeNumber string `json:"code_number" form:"CodeNumber"`
 	CityName   string `json:"city_name" form:"CityName"`
@@ -29,7 +29,7 @@ type District struct {
 
 // Hospitals represents a hospital in the system
 // @Description Hospitals represents a hospital in the system
-type Hospitals struct {
+type Hospital struct {
 	gorm.Model
 	HospitalName string `json:"hospital_name" form:"HospitalName"`
 	DistrictID   int    `json:"district_id" form:"DistrictID"`
