@@ -1,18 +1,18 @@
 package handlers
 
 import (
-	"github.com/abdulkarim1422/BloodsApp/models"
 	"github.com/abdulkarim1422/BloodsApp/services"
+	"github.com/gin-gonic/gin"
 )
 
-func CreateSchedualedRequest(request *models.SchedualedRequest) {
-	services.CreateSchedualedRequest(request)
+func CreateSchedualedRequest(c *gin.Context) {
+	services.CreateSchedualedRequest(c)
 }
 
-func GetAllSchedualedRequests() {
-	services.GetAllSchedualedRequests()
+func GetAllSchedualedRequests(c *gin.Context) {
+	services.GetAllSchedualedRequests(c)
 }
 
-func DeleteScheduledRequest(id int) {
-	services.DeleteScheduledRequest(id)
+func DeleteScheduledRequest(c *gin.Context) {
+	services.DeleteScheduledRequest(c)
 }
