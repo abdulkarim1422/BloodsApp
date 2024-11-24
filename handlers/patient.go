@@ -30,3 +30,30 @@ func PatientByID(c *gin.Context) {
 func CreatePatient(c *gin.Context) {
 	services.CreatePatient(c)
 }
+
+// UpdatePatient godoc
+// @Summary Update a patient
+// @Description Update a patient
+// @Tags patients
+// @ID update-patient
+// @Accept json
+// @Produce json
+// @Param id path string true "Patient ID"
+// @Param patient body models.Patient true "Patient object"
+// @Router /patients/{id} [put]
+func UpdatePatient(c *gin.Context) {
+	services.UpdatePatient(c)
+}
+
+// DeletePatient godoc
+// @Summary Delete a patient
+// @Description Delete a patient
+// @Tags patients
+// @ID delete-patient
+// @Accept json
+// @Produce json
+// @Param id path string true "Patient ID"
+// @Router /patients/{id} [delete]
+func DeletePatient(c *gin.Context) {
+	services.DeletePatient(c)
+}
