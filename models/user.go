@@ -20,7 +20,7 @@ type User struct {
 // @Description Session represents a session in the system
 type Session struct {
 	gorm.Model
-	UserID     int       `json:"user_id"`
+	Username   string    `json:"username"`
 	IP_address string    `json:"ip_address"`
 	LoginTime  time.Time `json:"login_time"`
 	LogoutTime time.Time `json:"logout_time"`

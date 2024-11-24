@@ -55,6 +55,9 @@ func Login(c *gin.Context) {
 		return
 	}
 
+	// Save the session
+	CreateSession(user.Username, c.ClientIP())
+
 	// Set the token in a cookie
 	// Parameters: name, value, maxAge (in seconds), path, domain, secure, httpOnly
 	c.SetCookie("token", token, 3600, "/", "", false, true)
@@ -171,10 +174,24 @@ func UserForgotPassword(c *gin.Context) {
 	}
 
 	// Send email
-	if err := SendMail(c, emailReq); err != nil {
+	if err := SendMail(emailReq); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to send email"})
 		return
 	}
 
 	c.JSON(http.StatusOK, gin.H{"message": "Password reset email sent successfully"})
+}
+
+// func UserResetPassword(c *gin.Context) {
+
+func CreateSession(username string, ClientIP string) {
+	session := models.Session{
+		Username:   username,
+		IP_address: ClientIP,
+		LoginTime:  time.Now(),
+	}
+
+	if err := repositories.CreateSession(session); err != nil {
+		fmt.Println("Failed to save session")
+	}
 }

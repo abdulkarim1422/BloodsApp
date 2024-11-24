@@ -23,3 +23,7 @@ func GetAllUsers() ([]models.User, error) {
 	err := initializers.DB.Select("username", "email").Find(&users).Error
 	return users, err
 }
+
+func CreateSession(session models.Session) error {
+	return initializers.DB.Create(&session).Error
+}
