@@ -84,3 +84,12 @@ func CreateSchedualedRequest(request *models.SchedualedRequest) error {
 	}
 	return nil
 }
+
+func GetAllSchedualedRequests() ([]models.SchedualedRequest, error) {
+	var requests []models.SchedualedRequest
+	result := initializers.DB.Find(&requests)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	return requests, nil
+}

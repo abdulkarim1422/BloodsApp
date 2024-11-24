@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <title>Scheduled Requests - Blood Donation App</title>
+</head>
+<body>
+    <!-- Include the header -->
+    {{ template "dash_header.html" . }}
+    <main>
+        <section>
+            <h2>Scheduled Requests</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Patient ID</th>
+                        <th>Patient Name</th>
+                        <th>Blood Type</th>
+                        <th>Request Interval</th>
+                        <th>Request Frequency</th>
+                        <th>Disease Name</th>
+                        <th>Next Request Date</th>
+                        <th>Requests Done</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{ range .requests }}
+                    <tr>
+                        <td>{{ .PatientID }}</td>
+                        <td>{{ .PatientName }}</td>
+                        <td>{{ .BloodType }}</td>
+                        <td>{{ .RequestInterval }}</td>
+                        <td>{{ .RequestFrequency }}</td>
+                        <td>{{ .DiseaseName }}</td>
+                        <td>{{ .NextRequestDate.Format "2006-01-02" }}</td>
+                        <td>{{ .RequestsDone }}</td>
+                    </tr>
+                    {{ end }}
+                </tbody>
+            </table>
+        </section>
+    </main>
+</body>
+</html>

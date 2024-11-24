@@ -21,18 +21,6 @@ func ShowPatientForm(c *gin.Context) {
 	})
 }
 
-func ShowSpecialPatientForm(c *gin.Context) {
-	patients, err := repositories.GetAllPatients()
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-		return
-	}
-	c.HTML(http.StatusOK, "schedual_request_form.html", gin.H{
-		"title":    "Special Patient Registration",
-		"patients": patients,
-	})
-}
-
 func ShowDonorForm(c *gin.Context) {
 	c.HTML(http.StatusOK, "donor_form.html", gin.H{
 		"title": "Donor Registration",
@@ -72,5 +60,29 @@ func ShowDonationForm(c *gin.Context) {
 func ShowLoginForm(c *gin.Context) {
 	c.HTML(http.StatusOK, "login.html", gin.H{
 		"title": "Login",
+	})
+}
+
+func ShowSpecialPatientForm(c *gin.Context) {
+	patients, err := repositories.GetAllPatients()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	c.HTML(http.StatusOK, "schedual_request_form.html", gin.H{
+		"title":    "Special Patient Registration",
+		"patients": patients,
+	})
+}
+
+func ShowSchedualedRequestsPage(c *gin.Context) {
+	requests, err := repositories.GetAllSchedualedRequests()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	c.HTML(http.StatusOK, "schedualed_requests.html", gin.H{
+		"title":    "Special Requests",
+		"requests": requests,
 	})
 }
