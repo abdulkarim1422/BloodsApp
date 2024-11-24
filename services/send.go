@@ -10,6 +10,7 @@ import (
 	"path/filepath"
 	"time"
 
+	"github.com/abdulkarim1422/BloodsApp/initializers"
 	"github.com/gin-gonic/gin"
 )
 
@@ -46,7 +47,7 @@ func SendMatchResult(c *gin.Context) {
 	}
 
 	// Run the PyWhatsapp function
-	cmd := exec.Command("python3", "whatsapp.py", "body.json", "message.txt", "958", "968")
+	cmd := exec.Command(initializers.PythonCaller, "whatsapp_match.py", "body.json", "message.txt", "958", "968")
 	cmd.Dir = scriptsDir
 	output, err := cmd.CombinedOutput()
 	if err != nil {
@@ -68,7 +69,7 @@ func generateVerificationCode() string {
 }
 
 func sendVerificationCode(phone, code string) {
-	cmd := exec.Command("py", "scripts/whatsapp_verify.py", phone, code, "958", "968")
+	cmd := exec.Command(initializers.PythonCaller, "scripts/whatsapp_verify.py", phone, code)
 	output, err := cmd.CombinedOutput()
 	if err != nil {
 		fmt.Printf("Error sending verification code: %v\n", err)
@@ -76,4 +77,16 @@ func sendVerificationCode(phone, code string) {
 		return
 	}
 	fmt.Printf("Verification code sent successfully: %s\n", output)
+}
+
+func SendWhatsappMessage(phone string, message string, txt_file_name string) {
+	cmd := exec.Command(initializers.PythonCaller, "whatsapp_message.py", phone, message, txt_file_name)
+	output, err := cmd.CombinedOutput()
+	if err != nil {
+		fmt.Printf("Error sending WhatsApp message: %v\n", err)
+		fmt.Printf("Command output: %s\n", output)
+		return
+	}
+	fmt.Printf("WhatsApp message sent successfully: %s\n", output)
+
 }
