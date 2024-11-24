@@ -45,13 +45,11 @@
             const url = donationType === 'red' ? '/donate-red' : '/donate-platelet';
             
             const data = Object.fromEntries(formData);
-            data.donor_id = parseInt(data.donor_id, 10);
-            data.patient_id = parseInt(data.patient_id, 10);
+            const queryString = new URLSearchParams(data).toString();
             console.log('Form Data:', data); // Log the form data to ensure it is correct
     
-            fetch(url, {
+            fetch(`${url}?${queryString}`, {
                 method: 'POST',
-                body: JSON.stringify(data),
                 headers: {
                     'Content-Type': 'application/json'
                 }
@@ -66,5 +64,6 @@
             })
             .catch(error => console.error('Error:', error));
         });
-    </script>    </body>
+    </script>
+</body>
 </html>

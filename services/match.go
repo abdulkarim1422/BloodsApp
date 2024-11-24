@@ -1,7 +1,6 @@
 package services
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
@@ -235,18 +234,14 @@ func ProcessMatchForm(c *gin.Context) {
 		}
 	}
 
-	// Create the JSON request body
-	jsonData, err := json.Marshal(request)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create request"})
-		return
-	}
+	// Create the request URL with query parameters
+	url := fmt.Sprintf("http://localhost:8080%s?patient_id=%d", endpoint, request.PatientID)
 
 	// Log the request details
-	fmt.Printf("Sending request to endpoint: %s with data: %s\n", endpoint, string(jsonData))
+	fmt.Printf("Sending request to endpoint: %s\n", url)
 
 	// Create a new HTTP request
-	req, err := http.NewRequest("GET", "http://localhost:8080"+endpoint, bytes.NewBuffer(jsonData))
+	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create request"})
 		return
