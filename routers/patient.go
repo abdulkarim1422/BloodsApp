@@ -8,4 +8,6 @@ import (
 func RegisterProtectedPatientRoutes(router *gin.Engine) {
 	router.GET("/patients/:id", handlers.PatientByID)
 	router.POST("/patients", handlers.CreatePatient)
+	router.PUT("/patients/:id", handlers.UpdatePatient)
+	router.DELETE("/patients/:id", handlers.DeletePatient)
 }
