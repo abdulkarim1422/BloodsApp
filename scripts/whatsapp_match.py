@@ -64,6 +64,12 @@ def send_whatsapp(data_file_json, message_file_text, x_cord=958, y_cord=968):
 if __name__ == "__main__":
     data_file_json = sys.argv[1]
     message_file_text = sys.argv[2]
-    x_cord = int(sys.argv[3])
-    y_cord = int(sys.argv[4])
+    try:
+        x_cord: = int(sys.argv[3])
+    except:
+        pass
+    try:
+        y_cord = int(sys.argv[4])
+    except:
+        pass
     send_whatsapp(data_file_json, message_file_text, x_cord, y_cord)

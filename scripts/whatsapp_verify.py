@@ -46,7 +46,7 @@ def send_whatsapp (phone,code,x_cord=958,y_cord=968):
 if __name__ == "__main__":
     phone = sys.argv[1]
     code = sys.argv[2]
-    x_cord = int(sys.argv[3])
-    y_cord = int(sys.argv[4])
+    x_cord = os.getenv('x_cord')
+    y_cord = os.getenv('y_cord')
     send_whatsapp(phone, code, x_cord, y_cord)
 
