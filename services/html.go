@@ -27,7 +27,7 @@ func ShowSpecialPatientForm(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
-	c.HTML(http.StatusOK, "special_patient_form.html", gin.H{
+	c.HTML(http.StatusOK, "schedual_request_form.html", gin.H{
 		"title":    "Special Patient Registration",
 		"patients": patients,
 	})

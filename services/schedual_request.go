@@ -9,9 +9,8 @@ import (
 )
 
 func RegisterSchedualedRequest(c *gin.Context) {
-	// Bind the request
 	var newRequest models.SchedualedRequest
-	if err := c.BindJSON(&newRequest); err != nil {
+	if err := c.ShouldBind(&newRequest); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request"})
 		return
 	}

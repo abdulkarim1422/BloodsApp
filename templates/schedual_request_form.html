@@ -12,7 +12,7 @@
     <main>
         <section>
             <h2>تسجيل مريض خاص</h2>
-            <form action="/special-patient" method="POST">
+            <form action="/schedual-request" method="POST">
                 <label for="patient_id">اختر المريض:</label>
                 <select id="patient_id" name="patient_id" required>
                     {{ range .patients }}
@@ -22,7 +22,7 @@
                 
                 <label for="request_interval">الفاصل الزمني بين الطلبات:</label>
                 <input type="number" id="request_interval" name="request_interval" required>
-
+            
                 <label for="request_frequency">تكرار الطلب:</label>
                 <select id="request_frequency" name="request_frequency" required>
                     <option value="1">مرة واحدة</option>
@@ -31,10 +31,10 @@
                     <option value="4">أربع مرات</option>
                     <option value="5">خمس مرات</option>
                 </select>
-
+            
                 <label for="disease_name">اسم المرض:</label>
                 <input type="text" id="disease_name" name="disease_name" required>
-
+            
                 <label for="next_request_date">تاريخ الطلب التالي:</label>
                 <input type="date" id="next_request_date" name="next_request_date" required>
                 

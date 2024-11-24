@@ -20,5 +20,5 @@ func RegisterProtectedHTMLRoutes(router *gin.Engine) {
 	router.GET("/patients", services.ShowPatientsPage)
 	router.GET("/donors", services.ShowDonorsPage)
 
-	router.GET("/special_patient_form", services.ShowSpecialPatientForm)
+	router.GET("/schedual_request_form", services.ShowSpecialPatientForm)
 }
