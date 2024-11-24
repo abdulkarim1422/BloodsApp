@@ -1,6 +1,7 @@
 package services
 
 import (
+	"fmt"
 	"net/http"
 	"strconv"
 
@@ -12,9 +13,22 @@ import (
 func CreateSchedualedRequest(c *gin.Context) {
 	var newRequest models.SchedualedRequest
 	if err := c.ShouldBind(&newRequest); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request", "details": err.Error()})
 		return
 	}
+
+	// Log the request payload
+	fmt.Printf("Received request: %+v\n", newRequest)
+
+	// Get the patient
+	patient, err := repositories.GetPatientByID(newRequest.PatientID)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	// Bind the patient to the newRequest.Patient
+	newRequest.Patient = *patient
 
 	// Create the schedualed request
 	if err := repositories.CreateSchedualedRequest(&newRequest); err != nil {
@@ -23,12 +37,6 @@ func CreateSchedualedRequest(c *gin.Context) {
 	}
 
 	// Set the patient as a special patient
-	patient, err := repositories.GetPatientByID(newRequest.PatientID)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-		return
-	}
-
 	patient.SpecialPatient = true
 
 	if err := repositories.UpdatePatient(patient); err != nil {
