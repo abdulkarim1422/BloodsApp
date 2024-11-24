@@ -38,11 +38,31 @@ definitions:
       username:
         type: string
     type: object
+  models.Address:
+    description: Address represents an address in the system
+    properties:
+      city_id:
+        type: integer
+      country_id:
+        type: integer
+      createdAt:
+        type: string
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      district_id:
+        type: integer
+      id:
+        type: integer
+      updatedAt:
+        type: string
+    type: object
   models.Donor:
     description: Donor represents a donor in the system
     properties:
-      address:
-        type: string
+      addresses:
+        items:
+          $ref: '#/definitions/models.Address'
+        type: array
       birth_date:
         type: string
       bloodType:
@@ -55,6 +75,8 @@ definitions:
         type: string
       deletedAt:
         $ref: '#/definitions/gorm.DeletedAt'
+      email:
+        type: string
       first_name:
         type: string
       gender:
@@ -62,6 +84,8 @@ definitions:
       id:
         type: integer
       last_name:
+        type: string
+      mother_language:
         type: string
       paid:
         type: boolean
@@ -81,6 +105,9 @@ definitions:
   models.Patient:
     description: Patient represents a patient in the system
     properties:
+      accepts_red_crescent:
+        description: Requests
+        type: boolean
       address:
         type: string
       birth_date:
@@ -91,8 +118,14 @@ definitions:
         type: boolean
       createdAt:
         type: string
+      death_date:
+        type: string
+      death_status:
+        type: boolean
       deletedAt:
         $ref: '#/definitions/gorm.DeletedAt'
+      email:
+        type: string
       firstName:
         type: string
       gender:
@@ -118,6 +151,14 @@ definitions:
       red-required:
         description: Requests
         type: integer
+      red_crescent_code:
+        description: Requests
+        type: string
+      relationship:
+        description: Requests
+        type: string
+      special_patient:
+        type: boolean
       updatedAt:
         type: string
       urgency:
@@ -137,6 +178,8 @@ definitions:
         type: string
       id:
         type: integer
+      last_activity:
+        type: string
       password:
         type: string
       updatedAt:
@@ -413,6 +456,23 @@ paths:
       tags:
       - patients
   /patients/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a patient
+      operationId: delete-patient
+      parameters:
+      - description: Patient ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      summary: Delete a patient
+      tags:
+      - patients
     get:
       consumes:
       - application/json
@@ -428,6 +488,29 @@ paths:
       - application/json
       responses: {}
       summary: Get a patient by ID
+      tags:
+      - patients
+    put:
+      consumes:
+      - application/json
+      description: Update a patient
+      operationId: update-patient
+      parameters:
+      - description: Patient ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Patient object
+        in: body
+        name: patient
+        required: true
+        schema:
+          $ref: '#/definitions/models.Patient'
+      produces:
+      - application/json
+      responses: {}
+      summary: Update a patient
       tags:
       - patients
   /signup:

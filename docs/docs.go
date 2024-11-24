@@ -433,6 +433,63 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {}
+            },
+            "put": {
+                "description": "Update a patient",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "patients"
+                ],
+                "summary": "Update a patient",
+                "operationId": "update-patient",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Patient ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Patient object",
+                        "name": "patient",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Patient"
+                        }
+                    }
+                ],
+                "responses": {}
+            },
+            "delete": {
+                "description": "Delete a patient",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "patients"
+                ],
+                "summary": "Delete a patient",
+                "operationId": "delete-patient",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Patient ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {}
             }
         },
         "/signup": {
@@ -568,12 +625,42 @@ const docTemplate = `{
                 }
             }
         },
+        "models.Address": {
+            "description": "Address represents an address in the system",
+            "type": "object",
+            "properties": {
+                "city_id": {
+                    "type": "integer"
+                },
+                "country_id": {
+                    "type": "integer"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "deletedAt": {
+                    "$ref": "#/definitions/gorm.DeletedAt"
+                },
+                "district_id": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "updatedAt": {
+                    "type": "string"
+                }
+            }
+        },
         "models.Donor": {
             "description": "Donor represents a donor in the system",
             "type": "object",
             "properties": {
-                "address": {
-                    "type": "string"
+                "addresses": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.Address"
+                    }
                 },
                 "birth_date": {
                     "type": "string"
@@ -593,6 +680,9 @@ const docTemplate = `{
                 "deletedAt": {
                     "$ref": "#/definitions/gorm.DeletedAt"
                 },
+                "email": {
+                    "type": "string"
+                },
                 "first_name": {
                     "type": "string"
                 },
@@ -603,6 +693,9 @@ const docTemplate = `{
                     "type": "integer"
                 },
                 "last_name": {
+                    "type": "string"
+                },
+                "mother_language": {
                     "type": "string"
                 },
                 "paid": {
@@ -632,6 +725,10 @@ const docTemplate = `{
             "description": "Patient represents a patient in the system",
             "type": "object",
             "properties": {
+                "accepts_red_crescent": {
+                    "description": "Requests",
+                    "type": "boolean"
+                },
                 "address": {
                     "type": "string"
                 },
@@ -647,8 +744,17 @@ const docTemplate = `{
                 "createdAt": {
                     "type": "string"
                 },
+                "death_date": {
+                    "type": "string"
+                },
+                "death_status": {
+                    "type": "boolean"
+                },
                 "deletedAt": {
                     "$ref": "#/definitions/gorm.DeletedAt"
+                },
+                "email": {
+                    "type": "string"
                 },
                 "firstName": {
                     "type": "string"
@@ -685,6 +791,17 @@ const docTemplate = `{
                     "description": "Requests",
                     "type": "integer"
                 },
+                "red_crescent_code": {
+                    "description": "Requests",
+                    "type": "string"
+                },
+                "relationship": {
+                    "description": "Requests",
+                    "type": "string"
+                },
+                "special_patient": {
+                    "type": "boolean"
+                },
                 "updatedAt": {
                     "type": "string"
                 },
@@ -712,6 +829,9 @@ const docTemplate = `{
                 },
                 "id": {
                     "type": "integer"
+                },
+                "last_activity": {
+                    "type": "string"
                 },
                 "password": {
                     "type": "string"
