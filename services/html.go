@@ -56,3 +56,9 @@ func ShowDonationForm(c *gin.Context) {
 		"patients": patients,
 	})
 }
+
+func ShowLoginForm(c *gin.Context) {
+	c.HTML(http.StatusOK, "login.html", gin.H{
+		"title": "Login",
+	})
+}
