@@ -34,11 +34,12 @@ func AllRouters() {
 	{
 		protected.POST("/check-login", services.CheckLogin)
 
-		RegisterProtectedHTMLRoutes(router)
-		RegisterProtectedPatientRoutes(router)
-		RegisterProtectedDonorRoutes(router)
 		RegisterProtectedDonationRoutes(router)
+		RegisterProtectedDonorRoutes(router)
+		RegisterProtectedHTMLRoutes(router)
 		RegisterProtectedMatchRoutes(router)
+		RegisterProtectedPatientRoutes(router)
+		RegisterProtectedSchedual(router)
 	}
 
 	/* Auth API */
