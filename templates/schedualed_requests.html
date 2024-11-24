@@ -15,6 +15,7 @@
             <table>
                 <thead>
                     <tr>
+                        <th>Request ID</th>
                         <th>Patient ID</th>
                         <th>Patient Name</th>
                         <th>Blood Type</th>
@@ -28,6 +29,7 @@
                 <tbody>
                     {{ range .requests }}
                     <tr>
+                        <td>{{ .ID }}</td>
                         <td>{{ .PatientID }}</td>
                         <td>{{ .Patient.FirstName }} {{ .Patient.LastName }}</td>
                         <td>{{ .Patient.BloodType }}</td>
