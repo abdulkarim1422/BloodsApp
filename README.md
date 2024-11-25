@@ -1,5 +1,6 @@
 # Blood Donation App
 **`اللغة العربية في الأسفل`**
+
 ## Overview
 The Blood Donation App is a web application designed to facilitate the process of blood donation. It allows users to register as donors, find patients in need of blood, and manage donations efficiently.
 
@@ -8,11 +9,13 @@ The Blood Donation App is a web application designed to facilitate the process o
 - **Patient Registration**: Users can register patients who need blood donations, specifying the required blood type and urgency.
 - **Donation Management**: Admins can manage donations, matching donors with patients based on blood type compatibility.
 - **WhatsApp Verification**: Verification codes are sent to users via WhatsApp to ensure authenticity.
+- **Feedback System**: Send feedback to donors and patients via email and WhatsApp.
 
 ## Technologies Used
 - **Frontend**: HTML, CSS, JavaScript
 - **Backend**: Go (Golang), Gin framework
-- **Database**: SQLite (or any other preferred database)
+- **Database**: PostgreSQL
+- **ORM**: GORM
 - **Other**: Python for WhatsApp integration
 
 ## Installation
@@ -28,7 +31,15 @@ The Blood Donation App is a web application designed to facilitate the process o
     ```sh
     go mod tidy
     ```
-4. Run the application:
+4. Configure the database connection in the `.env` file:
+    ```env
+    DB_USER=username
+    DB_PASSWORD=password
+    DB_HOST=localhost
+    DB_PORT=5432
+    DB_NAME=db_name
+    ```
+5. Run the application:
     ```sh
     go run main.go
     ```
@@ -44,22 +55,23 @@ Contributions are welcome! Please fork the repository and create a pull request 
 ## License
 This project is licensed under the MIT License.
 
-
 # تطبيق التبرع بالدم
 
 ## نظرة عامة
-تطبيق التبرع بالدم هو تطبيق ويب مصمم لتسهيل عملية التبرع بالدم. يتيح للمستخدمين التسجيل كمتبرعين، والعثور على المرضى المحتاجين للدم، وإدارة التبرعات بكفاءة.
+تطبيق التبرع بالدم هو تطبيق ويب مصمم لتسهيل عملية التبرع بالدم. يسمح للمستخدمين بالتسجيل كمتبرعين، والعثور على المرضى الذين يحتاجون إلى الدم، وإدارة التبرعات بكفاءة.
 
 ## الميزات
-- **تسجيل المتبرعين**: يمكن للمستخدمين التسجيل كمتبرعين بالدم عن طريق تقديم تفاصيلهم الشخصية وفصيلة الدم.
-- **تسجيل المرضى**: يمكن للمستخدمين تسجيل المرضى الذين يحتاجون إلى تبرعات بالدم، مع تحديد فصيلة الدم المطلوبة ودرجة الاستعجال.
+- **تسجيل المتبرعين**: يمكن للمستخدمين التسجيل كمتبرعين بالدم من خلال تقديم تفاصيلهم الشخصية وفصيلة الدم.
+- **تسجيل المرضى**: يمكن للمستخدمين تسجيل المرضى الذين يحتاجون إلى تبرعات بالدم، مع تحديد فصيلة الدم المطلوبة ومدى الحاجة.
 - **إدارة التبرعات**: يمكن للمسؤولين إدارة التبرعات، ومطابقة المتبرعين مع المرضى بناءً على توافق فصيلة الدم.
 - **التحقق عبر الواتساب**: يتم إرسال رموز التحقق إلى المستخدمين عبر الواتساب لضمان الأصالة.
+- **نظام التغذية الراجعة**: إرسال التغذية الراجعة إلى المتبرعين والمرضى عبر البريد الإلكتروني والواتساب.
 
 ## التقنيات المستخدمة
 - **الواجهة الأمامية**: HTML, CSS, JavaScript
 - **الواجهة الخلفية**: Go (Golang), إطار عمل Gin
-- **قاعدة البيانات**: SQLite (أو أي قاعدة بيانات مفضلة أخرى)
+- **قاعدة البيانات**: PostgreSQL
+- **ORM**: GORM
 - **أخرى**: Python للتكامل مع الواتساب
 
 ## التثبيت
@@ -75,7 +87,15 @@ This project is licensed under the MIT License.
     ```sh
     go mod tidy
     ```
-4. تشغيل التطبيق:
+4. تكوين اتصال قاعدة البيانات في ملف `.env`:
+    ```env
+    DB_USER=username
+    DB_PASSWORD=password
+    DB_HOST=localhost
+    DB_PORT=5432
+    DB_NAME=db_name
+    ```
+5. تشغيل التطبيق:
     ```sh
     go run main.go
     ```
@@ -83,7 +103,7 @@ This project is licensed under the MIT License.
 ## الاستخدام
 1. افتح متصفح الويب الخاص بك وانتقل إلى `http://localhost:8080`.
 2. استخدم قائمة التنقل للوصول إلى الميزات المختلفة للتطبيق.
-3. سجل كمتبرع أو مريض، وقم بإدارة التبرعات من خلال لوحة تحكم المسؤول.
+3. سجل كمتبرع أو مريض، وقم بإدارة التبرعات من خلال لوحة التحكم الخاصة بالمسؤول.
 
 ## المساهمة
 المساهمات مرحب بها! يرجى استنساخ المستودع وإنشاء طلب سحب مع التغييرات الخاصة بك.
