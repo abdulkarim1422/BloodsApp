@@ -107,8 +107,6 @@
             </div>
         </section>
     </main>
-    <!-- Include the footer -->
-    {{ template "footer.html" . }}
     <script>
         document.getElementById('phone').addEventListener('input', function (e) {
             if (!this.value.startsWith('+')) {
@@ -119,7 +117,7 @@
         document.getElementById('patientForm').addEventListener('submit', function(e) {
             e.preventDefault();
             const formData = new FormData(this);
-            fetch('/patients', {
+            fetch('/patient', {
                 method: 'POST',
                 body: formData
             })
@@ -152,7 +150,7 @@
                     alert(data.error);
                 } else {
                     alert('تم التحقق بنجاح');
-                    window.location.href = '/patients';
+                    window.location.href = '/';
                 }
             })
             .catch(error => console.error('Error:', error));

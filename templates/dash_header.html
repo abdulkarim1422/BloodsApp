@@ -13,22 +13,19 @@
             <div class="menu-icon" onclick="toggleMenu()">&#9776;</div>
             <ul class="nav-links">
                 <li><a href="/">الصفحة الرئيسيّة</a></li>
+                <li><a href="/logout">تسجيل الخروج</a></li>
+                <li>|</li>
                 <li><a href="/donors">قائمة المتبرّعين</a></li>
                 <li><a href="/patients">قائمة المرضى</a></li>
+                <li>|</li>
                 <li><a href="/match">بحث عن تطابق</a></li>
                 <li><a href="/donation_form">فورم التبرّع</a></li>
+                <li>|</li>
                 <li><a href="/schedual_request_form">فورم المريض الخاص</a></li>
                 <li><a href="/schedualed_requests">قائمة طلبات المرضى</a></li>
-                <li><a href="/logout">تسجيل الخروج</a></li>
             </ul>
         </nav>
     </header>
-    <script>
-        function toggleMenu() {
-            const navLinks = document.querySelector('.nav-links');
-            navLinks.classList.toggle('active');
-        }
-    </script>
     <!-- Include jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- Include DataTables JS -->
