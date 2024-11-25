@@ -6,13 +6,9 @@ import "gorm.io/gorm"
 // @Description Address represents an address in the system
 type Address struct {
 	gorm.Model
-	// CountryID    int    `json:"country_id" form:"CountryID"`
-	CountryName string `json:"country_name" form:"CountryName"`
-	// CityID       int    `json:"city_id" form:"CityID"`
-	CityName string `json:"city_name" form:"CityName"`
-	// DistrictID   int    `json:"district_id" form:"DistrictID"`
+	CountryName  string `json:"country_name" form:"CountryName"`
+	CityName     string `json:"city_name" form:"CityName"`
 	DistrictName string `json:"district_name" form:"DistrictName"`
-	// HospitalID   int    `json:"hospital_id" form:"HospitalID"`
 	HospitalName string `json:"hospital_name" form:"HospitalName"`
 }
 
