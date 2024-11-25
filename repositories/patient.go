@@ -54,14 +54,13 @@ func UpdatePatient(patient *models.Patient) error {
 		BloodType:        patient.BloodType,
 		BirthDate:        patient.BirthDate,
 		Gender:           patient.Gender,
-		Address:          patient.Address,
+		Addresses:        patient.Addresses,
 		CarAvailable:     patient.CarAvailable,
 		Urgency:          patient.Urgency,
 		RedRequired:      patient.RedRequired,
 		RedReceived:      patient.RedReceived,
 		PlateletRequired: patient.PlateletRequired,
 		PlateletReceived: patient.PlateletReceived,
-		HospitalName:     patient.HospitalName,
 	})
 	if result.Error != nil {
 		return result.Error

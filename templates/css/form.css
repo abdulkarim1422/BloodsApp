@@ -1,0 +1,41 @@
+/* Custom styles for the phone input field */
+.phone-input {
+    display: flex;
+    align-items: center; /* Vertically center all items */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 5px;
+    width: 300px;
+    background: #fff;
+    direction: ltr; /* Force left-to-right layout for phone input */
+    box-sizing: border-box; /* Include padding in width/height */
+}
+
+.phone-input img {
+    width: 24px;
+    height: 16px;
+    margin-right: 8px;
+}
+
+.phone-input span {
+    margin-right: 8px;
+    font-weight: bold;
+}
+
+.phone-input input {
+    border: none;
+    outline: none;
+    flex: 1;
+    font-size: 16px;
+    text-align: start;
+    padding: 0; /* Remove extra padding */
+    height: 35px; /* Set a fixed height */
+    line-height: 35px; /* Match line-height to height for vertical centering */
+    box-sizing: border-box;
+    display: block; /* Ensure proper vertical alignment */
+}
+
+.phone-input input::placeholder {
+    color: #aaa;
+    line-height: 35px; /* Match placeholder line height */
+}

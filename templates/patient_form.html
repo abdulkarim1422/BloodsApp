@@ -3,6 +3,7 @@
 <head>
     <title>تسجيل المريض - تطبيق التبرع بالدم</title>
     <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/form.css">
     <style>
         option:disabled {
             color: gray;
@@ -16,11 +17,8 @@
         <section>
             <h2>تسجيل المريض</h2>
             <form id="patientForm">
-                <label for="first_name">الاسم الأول:</label>
-                <input type="text" id="first_name" name="FirstName" required>
-                
-                <label for="last_name">اسم العائلة:</label>
-                <input type="text" id="last_name" name="LastName" required>
+                <label for="latin_name">الاسم باللغة التركيّة:</label>
+                <input type="text" id="latin_name" name="LatinName" required>
                 
                 <label for="blood_type">فصيلة الدم:</label>
                 <select id="blood_type" name="BloodType" required>
@@ -35,23 +33,37 @@
                     <option value="O-">O-</option>
                 </select>
                 
-                <label for="birth_date">تاريخ الميلاد:</label>
-                <input type="date" id="birth_date" name="BirthDate" required>
-                
-                <label for="gender">الجنس:</label>
+                <!-- <label for="birth_date">تاريخ الميلاد:</label>
+                <input type="date" id="birth_date" name="BirthDate" required> -->
+
+                <!-- <label for="gender">الجنس:</label>
                 <select id="gender" name="Gender" required>
                     <option value="" selected disabled>اختر الجنس</option>
                     <option value="male">ذكر</option>
                     <option value="female">أنثى</option>
+                </select> -->
+                
+                <label for="phone">رقم الهاتف للتواصل (واتسآب):</label>
+                <div class="phone-input">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/b/b4/Flag_of_Turkey.svg" alt="Turkey Flag">
+                    <span>+90</span>
+                    <input type="text" placeholder="(539) 123 12 34" id="phone" name="PhoneNumber" maxlength="15" required>
+                </div>
+
+
+                <lablel for="relationship">علاقة صاحب رقم الهاتف بالمريض:</lablel>
+                <select id="relationship" name="Relationship" required>
+                    <option value="" selected disabled>اختر العلاقة</option>
+                    <option value="self">المريض نفسه</option>
+                    <option value="family">أحد أفراد العائلة</option>
+                    <option value="friend">صديق</option>
+                    <option value="other">آخر</option>
                 </select>
+            
+                <label for="hospitalName">اسم المستشفى:</label>
+                <input type="text" id="hospitalName" name="HospitalName" required>
                 
-                <label for="phone">رقم الهاتف:</label>
-                <input type="text" id="phone" name="PhoneNumber" required>
-                
-                <label for="address">العنوان:</label>
-                <input type="text" id="address" name="Address" required>
-                
-                <label for="urgency">درجة الاستعجال:</label>
+                <!-- <label for="urgency">درجة الاستعجال:</label>
                 <select id="urgency" name="Urgency" required>
                     <option value="" selected disabled>اختر درجة الاستعجال</option>
                     <option value="5">أحتاجهم خلال هذا الشهر</option>
@@ -59,7 +71,7 @@
                     <option value="3">أحتاجهم غداً في أي وقت</option>
                     <option value="2">أحتاجهم غداً باكراً</option>
                     <option value="1">أحتاجهم اليوم</option>
-                </select>
+                </select> -->
                 
                 <label for="red_quantity">عدد أكياس الدم الحمراء اللازمة:</label>
                 <select id="red_quantity" name="RedRequired" required>
@@ -96,6 +108,19 @@
                     <option value="true">نعم</option>
                 </select>
                 
+                <label for="acceptsRedCrescent">هل يقبل المشفى التبرّع من الهلال الأحمر؟:</label>
+                <select id="acceptsRedCrescent" name="AcceptsRedCrescent" onchange="toggleRedCrescentCode()" required>
+                    <option value="" selected disabled>اختر</option>
+                    <option value="no">لا</option>
+                    <option value="yes">نعم</option>
+                </select>
+
+                <div id="redCrescentCodeDiv" style="display:none;">
+                    <label for="redCrescentCode">كود الهلال الأحمر (إن توفّر):</label>
+                    <input type="text" id="redCrescentCode" name="RedCrescentCode">
+                </div>
+
+                
                 <button type="submit">إرسال</button>
             </form>
 
@@ -108,11 +133,11 @@
         </section>
     </main>
     <script>
-        document.getElementById('phone').addEventListener('input', function (e) {
-            if (!this.value.startsWith('+')) {
-                this.value = '+' + this.value;
-            }
-        });
+        // document.getElementById('phone').addEventListener('input', function (e) {
+        //     if (!this.value.startsWith('+')) {
+        //         this.value = '+' + this.value;
+        //     }
+        // });
 
         document.getElementById('patientForm').addEventListener('submit', function(e) {
             e.preventDefault();
@@ -155,6 +180,18 @@
             })
             .catch(error => console.error('Error:', error));
         });
+        
+        function toggleRedCrescentCode() {
+            var selectBox = document.getElementById("acceptsRedCrescent");
+            var codeDiv = document.getElementById("redCrescentCodeDiv");
+            if (selectBox.value === "yes") {
+                codeDiv.style.display = "block";
+            } else {
+                codeDiv.style.display = "none";
+            }
+        }
     </script>
+    <script src="js/main.js"></script>
+    <script src="js/form.js"></script>
 </body>
 </html>

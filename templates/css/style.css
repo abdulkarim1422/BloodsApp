@@ -311,7 +311,7 @@ nav ul li a:hover {
     padding: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
-}
+}}
 
 
 /* Base styles */
@@ -585,3 +585,5 @@ table.dataTable tbody tr:hover {
 .dataTables_paginate .paginate_button:hover {
     background-color: #D32F2F;
 }
+
+
