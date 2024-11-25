@@ -13,7 +13,7 @@ import (
 // @Accept json
 // @Produce json
 // @Param id path string true "Patient ID"
-// @Router /patients/{id} [get]
+// @Router /patient/{id} [get]
 func PatientByID(c *gin.Context) {
 	services.PatientByID(c)
 }
@@ -26,7 +26,7 @@ func PatientByID(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Param patient body models.Patient true "Patient object"
-// @Router /patients [post]
+// @Router /patient [post]
 func CreatePatient(c *gin.Context) {
 	services.CreatePatient(c)
 }
@@ -40,7 +40,7 @@ func CreatePatient(c *gin.Context) {
 // @Produce json
 // @Param id path string true "Patient ID"
 // @Param patient body models.Patient true "Patient object"
-// @Router /patients/{id} [put]
+// @Router /patient/{id} [put]
 func UpdatePatient(c *gin.Context) {
 	services.UpdatePatient(c)
 }
@@ -53,7 +53,7 @@ func UpdatePatient(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Param id path string true "Patient ID"
-// @Router /patients/{id} [delete]
+// @Router /patient/{id} [delete]
 func DeletePatient(c *gin.Context) {
 	services.DeletePatient(c)
 }
