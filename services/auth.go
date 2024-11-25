@@ -111,7 +111,7 @@ func Signup(c *gin.Context) {
 	c.JSON(http.StatusCreated, gin.H{"message": "User created successfully"})
 }
 
-func GetUsers(c *gin.Context) {
+func GetAllUsers(c *gin.Context) {
 	var request struct {
 		AdminToken string `json:"admin_token"`
 	}
@@ -194,4 +194,14 @@ func CreateSession(username string, ClientIP string) {
 	if err := repositories.CreateSession(session); err != nil {
 		fmt.Println("Failed to save session")
 	}
+}
+
+func GetAllSessions(c *gin.Context) {
+	sessions, err := repositories.GetAllSessions()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to retrieve sessions"})
+		return
+	}
+
+	c.JSON(http.StatusOK, sessions)
 }

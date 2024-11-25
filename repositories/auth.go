@@ -24,6 +24,14 @@ func GetAllUsers() ([]models.User, error) {
 	return users, err
 }
 
+// CreateSession creates a new session in the database
 func CreateSession(session models.Session) error {
 	return initializers.DB.Create(&session).Error
+}
+
+// GetAllSessions retrieves all sessions with selected fields
+func GetAllSessions() ([]models.Session, error) {
+	var sessions []models.Session
+	err := initializers.DB.Find(&sessions).Error
+	return sessions, err
 }

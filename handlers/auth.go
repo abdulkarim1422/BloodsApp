@@ -76,8 +76,8 @@ func Signup(c *gin.Context) {
 // @Param request body AdminTokenRequest true "Request"
 // @Success 200 {array} models.User
 // @Router /users [get]
-func GetUsers(c *gin.Context) {
-	services.GetUsers(c)
+func GetAllUsers(c *gin.Context) {
+	services.GetAllUsers(c)
 }
 
 // CheckLogin godoc
@@ -103,4 +103,8 @@ func CheckLogin(c *gin.Context) {
 // @Router /forgot-password [post]
 func UserForgotPassword(c *gin.Context) {
 	services.UserForgotPassword(c)
+}
+
+func GetAllSessions(c *gin.Context) {
+	services.GetAllSessions(c)
 }
