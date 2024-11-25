@@ -14,11 +14,8 @@
         <section>
             <h2>تعديل معلومات المريض</h2>
             <form id="updatePatientForm" action="/patient/{{ .patient.ID }}" method="PUT">
-                <label for="first_name">الاسم الأول:</label>
-                <input type="text" id="first_name" name="FirstName" value="{{ .patient.FirstName }}" required>
-                
-                <label for="last_name">اسم العائلة:</label>
-                <input type="text" id="last_name" name="LastName" value="{{ .patient.LastName }}" required>
+                <label for="latin_name">الاسم الأول:</label>
+                <input type="text" id="latin_name" name="LatinName" value="{{ .patient.LatinName }}" required>
                 
                 <label for="blood_type">فصيلة الدم:</label>
                 <select id="blood_type" name="BloodType" required>
@@ -35,17 +32,26 @@
                 <label for="phone">رقم الهاتف:</label>
                 <input type="text" id="phone" name="PhoneNumber" value="{{ .patient.PhoneNumber }}" required>
                 
-                <label for="address">العنوان:</label>
-                <input type="text" id="address" name="Address" value="{{ .patient.Address }}" required>
-                
-                <label for="urgency">درجة الاستعجال:</label>
+                <lablel for="relationship">علاقة صاحب رقم الهاتف بالمريض:</lablel>
+                <select id="relationship" name="Relationship" required>
+                    <option value="self" {{ if eq .patient.Relationship "self" }}selected{{ end }}>المريض نفسه</option>
+                    <option value="family" {{ if eq .patient.Relationship "family" }}selected{{ end }}>أحد أفراد العائلة</option>
+                    <option value="friend" {{ if eq .patient.Relationship "friend" }}selected{{ end }}>صديق</option>
+                    <option value="other" {{ if eq .patient.Relationship "other" }}selected{{ end }}>آخر</option>
+                </select>
+
+                <label for="hospitalName">اسم المستشفى:</label>
+                <input type="text" id="hospitalName" name="HospitalName" placeholder="Hastane ismi" value="{{ .patient.Address.HospitalName }}" required>
+
+
+                <!-- <label for="urgency">درجة الاستعجال:</label>
                 <select id="urgency" name="Urgency" required>
                     <option value="5" {{ if eq .patient.Urgency "5" }}selected{{ end }}>أحتاجهم خلال هذا الشهر</option>
                     <option value="4" {{ if eq .patient.Urgency "4" }}selected{{ end }}>أحتاجهم خلال هذا الأسبوع</option>
                     <option value="3" {{ if eq .patient.Urgency "3" }}selected{{ end }}>أحتاجهم غداً في أي وقت</option>
                     <option value="2" {{ if eq .patient.Urgency "2" }}selected{{ end }}>أحتاجهم غداً باكراً</option>
                     <option value="1" {{ if eq .patient.Urgency "1" }}selected{{ end }}>أحتاجهم اليوم</option>
-                </select>
+                </select> -->
                 
                 <label for="red_quantity">عدد أكياس الدم الحمراء اللازمة:</label>
                 <select id="red_quantity" name="RedRequired" required>
@@ -79,6 +85,18 @@
                     <option value="true" {{ if eq .patient.CarAvailable "true" }}selected{{ end }}>نعم</option>
                 </select>
                 
+                <label for="acceptsRedCrescent">هل يقبل المشفى التبرّع من الهلال الأحمر؟:</label>
+                <select id="acceptsRedCrescent" name="AcceptsRedCrescent" onchange="toggleRedCrescentCode()" required>
+                    <option value="" selected disabled>اختر</option>
+                    <option value="false" {{ if eq .patient.AcceptsRedCrescent "false" }}selected{{ end }}>لا</option>
+                    <option value="true" {{ if eq .patient.AcceptsRedCrescent "true" }}selected{{ end }}>نعم</option>
+                </select>
+
+                <div id="redCrescentCodeDiv" style="display:none;">
+                    <label for="redCrescentCode">كود الهلال الأحمر (إن توفّر):</label>
+                    <input type="text" id="redCrescentCode" name="RedCrescentCode" value="{{ .patient.RedCrescentCode }}">
+                </div>
+
                 <button type="submit">تحديث</button>
             </form>
         </section>

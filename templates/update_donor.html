@@ -14,8 +14,8 @@
         <section>
             <h2>تعديل معلومات المتبرّع</h2>
             <form id="updateDonorForm" action="/donor/{{ .donor.ID }}" method="PUT">
-                <label for="name">الاسم:</label>
-                <input type="text" id="name" name="name" value="{{ .donor.FirstName }}" required>
+                <label for="latin_name">الاسم:</label>
+                <input type="text" id="latin_name" name="LatinName" value="{{ .donor.LatinName }}" required>
 
                 <label for="phone">رقم الهاتف:</label>
                 <input type="text" id="phone" name="phone" value="{{ .donor.PhoneNumber }}" required>
@@ -38,6 +38,15 @@
                 <label for="plateletTimer">تاريخ التبرّع بالصفائح الدمويّة القادم:</label>
                 <input type="date" id="plateletTimer" name="plateletTimer" value="{{ .donor.PlateletTimer }}" required>
                 
+                <label for="districtName">العنوان:</label>
+                <input type="text" id="districtName" name="DistrictName" placeholder="İlçe" value="{{ .donor.Address.DistrictName }}" required>
+
+                <!-- <label for="carAvailable">هل السيارة متاحة:</label>
+                <select id="carAvailable" name="CarAvailable">
+                  <option value="false" {{ if eq .donor.CarAvailable false }}selected{{ end }} >لا</option>
+                  <option value="true" {{ if eq .donor.CarAvailable true }}selected{{ end }} >نعم</option>
+                </select> -->
+
                 <button type="submit">حفظ</button>
         </section>
     </main>
