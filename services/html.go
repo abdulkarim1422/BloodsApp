@@ -2,6 +2,7 @@ package services
 
 import (
 	"net/http"
+	"strconv"
 
 	"github.com/abdulkarim1422/BloodsApp/repositories"
 	"github.com/gin-gonic/gin"
@@ -84,5 +85,41 @@ func ShowSchedualedRequestsPage(c *gin.Context) {
 	c.HTML(http.StatusOK, "schedualed_requests.html", gin.H{
 		"title":    "Special Requests",
 		"requests": requests,
+	})
+}
+
+func ShowUpdatePatientForm(c *gin.Context) {
+	id := c.Param("id")
+	patientID, err := strconv.Atoi(id)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid patient ID"})
+		return
+	}
+	patient, err := repositories.GetPatientByID(patientID)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	c.HTML(http.StatusOK, "update_patient.html", gin.H{
+		"title":   "Update Patient",
+		"patient": patient,
+	})
+}
+
+func ShowUpdateDonorForm(c *gin.Context) {
+	id := c.Param("id")
+	donorID, err := strconv.Atoi(id)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid donor ID"})
+		return
+	}
+	donor, err := repositories.GetDonorByID(donorID)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	c.HTML(http.StatusOK, "update_donor.html", gin.H{
+		"title": "Update Donor",
+		"donor": donor,
 	})
 }

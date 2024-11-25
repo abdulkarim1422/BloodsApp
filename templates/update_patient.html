@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تعديل معلومات المريض - تطبيق التبرع بالدم</title>
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+</head>
+<body>
+    <!-- Include the header -->
+    {{ template "dash_header.html" . }}
+    
+    <main>
+        <section>
+            <h2>تعديل معلومات المريض</h2>
+            <form id="updatePatientForm" action="/patient/{{ .patient.ID }}" method="PUT">
+                <label for="first_name">الاسم الأول:</label>
+                <input type="text" id="first_name" name="FirstName" value="{{ .patient.FirstName }}" required>
+                
+                <label for="last_name">اسم العائلة:</label>
+                <input type="text" id="last_name" name="LastName" value="{{ .patient.LastName }}" required>
+                
+                <label for="blood_type">فصيلة الدم:</label>
+                <select id="blood_type" name="BloodType" required>
+                    <option value="A+" {{ if eq .patient.BloodType "A+" }}selected{{ end }}>A+</option>
+                    <option value="A-" {{ if eq .patient.BloodType "A-" }}selected{{ end }}>A-</option>
+                    <option value="B+" {{ if eq .patient.BloodType "B+" }}selected{{ end }}>B+</option>
+                    <option value="B-" {{ if eq .patient.BloodType "B-" }}selected{{ end }}>B-</option>
+                    <option value="AB+" {{ if eq .patient.BloodType "AB+" }}selected{{ end }}>AB+</option>
+                    <option value="AB-" {{ if eq .patient.BloodType "AB-" }}selected{{ end }}>AB-</option>
+                    <option value="O+" {{ if eq .patient.BloodType "O+" }}selected{{ end }}>O+</option>
+                    <option value="O-" {{ if eq .patient.BloodType "O-" }}selected{{ end }}>O-</option>
+                </select>
+                
+                <label for="phone">رقم الهاتف:</label>
+                <input type="text" id="phone" name="PhoneNumber" value="{{ .patient.PhoneNumber }}" required>
+                
+                <label for="address">العنوان:</label>
+                <input type="text" id="address" name="Address" value="{{ .patient.Address }}" required>
+                
+                <label for="urgency">درجة الاستعجال:</label>
+                <select id="urgency" name="Urgency" required>
+                    <option value="5" {{ if eq .patient.Urgency "5" }}selected{{ end }}>أحتاجهم خلال هذا الشهر</option>
+                    <option value="4" {{ if eq .patient.Urgency "4" }}selected{{ end }}>أحتاجهم خلال هذا الأسبوع</option>
+                    <option value="3" {{ if eq .patient.Urgency "3" }}selected{{ end }}>أحتاجهم غداً في أي وقت</option>
+                    <option value="2" {{ if eq .patient.Urgency "2" }}selected{{ end }}>أحتاجهم غداً باكراً</option>
+                    <option value="1" {{ if eq .patient.Urgency "1" }}selected{{ end }}>أحتاجهم اليوم</option>
+                </select>
+                
+                <label for="red_quantity">عدد أكياس الدم الحمراء اللازمة:</label>
+                <select id="red_quantity" name="RedRequired" required>
+                    <option value="0" {{ if eq .patient.RedRequired "0" }}selected{{ end }}>0</option>
+                    <option value="1" {{ if eq .patient.RedRequired "1" }}selected{{ end }}>1</option>
+                    <option value="2" {{ if eq .patient.RedRequired "2" }}selected{{ end }}>2</option>
+                    <option value="3" {{ if eq .patient.RedRequired "3" }}selected{{ end }}>3</option>
+                    <option value="4" {{ if eq .patient.RedRequired "4" }}selected{{ end }}>4</option>
+                    <option value="5" {{ if eq .patient.RedRequired "5" }}selected{{ end }}>5</option>
+                    <option value="6" {{ if eq .patient.RedRequired "6" }}selected{{ end }}>6</option>
+                    <option value="7" {{ if eq .patient.RedRequired "7" }}selected{{ end }}>7</option>
+                    <option value="8" {{ if eq .patient.RedRequired "8" }}selected{{ end }}>8</option>
+                    <option value="9" {{ if eq .patient.RedRequired "9" }}selected{{ end }}>9</option>
+                    <option value="10" {{ if eq .patient.RedRequired "10" }}selected{{ end }}>10</option>
+                </select>
+                
+                <label for="platelet_quantity">عدد أكياس الصفائح الدموية اللازمة:</label>
+                <select id="platelet_quantity" name="PlateletRequired" required>
+                    <option value="0" {{ if eq .patient.PlateletRequired "0" }}selected{{ end }}>0</option>
+                    <option value="1" {{ if eq .patient.PlateletRequired "1" }}selected{{ end }}>1</option>
+                    <option value="2" {{ if eq .patient.PlateletRequired "2" }}selected{{ end }}>2</option>
+                    <option value="3" {{ if eq .patient.PlateletRequired "3" }}selected{{ end }}>3</option>
+                    <option value="4" {{ if eq .patient.PlateletRequired "4" }}selected{{ end }}>4</option>
+                    <option value="5" {{ if eq .patient.PlateletRequired "5" }}selected{{ end }}>5</option>
+                    <option value="6" {{ if eq .patient.PlateletRequired "6" }}selected{{ end }}>6</option>
+                </select>
+
+                <label for="carAvailable">هل السيارة متاحة:</label>
+                <select id="carAvailable" name="CarAvailable" required>
+                    <option value="false" {{ if eq .patient.CarAvailable "false" }}selected{{ end }}>لا</option>
+                    <option value="true" {{ if eq .patient.CarAvailable "true" }}selected{{ end }}>نعم</option>
+                </select>
+                
+                <button type="submit">تحديث</button>
+            </form>
+        </section>
+    </main>
+</body>
+</html>

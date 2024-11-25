@@ -14,8 +14,8 @@ import (
 // @Produce json
 // @Param id path string true "Patient ID"
 // @Router /patient/{id} [get]
-func PatientByID(c *gin.Context) {
-	services.PatientByID(c)
+func GetPatientByID(c *gin.Context) {
+	services.GetPatientByID(c)
 }
 
 // CreatePatient godoc

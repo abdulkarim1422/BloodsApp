@@ -1,9 +1,3 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Patients List - Blood Donation App</title>
-    <link rel="stylesheet" type="text/css" href="css/style.css">
-</head>
 <body>
     <!-- Include the header -->
     {{ template "dash_header.html" . }}
@@ -25,6 +19,7 @@
                         <th>عدد أكياس الصفيحات المحتاجة</th>
                         <th>عدد أكياس الصفيحات المستلمة</th>
                         <th>توفّر سيارة</th>
+                        <th>تعديل</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -42,6 +37,7 @@
                         <td><strong>{{ .PlateletRequired }}</strong></td>
                         <td>{{ .PlateletReceived }}</td>
                         <td>{{ .CarAvailable }}</td>
+                        <td><a href="/update_patient/{{ .ID }}">تعديل</a></td>
                     </tr>
                     {{ end }}
                 </tbody>

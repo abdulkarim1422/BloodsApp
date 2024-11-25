@@ -22,8 +22,8 @@ type Donor struct {
 	City           string    `json:"city" form:"City"`
 	CarAvailable   bool      `json:"car_available,omitempty" form:"CarAvailable"`
 	Paid           bool      `json:"paid,omitempty"`
-	RedTimer       time.Time `json:"red_timer"`
-	PlateletTimer  time.Time `json:"platelet_timer"`
+	RedTimer       time.Time `json:"red_timer" time_format:"2006-01-02"`
+	PlateletTimer  time.Time `json:"platelet_timer" time_format:"2006-01-02"`
 	Score          int       `json:"score"`
 	Verify         string    `json:"verify,omitempty"`
 }

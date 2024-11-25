@@ -67,3 +67,11 @@ func UpdateDonor(donor *models.Donor) error {
 	}
 	return nil
 }
+
+func DeleteDonor(id int) error {
+	result := initializers.DB.Delete(&models.Donor{}, id)
+	if result.Error != nil {
+		return result.Error
+	}
+	return nil
+}

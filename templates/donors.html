@@ -22,6 +22,7 @@
                         <th>عدّاد الدم الأحمر</th>
                         <th>عدّاد الصّفائح</th>
                         <th>مرّات التبرّع</th>
+                        <th>تعديل</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -32,10 +33,11 @@
                         <td>{{ .LastName }}</td>
                         <td>{{ .BloodType }}</td>
                         <td>{{ .PhoneNumber }}</td>
-                        <td>{{ .Address }}</td>
+                        <td>{{ .Addresses }}</td>
                         <td>{{ .RedTimer }}</td>
                         <td>{{ .PlateletTimer }}</td>
                         <td>{{ .Score }}</td>
+                        <td><a href="/update_donor/{{ .ID }}">تعديل</a></td>
                     </tr>
                     {{ end }}
                 </tbody>

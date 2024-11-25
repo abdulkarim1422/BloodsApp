@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تعديل معلومات المتبرّع - تطبيق التبرع بالدم</title>
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+</head>
+<body>
+    <!-- Include the header -->
+    {{ template "dash_header.html" . }}
+
+    <main>
+        <section>
+            <h2>تعديل معلومات المتبرّع</h2>
+            <form id="updateDonorForm" action="/donor/{{ .donor.ID }}" method="PUT">
+                <label for="name">الاسم:</label>
+                <input type="text" id="name" name="name" value="{{ .donor.FirstName }}" required>
+
+                <label for="phone">رقم الهاتف:</label>
+                <input type="text" id="phone" name="phone" value="{{ .donor.PhoneNumber }}" required>
+
+                <label for="bloodType">فصيلة الدم:</label>
+                <select id="bloodType" name="bloodType" required>
+                    <option value="A+" {{ if eq .donor.BloodType "A+" }}selected{{ end }}>A+</option>
+                    <option value="A-" {{ if eq .donor.BloodType "A-" }}selected{{ end }}>A-</option>
+                    <option value="B+" {{ if eq .donor.BloodType "B+" }}selected{{ end }}>B+</option>
+                    <option value="B-" {{ if eq .donor.BloodType "B-" }}selected{{ end }}>B-</option>
+                    <option value="AB+" {{ if eq .donor.BloodType "AB+" }}selected{{ end }}>AB+</option>
+                    <option value="AB-" {{ if eq .donor.BloodType "AB-" }}selected{{ end }}>AB-</option>
+                    <option value="O+" {{ if eq .donor.BloodType "O+" }}selected{{ end }}>O+</option>
+                    <option value="O-" {{ if eq .donor.BloodType "O-" }}selected{{ end }}>O-</option>
+                </select>
+
+                <label for="redTimer">تاريخ التبرّع بالدم الأحمر القادم:</label>
+                <input type="date" id="redTimer" name="redTimer" value="{{ .donor.RedTimer }}" required>
+
+                <label for="plateletTimer">تاريخ التبرّع بالصفائح الدمويّة القادم:</label>
+                <input type="date" id="plateletTimer" name="plateletTimer" value="{{ .donor.PlateletTimer }}" required>
+                
+                <button type="submit">حفظ</button>
+        </section>
+    </main>
+</body>
+</html>

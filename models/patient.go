@@ -29,7 +29,7 @@ type Patient struct {
 	AcceptsRedCrescent bool      `json:"accepts_red_crescent" form:"AcceptsRedCrescent"` // Requests
 	RedCrescentCode    string    `json:"red_crescent_code" form:"RedCrescentCode"`       // Requests
 	DeathStatus        bool      `json:"death_status" form:"DeathStatus"`
-	DeathDate          time.Time `json:"death_date,omitempty" form:"DeathDate"`
+	DeathDate          time.Time `json:"death_date,omitempty" form:"DeathDate" time_format:"2006-01-02"`
 	SpecialPatient     bool      `json:"special_patient" form:"SpecialPatient"`
 	Verify             string    `json:"verify,omitempty"`
 }

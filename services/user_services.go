@@ -1,6 +1,7 @@
 package services
 
 import (
+	"fmt"
 	"net/http"
 	"strconv"
 
@@ -105,6 +106,43 @@ func DonorByID(c *gin.Context) {
 	c.JSON(http.StatusOK, d)
 }
 
+func UpdateDonor(c *gin.Context) {
+	id := c.Param("id")
+	intID, err := strconv.Atoi(id)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid ID format"})
+		return
+	}
+	var updatedDonor models.Donor
+	if err := c.ShouldBind(&updatedDonor); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	updatedDonor.ID = uint(intID)
+	err = repositories.UpdateDonor(&updatedDonor)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	fmt.Printf("Donor updated successfully")
+	c.Redirect(http.StatusFound, "/donors")
+}
+
+func DeleteDonor(c *gin.Context) {
+	id := c.Param("id")
+	intID, err := strconv.Atoi(id)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid ID format"})
+		return
+	}
+	err = repositories.DeleteDonor(intID)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"message": "Donor deleted successfully"})
+}
+
 func ShowPatientsPage(c *gin.Context) {
 	var patients []models.Patient
 	patients, err := repositories.GetAllPatients()
@@ -183,7 +221,7 @@ func VerifyPatient(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"message": "Verification successful"})
 }
 
-func PatientByID(c *gin.Context) {
+func GetPatientByID(c *gin.Context) {
 	id := c.Param("id")
 	intID, err := strconv.Atoi(id)
 	if err != nil {
@@ -220,7 +258,8 @@ func UpdatePatient(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"message": "Patient updated successfully"})
+	fmt.Printf("Patient updated successfully")
+	c.Redirect(http.StatusFound, "/patients")
 }
 
 func DeletePatient(c *gin.Context) {
