@@ -3,6 +3,7 @@
 <head>
     <title>تسجيل المتبرّع - تطبيق التبرع بالدم</title>
     <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/form.css">
 </head>
 <body>
     <!-- Include the header -->
@@ -11,12 +12,9 @@
         <section>
             <h2>تسجيل المتبرّع</h2>
             <form id="donorForm">
-                <label for="first_name">الاسم الأول:</label>
-                <input type="text" id="first_name" name="FirstName" required>
-                
-                <label for="last_name">اسم العائلة:</label>
-                <input type="text" id="last_name" name="LastName" required>
-                
+                <label for="latin_name">الاسم باللغة التركيّة:</label>
+                <input type="text" id="latin_name" name="LatinName" placeholder="İsim Soyisim" required>
+                                
                 <label for="blood_type">فصيلة الدم:</label>
                 <select id="blood_type" name="BloodType" required>
                     <option value="" selected disabled>اختر فصيلة الدم</option>
@@ -30,7 +28,7 @@
                     <option value="O-">O-</option>
                 </select>
 
-                <label for="birth_date">تاريخ الميلاد:</label>
+                <!-- <label for="birth_date">تاريخ الميلاد:</label>
                 <input type="date" id="birth_date" name="BirthDate" required>
 
                 <label for="gender">الجنس:</label>
@@ -38,13 +36,17 @@
                     <option value="" selected disabled>اختر الجنس</option>
                     <option value="male">ذكر</option>
                     <option value="female">أنثى</option>
-                </select>
+                </select> -->
 
-                <label for="phone">رقم الهاتف:</label>
-                <input type="text" id="phone" name="PhoneNumber" required>
+                <label for="phone">رقم الهاتف للتواصل (واتسآب):</label>
+                <div class="phone-input">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/b/b4/Flag_of_Turkey.svg" alt="Turkey Flag">
+                    <span>+90</span>
+                    <input type="text" placeholder="(539) 123 12 34" id="phone" name="PhoneNumber" maxlength="15" required>
+                </div>
 
-                <label for="address">العنوان:</label>
-                <input type="text" id="addresses" name="Address" required>
+                <label for="districtName">العنوان:</label>
+                <input type="text" id="districtName" name="Address.DistrictName" placeholder="İlçe" required>
 
                 <label for="carAvailable">هل السيارة متاحة:</label>
                 <select id="carAvailable" name="CarAvailable">
@@ -112,5 +114,7 @@
             .catch(error => console.error('Error:', error));
         });
     </script>
+    <script src="js/main.js"></script>
+    <script src="js/form.js"></script>
 </body>
 </html>

@@ -61,7 +61,7 @@
                 </select>
             
                 <label for="hospitalName">اسم المستشفى:</label>
-                <input type="text" id="hospitalName" name="HospitalName" placeholder="Hastane ismi" required>
+                <input type="text" id="hospitalName" name="Address.HospitalName" placeholder="Hastane ismi" required>
                 
                 <!-- <label for="urgency">درجة الاستعجال:</label>
                 <select id="urgency" name="Urgency" required>
@@ -133,12 +133,6 @@
         </section>
     </main>
     <script>
-        // document.getElementById('phone').addEventListener('input', function (e) {
-        //     if (!this.value.startsWith('+')) {
-        //         this.value = '+' + this.value;
-        //     }
-        // });
-
         document.getElementById('patientForm').addEventListener('submit', function(e) {
             e.preventDefault();
             const formData = new FormData(this);

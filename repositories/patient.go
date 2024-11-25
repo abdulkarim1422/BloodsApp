@@ -54,7 +54,7 @@ func UpdatePatient(patient *models.Patient) error {
 		BloodType:        patient.BloodType,
 		BirthDate:        patient.BirthDate,
 		Gender:           patient.Gender,
-		Addresses:        patient.Addresses,
+		Address:          patient.Address,
 		CarAvailable:     patient.CarAvailable,
 		Urgency:          patient.Urgency,
 		RedRequired:      patient.RedRequired,
