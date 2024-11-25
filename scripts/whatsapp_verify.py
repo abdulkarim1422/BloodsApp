@@ -15,31 +15,44 @@ import pandas as pd
 import webbrowser as web
 from urllib.parse import quote
 from PIL import Image
+from filelock import FileLock, Timeout
 # import keyboard as k # Windows
 
 def send_whatsapp (phone,code,x_cord=958,y_cord=968):
+    lock_file = "whatsapp.lock"
+    lock = FileLock(lock_file, timeout=1000)
+
     try:
-        msg=f"رسالة التحقّق هي: {code}"
-        web.open(f"https://web.whatsapp.com/send?phone={phone}&text={quote(msg)}")
-        time.sleep (20)
+        with lock:
+            try:
+                msg=f"رسالة التحقّق هي: {code}"
+                web.open(f"https://web.whatsapp.com/send?phone={phone}&text={quote(msg)}")
+                time.sleep (20)
 
-        pyautogui.click(x_cord, y_cord)
-        time.sleep (2)
+                pyautogui.click(x_cord, y_cord)
+                time.sleep (2)
 
-        pyautogui.press('enter')
-        time.sleep (4)
+                pyautogui.press('enter')
+                time.sleep (4)
 
-        pyautogui.hotkey('ctrl+w')
-        time.sleep (1)
-        pyautogui.hotkey('enter')
-        
-        print ("-Message sent..!!", f"{phone} - {code}\n")
-        with open("scripts/verify_sent.txt", "a") as x:
-            x.write(f"{phone} - {code} - {time.strftime('%Y-%m-%d %H:%M:%S')}\n")
-    except Exception as e:
-        with open("scripts/verify_error.txt", "a") as error_file:
-            error_file.write(f"{phone} - {code} - {time.strftime('%Y-%m-%d %H:%M:%S')}\n")
-        print(f"Failed to send message to {phone}: {e}")
+                pyautogui.hotkey('ctrl+w')
+                time.sleep (1)
+                pyautogui.hotkey('enter')
+                
+                print ("-Message sent..!!", f"{phone} - {code}\n")
+                with open("scripts/verify_sent.txt", "a") as x:
+                    x.write(f"{phone} - {code} - {time.strftime('%Y-%m-%d %H:%M:%S')}\n")
+            except Exception as e:
+                with open("scripts/verify_error.txt", "a") as error_file:
+                    error_file.write(f"{phone} - {code} - {time.strftime('%Y-%m-%d %H:%M:%S')}\n")
+                print(f"Failed to send message to {phone}: {e}")
+    except Timeout:
+        print("Another instance of whatsapp is running. Waiting for it to finish...")
+        lock.acquire()
+        send_whatsapp(phone, code, x_cord, y_cord)
+    finally:
+        if lock.is_locked:
+            lock.release()
     print ("Done!")
 
 

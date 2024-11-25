@@ -47,7 +47,7 @@ func SendMatchResult(c *gin.Context) {
 	}
 
 	// Run the PyWhatsapp function
-	cmd := exec.Command(initializers.PythonCaller, "whatsapp_match.py", "body.json", "message.txt", "958", "968")
+	cmd := exec.Command(initializers.PythonCaller, "whatsapp_match.py", "body.json", "message.txt")
 	cmd.Dir = scriptsDir
 	output, err := cmd.CombinedOutput()
 	if err != nil {
