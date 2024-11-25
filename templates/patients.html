@@ -12,8 +12,7 @@
                         <th>اللقب</th>
                         <th>زمرة الدم</th>
                         <th>رقم الهاتف</th>
-                        <th>العنوان</th>
-                        <th>الطارئية</th>
+                        <th>المشفى</th>
                         <th>عدد أكياء الدم الحمراء المحتاجة</th>
                         <th>عدد أكياء الدم الحمراء المستلمة</th>
                         <th>عدد أكياس الصفيحات المحتاجة</th>
@@ -30,8 +29,7 @@
                         <td>{{ .LastName }}</td>
                         <td>{{ .BloodType }}</td>
                         <td>{{ .PhoneNumber }}</td>
-                        <td>{{ .Addresses }}</td>
-                        <td>{{ .Urgency }}</td>
+                        <td>{{ .Address.HospitalName }}</td>
                         <td><strong>{{ .RedRequired }}</strong></td>
                         <td>{{ .RedReceived }}</td>
                         <td><strong>{{ .PlateletRequired }}</strong></td>
