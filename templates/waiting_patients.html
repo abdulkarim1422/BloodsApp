@@ -18,7 +18,7 @@
                 <div class="card mb-4">
                     <div class="card-body text-right">
                         <h5 class="card-title"><strong>{{ .LatinName }}</strong></h5>
-                        <p class="card-text">رقم الهاتف: <a href="https://wa.me/{{.PhoneNumber}}" dir="ltr">{{ .PhoneNumber }}</a></p>
+                        <p class="card-text">رقم الهاتف: <a href="https://wa.me/{{.PhoneNumber}}" dir="ltr" target="_blank" class="btn btn-primary" style="background-color: green;border-color: greenyellow;">{{ .PhoneNumber }}</a></p>
                         <p class="card-text">زمرة الدم: <strong>{{ .BloodType }}</strong></p>
                         <p class="card-text">المشفى: <strong>{{ .Address.HospitalName }}</strong></p>
                         <p class="card-text">توفّر سيارة: {{ .CarAvailable }}</p>
