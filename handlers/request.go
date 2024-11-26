@@ -11,7 +11,7 @@ import (
 // @Tags request
 // @Accept  json
 // @Produce  json
-// @Param request body CreateSchedualedRequest true "Request"
+// @Param request body models.SchedualedRequest true "SchedualedRequest"
 // @Success 200 {string} string "Schedualed request created"
 // @Router /scheduale-request [post]
 func CreateSchedualedRequest(c *gin.Context) {

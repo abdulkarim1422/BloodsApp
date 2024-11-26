@@ -293,134 +293,6 @@
                 }
             }
         },
-        "/match-platelet": {
-            "get": {
-                "description": "Match a platelet donor with a patient based on blood type and platelet donation timer",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "match"
-                ],
-                "summary": "Match a platelet donor with a patient",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "Patient ID",
-                        "name": "patient_id",
-                        "in": "query",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/gin.H"
-                        }
-                    }
-                }
-            }
-        },
-        "/match-platelet-ignore": {
-            "get": {
-                "description": "Match a platelet donor with a patient based on platelet donation timer",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "match"
-                ],
-                "summary": "Match a platelet donor with a patient (ignoring same type)",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "Patient ID",
-                        "name": "patient_id",
-                        "in": "query",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/gin.H"
-                        }
-                    }
-                }
-            }
-        },
-        "/match-red": {
-            "get": {
-                "description": "Match a red blood donor with a patient based on blood type and red blood cell donation timer",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "match"
-                ],
-                "summary": "Match a red blood donor with a patient",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "Patient ID",
-                        "name": "patient_id",
-                        "in": "query",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/gin.H"
-                        }
-                    }
-                }
-            }
-        },
-        "/match-red-ignore": {
-            "get": {
-                "description": "Match a red blood donor with a patient based on red blood cell donation timer",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "match"
-                ],
-                "summary": "Match a red blood donor with a patient (ignoring same type)",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "Patient ID",
-                        "name": "patient_id",
-                        "in": "query",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/gin.H"
-                        }
-                    }
-                }
-            }
-        },
         "/patient": {
             "post": {
                 "description": "Create a patient",
@@ -530,6 +402,98 @@
                     }
                 ],
                 "responses": {}
+            }
+        },
+        "/scheduale-request": {
+            "post": {
+                "description": "Create a schedualed request",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "request"
+                ],
+                "summary": "Create a schedualed request",
+                "parameters": [
+                    {
+                        "description": "SchedualedRequest",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.SchedualedRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Schedualed request created",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/schedualed-request/{id}": {
+            "delete": {
+                "description": "Delete a schedualed request",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "request"
+                ],
+                "summary": "Delete a schedualed request",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID of the request",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Request deleted",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/schedualed-requests": {
+            "get": {
+                "description": "Get all schedualed requests",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "request"
+                ],
+                "summary": "Get all schedualed requests",
+                "responses": {
+                    "200": {
+                        "description": "List of schedualed requests",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.SchedualedRequest"
+                            }
+                        }
+                    }
+                }
             }
         },
         "/signup": {
@@ -871,6 +835,9 @@
                     "description": "form",
                     "type": "string"
                 },
+                "requests_sent": {
+                    "type": "integer"
+                },
                 "special_patient": {
                     "type": "boolean"
                 },
@@ -881,6 +848,45 @@
                     "type": "integer"
                 },
                 "verify": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.SchedualedRequest": {
+            "description": "SchedualedRequest represents a schedualed request in the system",
+            "type": "object",
+            "properties": {
+                "createdAt": {
+                    "type": "string"
+                },
+                "deletedAt": {
+                    "$ref": "#/definitions/gorm.DeletedAt"
+                },
+                "disease_name": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "next_request_date": {
+                    "type": "string"
+                },
+                "patient": {
+                    "$ref": "#/definitions/models.Patient"
+                },
+                "patient_id": {
+                    "type": "integer"
+                },
+                "request_frequency": {
+                    "type": "integer"
+                },
+                "request_interval": {
+                    "type": "integer"
+                },
+                "requests_done": {
+                    "type": "integer"
+                },
+                "updatedAt": {
                     "type": "string"
                 }
             }

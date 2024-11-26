@@ -166,6 +166,8 @@ definitions:
       relationship:
         description: form
         type: string
+      requests_sent:
+        type: integer
       special_patient:
         type: boolean
       updatedAt:
@@ -173,6 +175,32 @@ definitions:
       urgency:
         type: integer
       verify:
+        type: string
+    type: object
+  models.SchedualedRequest:
+    description: SchedualedRequest represents a schedualed request in the system
+    properties:
+      createdAt:
+        type: string
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      disease_name:
+        type: string
+      id:
+        type: integer
+      next_request_date:
+        type: string
+      patient:
+        $ref: '#/definitions/models.Patient'
+      patient_id:
+        type: integer
+      request_frequency:
+        type: integer
+      request_interval:
+        type: integer
+      requests_done:
+        type: integer
+      updatedAt:
         type: string
     type: object
   models.User:
@@ -392,94 +420,6 @@ paths:
       summary: Logout
       tags:
       - auth
-  /match-platelet:
-    get:
-      consumes:
-      - application/json
-      description: Match a platelet donor with a patient based on blood type and platelet
-        donation timer
-      parameters:
-      - description: Patient ID
-        in: query
-        name: patient_id
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/gin.H'
-      summary: Match a platelet donor with a patient
-      tags:
-      - match
-  /match-platelet-ignore:
-    get:
-      consumes:
-      - application/json
-      description: Match a platelet donor with a patient based on platelet donation
-        timer
-      parameters:
-      - description: Patient ID
-        in: query
-        name: patient_id
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/gin.H'
-      summary: Match a platelet donor with a patient (ignoring same type)
-      tags:
-      - match
-  /match-red:
-    get:
-      consumes:
-      - application/json
-      description: Match a red blood donor with a patient based on blood type and
-        red blood cell donation timer
-      parameters:
-      - description: Patient ID
-        in: query
-        name: patient_id
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/gin.H'
-      summary: Match a red blood donor with a patient
-      tags:
-      - match
-  /match-red-ignore:
-    get:
-      consumes:
-      - application/json
-      description: Match a red blood donor with a patient based on red blood cell
-        donation timer
-      parameters:
-      - description: Patient ID
-        in: query
-        name: patient_id
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/gin.H'
-      summary: Match a red blood donor with a patient (ignoring same type)
-      tags:
-      - match
   /patient:
     post:
       consumes:
@@ -557,6 +497,66 @@ paths:
       summary: Update a patient
       tags:
       - patients
+  /scheduale-request:
+    post:
+      consumes:
+      - application/json
+      description: Create a schedualed request
+      parameters:
+      - description: SchedualedRequest
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.SchedualedRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Schedualed request created
+          schema:
+            type: string
+      summary: Create a schedualed request
+      tags:
+      - request
+  /schedualed-request/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a schedualed request
+      parameters:
+      - description: ID of the request
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Request deleted
+          schema:
+            type: string
+      summary: Delete a schedualed request
+      tags:
+      - request
+  /schedualed-requests:
+    get:
+      consumes:
+      - application/json
+      description: Get all schedualed requests
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: List of schedualed requests
+          schema:
+            items:
+              $ref: '#/definitions/models.SchedualedRequest'
+            type: array
+      summary: Get all schedualed requests
+      tags:
+      - request
   /signup:
     post:
       consumes:
