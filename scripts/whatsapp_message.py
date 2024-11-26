@@ -36,10 +36,10 @@ def send_whatsapp(phone, msg, txt="py", x_cord=958, y_cord=968):
                 pyautogui.hotkey('enter')
 
                 print("-Message sent..!!", f"{phone}\n")
-                with open(f"scripts/done_{txt}.txt", "a", encoding="utf-8", errors="replace") as x:
+                with open(f"scripts/{txt}_done.txt", "a", encoding="utf-8", errors="replace") as x:
                     x.write(f"{phone} - {msg.replace('\n', ' ')[:20]} - {time.strftime('%Y-%m-%d %H:%M:%S')}\n")
             except Exception as e:
-                with open(f"scripts/error_{txt}.txt", "a", encoding="utf-8", errors="replace") as error_file:
+                with open(f"scripts/{txt}_error.txt", "a", encoding="utf-8", errors="replace") as error_file:
                     error_file.write(f"{phone} - {msg.replace('\n', ' ')[:20]} - {time.strftime('%Y-%m-%d %H:%M:%S')}\n")
                 print(f"Failed to send message to {phone}: {e}")
     except Timeout:
