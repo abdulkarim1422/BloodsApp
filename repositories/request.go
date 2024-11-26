@@ -5,12 +5,12 @@ import (
 	"github.com/abdulkarim1422/BloodsApp/models"
 )
 
-func CreateRequest(request *models.Request) error {
+func CreateRequest(request *models.Request) (int, error) {
 	result := initializers.DB.Create(request)
 	if result.Error != nil {
-		return result.Error
+		return 0, result.Error
 	}
-	return nil
+	return int(request.ID), nil
 }
 
 func GetAllRequests() ([]models.Request, error) {
