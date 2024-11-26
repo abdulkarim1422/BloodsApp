@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ .title }}</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <!-- تضمين الرأس -->
+    {{ template "dash_header.html" . }}
+
+    <div class="container mt-5">
+        <h1 class="mb-4">{{ .title }}</h1>
+        <div class="row">
+            {{ range .patients }}
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <div class="card-body text-right">
+                        <h5 class="card-title"><strong>{{ .LatinName }}</strong></h5>
+                        <p class="card-text">رقم الهاتف: <a href="https://wa.me/{{.PhoneNumber}}" dir="ltr">{{ .PhoneNumber }}</a></p>
+                        <p class="card-text">زمرة الدم: <strong>{{ .BloodType }}</strong></p>
+                        <p class="card-text">المشفى: <strong>{{ .Address.HospitalName }}</strong></p>
+                        <p class="card-text">توفّر سيارة: {{ .CarAvailable }}</p>
+                        <p class="card-text">عدد أكياس الدم الحمراء المحتاجة: {{ .RedRequired }}</p>
+                        <p class="card-text">عدد أكياس الصفيحات المحتاجة: {{ .PlateletRequired }}</p>
+                        <p class="card-text">القرابة: {{ .Relationship }}</p>
+                        <p class="card-text">كود الهلال الأحمر: {{ .RedCrescentCode }}</p>
+                        <a href="/update_patient/{{ .ID }}" class="btn btn-primary">تعديل</a>
+                        <a href="/match/{{ .ID }}" class="btn btn-primary">بحث عن متبرّع</a>
+                    </div>
+                </div>
+            </div>
+            {{ end }}
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

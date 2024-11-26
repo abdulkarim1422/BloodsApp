@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>Match Donor and Patient - Blood Donation App</title>
-    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -15,25 +15,23 @@
                 <label for="patient_id">اختر المريض:</label>
                 <select id="patient_id" name="patient_id" required>
                     {{ range .patients }}
-                    <option value="{{ .ID }}">{{ .BloodType }} \ {{ .FirstName }} {{ .LastName }} (ID: {{ .ID }})</option>
+                    <option value="{{ .ID }}">{{ .BloodType }} \ {{ .LatinName }} (ID: {{ .ID }})</option>
                     {{ end }}
                 </select>
-                
                 <label for="match_type">اختر نوع الكيس اللازم:</label>
                 <select id="match_type" name="match_type" required>
                     <option value="red">دم أحمر</option>
                     <option value="platelet">صفائح دمويّة</option>
                 </select>
-                
                 <label for="ignore_blood_type">تجاهل زمرة الدم:</label>
                 <select id="ignore_blood_type" name="ignore_blood_type" required>
                     <option value="no">لا</option>
                     <option value="yes">نعم</option>
                 </select>
-                
                 <button type="submit">بحث</button>
             </form>
         </section>
     </main>
+    <script src="/js/main.js"></script>
 </body>
 </html>

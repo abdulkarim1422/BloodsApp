@@ -44,6 +44,26 @@ func ShowMatchForm(c *gin.Context) {
 	})
 }
 
+func ShowOnePatientMatchForm(c *gin.Context) {
+	id := c.Param("id")
+	patientID, err := strconv.Atoi(id)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid patient ID"})
+		return
+	}
+	patient, err := repositories.GetPatientByID(patientID)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	var patients []models.Patient
+	patients = append(patients, *patient)
+	c.HTML(http.StatusOK, "match.html", gin.H{
+		"title":    "Match Donor and Patient",
+		"patients": patients,
+	})
+}
+
 func ShowDonationForm(c *gin.Context) {
 	patients, err := repositories.GetAllPatients()
 	if err != nil {
@@ -160,4 +180,14 @@ func ShowDonorsPage(c *gin.Context) {
 }
 
 // Waiting patients
-// func ShowPatientsWaitingPage(c *gin.Context) {
+func ShowPatientsWaitingPage(c *gin.Context) {
+	patients, err := repositories.CheckPatientsWaiting()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	c.HTML(http.StatusOK, "waiting_patients.html", gin.H{
+		"title":    "قائمة المرضى المنتظرين",
+		"patients": patients,
+	})
+}
