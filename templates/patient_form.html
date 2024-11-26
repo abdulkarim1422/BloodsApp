@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html dir="rtl">
 <head>
@@ -135,7 +136,19 @@
     <script>
         document.getElementById('patientForm').addEventListener('submit', function(e) {
             e.preventDefault();
+            
+            // Get the phone number value and remove non-numeric characters
+            const phoneInput = document.getElementById('phone');
+            let rawPhoneNumber = phoneInput.value.replace(/\D/g, ''); // Remove formatting (non-numeric characters)
+            
+            // Add the +90 Turkish country code
+            const formattedPhoneNumber = `+90${rawPhoneNumber}`;
+            
+            // Create a new FormData object to include the raw phone number
             const formData = new FormData(this);
+            formData.set('PhoneNumber', formattedPhoneNumber); // Override the PhoneNumber field with the raw number
+
+            // Submit the form data to the server
             fetch('/patient', {
                 method: 'POST',
                 body: formData
@@ -186,6 +199,7 @@
         }
     </script>
     <script src="js/main.js"></script>
-    <script src="js/form.js"></script>
+    <script src="js/for
+    m.js"></script>
 </body>
 </html>
