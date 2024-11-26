@@ -26,7 +26,6 @@ go.work.sum
 .env
 
 #other
-body.json
 *.csv
 *.txt
 *.lock
