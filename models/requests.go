@@ -17,10 +17,10 @@ import (
 // 	Red          int    `json:"red" form:"Red"`
 // 	Platelet     int    `json:"platelet" form:"Platelet"`
 // 	CarAvailable bool   `json:"car_available" form:"CarAvailable"`
-// 	RedRequired  int    `json:"red-required" form:"RedRequired"` // Request
-// 	// RedReceived        int    `json:"red-recieved" form:"RedReceived"`           // Patient
-// 	PlateletRequired int `json:"platelet-required" form:"PlateletRequired"` // Request
-// 	// PlateletReceived   int    `json:"platelet-recieved" form:"PlateletReceived"` // Patient
+// 	RedRequired  int    `json:"red_required" form:"RedRequired"` // Request
+// 	// RedReceived        int    `json:"red_recieved" form:"RedReceived"`           // Patient
+// 	PlateletRequired int `json:"platelet_required" form:"PlateletRequired"` // Request
+// 	// PlateletReceived   int    `json:"platelet_recieved" form:"PlateletReceived"` // Patient
 // 	RequestStatus      int    `json:"request_status" form:"RequestStatus"`
 // 	Urgency            int    `json:"urgency" form:"Urgency"` // Request
 // 	Relationship       int    `json:"relationship" form:"Relationship"`
