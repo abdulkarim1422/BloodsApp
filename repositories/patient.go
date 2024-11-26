@@ -3,6 +3,7 @@ package repositories
 import (
 	"github.com/abdulkarim1422/BloodsApp/initializers"
 	"github.com/abdulkarim1422/BloodsApp/models"
+	"gorm.io/gorm"
 )
 
 func GetAllPatients() ([]models.Patient, error) {
@@ -83,4 +84,12 @@ func CheckPatientsWaiting() ([]models.Patient, error) {
 		return nil, result.Error
 	}
 	return patients, nil
+}
+
+func AddOneRequestSent(patientID int) error {
+	result := initializers.DB.Model(&models.Patient{}).Where("id = ?", patientID).Update("requests_sent", gorm.Expr("requests_sent + ?", 1))
+	if result.Error != nil {
+		return result.Error
+	}
+	return nil
 }
