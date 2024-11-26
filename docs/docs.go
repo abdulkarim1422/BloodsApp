@@ -160,6 +160,57 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {}
+            },
+            "put": {
+                "description": "Update a donor",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "donors"
+                ],
+                "summary": "Update a donor",
+                "operationId": "update-donor",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Donor ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Donor input",
+                        "name": "donor",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Donor"
+                        }
+                    }
+                ],
+                "responses": {}
+            },
+            "delete": {
+                "description": "Delete a donor",
+                "tags": [
+                    "donors"
+                ],
+                "summary": "Delete a donor",
+                "operationId": "delete-donor",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Donor ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {}
             }
         },
         "/forgot-password": {
@@ -381,7 +432,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/patients": {
+        "/patient": {
             "post": {
                 "description": "Create a patient",
                 "consumes": [
@@ -409,7 +460,7 @@ const docTemplate = `{
                 "responses": {}
             }
         },
-        "/patients/{id}": {
+        "/patient/{id}": {
             "get": {
                 "description": "Get a patient by ID",
                 "consumes": [
@@ -562,6 +613,23 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/waiting-patients": {
+            "get": {
+                "description": "Check patients waiting for donation",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "patients"
+                ],
+                "summary": "Check patients waiting for donation",
+                "operationId": "check-patients-waiting",
+                "responses": {}
+            }
         }
     },
     "definitions": {
@@ -629,11 +697,11 @@ const docTemplate = `{
             "description": "Address represents an address in the system",
             "type": "object",
             "properties": {
-                "city_id": {
-                    "type": "integer"
+                "city_name": {
+                    "type": "string"
                 },
-                "country_id": {
-                    "type": "integer"
+                "country_name": {
+                    "type": "string"
                 },
                 "createdAt": {
                     "type": "string"
@@ -641,8 +709,11 @@ const docTemplate = `{
                 "deletedAt": {
                     "$ref": "#/definitions/gorm.DeletedAt"
                 },
-                "district_id": {
-                    "type": "integer"
+                "district_name": {
+                    "type": "string"
+                },
+                "hospital_name": {
+                    "type": "string"
                 },
                 "id": {
                     "type": "integer"
@@ -656,23 +727,24 @@ const docTemplate = `{
             "description": "Donor represents a donor in the system",
             "type": "object",
             "properties": {
-                "addresses": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/models.Address"
-                    }
+                "address": {
+                    "description": "form*",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/models.Address"
+                        }
+                    ]
                 },
                 "birth_date": {
                     "type": "string"
                 },
                 "bloodType": {
+                    "description": "form",
                     "type": "string"
                 },
                 "car_available": {
+                    "description": "form",
                     "type": "boolean"
-                },
-                "city": {
-                    "type": "string"
                 },
                 "createdAt": {
                     "type": "string"
@@ -695,6 +767,10 @@ const docTemplate = `{
                 "last_name": {
                     "type": "string"
                 },
+                "latinName": {
+                    "description": "form",
+                    "type": "string"
+                },
                 "mother_language": {
                     "type": "string"
                 },
@@ -702,6 +778,7 @@ const docTemplate = `{
                     "type": "boolean"
                 },
                 "phone_number": {
+                    "description": "form",
                     "type": "string"
                 },
                 "platelet_timer": {
@@ -726,19 +803,26 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "accepts_red_crescent": {
-                    "description": "Requests",
+                    "description": "form",
                     "type": "boolean"
                 },
                 "address": {
-                    "type": "string"
+                    "description": "form*",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/models.Address"
+                        }
+                    ]
                 },
                 "birth_date": {
                     "type": "string"
                 },
                 "bloodType": {
+                    "description": "form",
                     "type": "string"
                 },
                 "car_available": {
+                    "description": "form",
                     "type": "boolean"
                 },
                 "createdAt": {
@@ -762,41 +846,40 @@ const docTemplate = `{
                 "gender": {
                     "type": "string"
                 },
-                "hospital_name": {
-                    "description": "Requests",
-                    "type": "string"
-                },
                 "id": {
                     "type": "integer"
                 },
                 "lastName": {
                     "type": "string"
                 },
+                "latinName": {
+                    "description": "form",
+                    "type": "string"
+                },
                 "phone_number": {
+                    "description": "form",
                     "type": "string"
                 },
                 "platelet-recieved": {
-                    "description": "Requests",
                     "type": "integer"
                 },
-                "platelet-required": {
-                    "description": "Requests",
-                    "type": "integer"
-                },
-                "red-recieved": {
-                    "description": "Requests",
-                    "type": "integer"
-                },
-                "red-required": {
-                    "description": "Requests",
+                "platelet_required": {
+                    "description": "form",
                     "type": "integer"
                 },
                 "red_crescent_code": {
-                    "description": "Requests",
+                    "description": "form",
                     "type": "string"
                 },
+                "red_recieved": {
+                    "type": "integer"
+                },
+                "red_required": {
+                    "description": "form",
+                    "type": "integer"
+                },
                 "relationship": {
-                    "description": "Requests",
+                    "description": "form",
                     "type": "string"
                 },
                 "special_patient": {
@@ -806,7 +889,6 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "urgency": {
-                    "description": "Requests",
                     "type": "integer"
                 },
                 "verify": {

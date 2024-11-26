@@ -41,16 +41,18 @@ definitions:
   models.Address:
     description: Address represents an address in the system
     properties:
-      city_id:
-        type: integer
-      country_id:
-        type: integer
+      city_name:
+        type: string
+      country_name:
+        type: string
       createdAt:
         type: string
       deletedAt:
         $ref: '#/definitions/gorm.DeletedAt'
-      district_id:
-        type: integer
+      district_name:
+        type: string
+      hospital_name:
+        type: string
       id:
         type: integer
       updatedAt:
@@ -59,18 +61,18 @@ definitions:
   models.Donor:
     description: Donor represents a donor in the system
     properties:
-      addresses:
-        items:
-          $ref: '#/definitions/models.Address'
-        type: array
+      address:
+        allOf:
+        - $ref: '#/definitions/models.Address'
+        description: form*
       birth_date:
         type: string
       bloodType:
+        description: form
         type: string
       car_available:
+        description: form
         type: boolean
-      city:
-        type: string
       createdAt:
         type: string
       deletedAt:
@@ -85,11 +87,15 @@ definitions:
         type: integer
       last_name:
         type: string
+      latinName:
+        description: form
+        type: string
       mother_language:
         type: string
       paid:
         type: boolean
       phone_number:
+        description: form
         type: string
       platelet_timer:
         type: string
@@ -106,15 +112,19 @@ definitions:
     description: Patient represents a patient in the system
     properties:
       accepts_red_crescent:
-        description: Requests
+        description: form
         type: boolean
       address:
-        type: string
+        allOf:
+        - $ref: '#/definitions/models.Address'
+        description: form*
       birth_date:
         type: string
       bloodType:
+        description: form
         type: string
       car_available:
+        description: form
         type: boolean
       createdAt:
         type: string
@@ -130,39 +140,37 @@ definitions:
         type: string
       gender:
         type: string
-      hospital_name:
-        description: Requests
-        type: string
       id:
         type: integer
       lastName:
         type: string
+      latinName:
+        description: form
+        type: string
       phone_number:
+        description: form
         type: string
       platelet-recieved:
-        description: Requests
         type: integer
-      platelet-required:
-        description: Requests
-        type: integer
-      red-recieved:
-        description: Requests
-        type: integer
-      red-required:
-        description: Requests
+      platelet_required:
+        description: form
         type: integer
       red_crescent_code:
-        description: Requests
+        description: form
         type: string
+      red_recieved:
+        type: integer
+      red_required:
+        description: form
+        type: integer
       relationship:
-        description: Requests
+        description: form
         type: string
       special_patient:
         type: boolean
       updatedAt:
         type: string
       urgency:
-        description: Requests
         type: integer
       verify:
         type: string
@@ -274,6 +282,19 @@ paths:
       tags:
       - donors
   /donor/{id}:
+    delete:
+      description: Delete a donor
+      operationId: delete-donor
+      parameters:
+      - description: Donor ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses: {}
+      summary: Delete a donor
+      tags:
+      - donors
     get:
       description: Get a donor by ID
       operationId: get-donor-by-id
@@ -287,6 +308,29 @@ paths:
       - application/json
       responses: {}
       summary: Get a donor by ID
+      tags:
+      - donors
+    put:
+      consumes:
+      - application/json
+      description: Update a donor
+      operationId: update-donor
+      parameters:
+      - description: Donor ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Donor input
+        in: body
+        name: donor
+        required: true
+        schema:
+          $ref: '#/definitions/models.Donor'
+      produces:
+      - application/json
+      responses: {}
+      summary: Update a donor
       tags:
       - donors
   /forgot-password:
@@ -436,7 +480,7 @@ paths:
       summary: Match a red blood donor with a patient (ignoring same type)
       tags:
       - match
-  /patients:
+  /patient:
     post:
       consumes:
       - application/json
@@ -455,7 +499,7 @@ paths:
       summary: Create a patient
       tags:
       - patients
-  /patients/{id}:
+  /patient/{id}:
     delete:
       consumes:
       - application/json
@@ -559,4 +603,16 @@ paths:
       summary: Get users
       tags:
       - auth
+  /waiting-patients:
+    get:
+      consumes:
+      - application/json
+      description: Check patients waiting for donation
+      operationId: check-patients-waiting
+      produces:
+      - application/json
+      responses: {}
+      summary: Check patients waiting for donation
+      tags:
+      - patients
 swagger: "2.0"
