@@ -71,3 +71,12 @@ func DeleteScheduledRequest(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, gin.H{"message": "Scheduled request deleted successfully"})
 }
+
+func GetAllRequests(c *gin.Context) {
+	requests, err := repositories.GetAllRequests()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, requests)
+}
