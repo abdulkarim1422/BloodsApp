@@ -5,8 +5,6 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
-	"os"
-	"strconv"
 	"time"
 
 	"github.com/abdulkarim1422/BloodsApp/models"
@@ -14,27 +12,18 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func MatchRedDonorPatient(c *gin.Context) {
-	patientID, err := strconv.Atoi(c.Query("patient_id"))
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid or missing patient_id query parameter"})
-		return
-	}
-
+func MatchRedDonorPatient(patientID int) ([]models.Donor, error) {
 	patient, err := repositories.GetPatientByID(patientID)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-		return
+		return nil, err
 	}
 	if patient == nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": "Patient not found"})
-		return
+		return nil, fmt.Errorf("patient not found")
 	}
 
 	donors, err := repositories.GetAllDonors()
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-		return
+		return nil, err
 	}
 
 	var matchedDonors []models.Donor
@@ -45,36 +34,19 @@ func MatchRedDonorPatient(c *gin.Context) {
 	}
 
 	if len(matchedDonors) == 0 {
-		c.JSON(http.StatusNotFound, gin.H{"error": "No matching donors found"})
-		return
+		return nil, fmt.Errorf("no matching donors found")
 	}
 
-	c.JSON(http.StatusOK, gin.H{
-		"message":            "Matching donors found",
-		"patient_id":         patient.ID,
-		"patient_first_name": patient.FirstName,
-		"patient_last_name":  patient.LastName,
-		"patient_blood_type": patient.BloodType,
-		"address":            patient.Address,
-		"donors":             matchedDonors,
-	})
+	return matchedDonors, nil
 }
 
-func MatchRedDonorPatientIgnoreBloodType(c *gin.Context) {
-	patientID, err := strconv.Atoi(c.Query("patient_id"))
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid or missing patient_id query parameter"})
-		return
-	}
-
+func MatchRedDonorPatientIgnoreBloodType(patientID int) ([]models.Donor, error) {
 	patient, err := repositories.GetPatientByID(patientID)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-		return
+		return nil, err
 	}
 	if patient == nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": "patient not found"})
-		return
+		return nil, fmt.Errorf("patient not found")
 	}
 
 	compatibleBloodTypes := map[string][]string{
@@ -90,9 +62,9 @@ func MatchRedDonorPatientIgnoreBloodType(c *gin.Context) {
 
 	donors, err := repositories.GetAllDonors()
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-		return
+		return nil, err
 	}
+
 	var matchedDonors []models.Donor
 	for i := range donors {
 		if donors[i].RedTimer.Before(time.Now()) {
@@ -105,43 +77,26 @@ func MatchRedDonorPatientIgnoreBloodType(c *gin.Context) {
 		}
 	}
 	if len(matchedDonors) == 0 {
-		c.JSON(http.StatusNotFound, gin.H{"error": "No matching donors found"})
-		return
+		return nil, fmt.Errorf("no matching donors found")
 	}
 
-	c.JSON(http.StatusOK, gin.H{
-		"message":            "Matching donors found",
-		"patient_id":         patient.ID,
-		"patient_first_name": patient.FirstName,
-		"patient_last_name":  patient.LastName,
-		"patient_blood_type": patient.BloodType,
-		"address":            patient.Address,
-		"donors":             matchedDonors,
-	})
+	return matchedDonors, nil
 }
 
-func MatchPlateletDonorPatient(c *gin.Context) {
-	patientID, err := strconv.Atoi(c.Query("patient_id"))
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid or missing patient_id query parameter"})
-		return
-	}
-
+func MatchPlateletDonorPatient(patientID int) ([]models.Donor, error) {
 	patient, err := repositories.GetPatientByID(patientID)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-		return
+		return nil, err
 	}
 	if patient == nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": "patient not found"})
-		return
+		return nil, fmt.Errorf("patient not found")
 	}
 
 	donors, err := repositories.GetAllDonors()
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-		return
+		return nil, err
 	}
+
 	var matchedDonors []models.Donor
 	for i := range donors {
 		if donors[i].BloodType == patient.BloodType && donors[i].PlateletTimer.Before(time.Now()) {
@@ -149,43 +104,26 @@ func MatchPlateletDonorPatient(c *gin.Context) {
 		}
 	}
 	if len(matchedDonors) == 0 {
-		c.JSON(http.StatusNotFound, gin.H{"error": "No matching donors found"})
-		return
+		return nil, fmt.Errorf("no matching donor found")
 	}
 
-	c.JSON(http.StatusOK, gin.H{
-		"message":            "Matching donors found",
-		"patient_id":         patient.ID,
-		"patient_first_name": patient.FirstName,
-		"patient_last_name":  patient.LastName,
-		"patient_blood_type": patient.BloodType,
-		"address":            patient.Address,
-		"donors":             matchedDonors,
-	})
+	return matchedDonors, nil
 }
 
-func MatchPlateletDonorPatientIgnoreBloodType(c *gin.Context) {
-	patientID, err := strconv.Atoi(c.Query("patient_id"))
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid or missing patient_id query parameter"})
-		return
-	}
-
+func MatchPlateletDonorPatientIgnoreBloodType(patientID int) ([]models.Donor, error) {
 	patient, err := repositories.GetPatientByID(patientID)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-		return
+		return nil, err
 	}
 	if patient == nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": "patient not found"})
-		return
+		return nil, fmt.Errorf("patient not found")
 	}
 
 	donors, err := repositories.GetAllDonors()
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-		return
+		return nil, err
 	}
+
 	var matchedDonors []models.Donor
 	for i := range donors {
 		if donors[i].PlateletTimer.Before(time.Now()) {
@@ -193,22 +131,13 @@ func MatchPlateletDonorPatientIgnoreBloodType(c *gin.Context) {
 		}
 	}
 	if len(matchedDonors) == 0 {
-		c.JSON(http.StatusNotFound, gin.H{"error": "No matching donor found"})
-		return
+		return nil, fmt.Errorf("no matching donor found")
 	}
 
-	c.JSON(http.StatusOK, gin.H{
-		"message":            "Matching donors found",
-		"patient_id":         patient.ID,
-		"patient_first_name": patient.FirstName,
-		"patient_last_name":  patient.LastName,
-		"patient_blood_type": patient.BloodType,
-		"address":            patient.Address,
-		"donors":             matchedDonors,
-	})
+	return matchedDonors, nil
 }
 
-func ProcessMatchForm(c *gin.Context) {
+func OldProcessMatchForm(c *gin.Context) {
 	var request struct {
 		PatientID       int    `form:"patient_id"`
 		MatchType       string `form:"match_type"`
@@ -247,11 +176,6 @@ func ProcessMatchForm(c *gin.Context) {
 		return
 	}
 	req.Header.Set("Content-Type", "application/json")
-
-	// Add basic authentication header
-	username := os.Getenv("AUTH_USERNAME")
-	password := os.Getenv("AUTH_PASSWORD")
-	req.SetBasicAuth(username, password)
 
 	// Send the request
 	client := &http.Client{}
@@ -293,4 +217,48 @@ func ProcessMatchForm(c *gin.Context) {
 
 	// Return the JSON response
 	c.HTML(http.StatusOK, "match_result.html", jsonResponse)
+}
+
+func ProcessMatchForm(c *gin.Context) {
+	var request struct {
+		PatientID       int    `form:"patient_id"`
+		MatchType       string `form:"match_type"`
+		IgnoreBloodType string `form:"ignore_blood_type"`
+	}
+	if err := c.ShouldBind(&request); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request"})
+		return
+	}
+
+	patient, err := repositories.GetPatientByID(request.PatientID)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	var donors []models.Donor
+	var err_match error
+	if request.MatchType == "red" {
+		if request.IgnoreBloodType == "yes" {
+			donors, err_match = MatchRedDonorPatientIgnoreBloodType(request.PatientID)
+		} else {
+			donors, err_match = MatchRedDonorPatient(request.PatientID)
+		}
+	} else if request.MatchType == "platelet" {
+		if request.IgnoreBloodType == "yes" {
+			donors, err_match = MatchPlateletDonorPatientIgnoreBloodType(request.PatientID)
+		} else {
+			donors, err_match = MatchPlateletDonorPatient(request.PatientID)
+		}
+	}
+	if err_match != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.HTML(http.StatusOK, "match_result.html", gin.H{
+		"message": "Matching donors found",
+		"patient": patient,
+		"donors":  donors,
+	})
 }

@@ -12,40 +12,34 @@
         <section>
             <h2>نتيجة التّطابق</h2>
             <p>عدد المتبرّعين المتطابقين: <span id="match_count">{{ len .donors }}</span></p>
-            <p>المريض: <span id="patient_first_name">{{ .patient_first_name }}</span> <span id="patient_last_name">{{ .patient_last_name }}</span></p>
-            <p>فصيلة الدم: <span id="patient_blood_type">{{ .patient_blood_type }}</span></p>
-            <p>المستشفى: <span id="hospital">{{ .hospital_name }}</span></p>
+            <p>المريض: <span id="patient_latin_name">{{ .patient.LatinName }}</span>
+            <p>فصيلة الدم: <span id="patient_blood_type">{{ .patient.BloodType }}</span></p>
+            <p>المستشفى: <span id="hospital">{{ .patient.Address.HospitalName }}</span></p>
             <h3>المتبرّعين المتطابقين:</h3>
-            <button id="selectAllButton">اختيار الجميع</button>
-            <button id="deselectAllButton">إلغاء اختيار الجميع</button>
+            <button id="selectAllButton" style="background-color: gray;">اختيار الجميع</button>
+            <button id="deselectAllButton" style="background-color: gray;">إلغاء اختيار الجميع</button>
             <table>
                 <thead>
                     <tr>
                         <th>اختيار</th>
                         <th>ID</th>
                         <th>الاسم</th>
-                        <th>اللقب</th>
                         <th>فصيلة الدم</th>
                         <th>رقم الهاتف</th>
-                        <th>العنوان</th>
-                        <th>البريد الإلكتروني</th>
-                        <th>العمر</th>
-                        <th>الجنس</th>
+                        <th>المنطقة</th>
+                        <th>مرّات التبرّع</th>
                     </tr>
                 </thead>
                 <tbody>
                     {{ range .donors }}
                     <tr>
-                        <td><input type="checkbox" class="donor-checkbox" data-id="{{ .id }}"></td>
-                        <td>{{ .id }}</td>
-                        <td>{{ .first_name }}</td>
-                        <td>{{ .last_name }}</td>
-                        <td>{{ .bloodType }}</td>
-                        <td>{{ .phone_number }}</td>
-                        <td>{{ .address }}</td>
-                        <td>{{ .email }}</td>
-                        <td>{{ .age }}</td>
-                        <td>{{ .gender }}</td>
+                        <td><input type="checkbox" class="donor-checkbox" data-id="{{ .ID }}"></td>
+                        <td>{{ .ID }}</td>
+                        <td>{{ .LatinName }}</td>
+                        <td>{{ .BloodType }}</td>
+                        <td><a href="https://wa.me/{{.PhoneNumber}}" dir="ltr" target="_blank">{{ .PhoneNumber }}</a></td>
+                        <td>{{ .Address.DistrictName }}</td>
+                        <td>{{ .Score }}</td>
                     </tr>
                     {{ end }}
                 </tbody>
