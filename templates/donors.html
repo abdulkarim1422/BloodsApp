@@ -15,7 +15,6 @@
                     <tr>
                         <th>ID</th>
                         <th>الاسم</th>
-                        <th>اللقب</th>
                         <th>زمرة الدم</th>
                         <th>رقم الهاتف</th>
                         <th>المنطقة</th>
@@ -29,10 +28,9 @@
                     {{ range .donors }}
                     <tr>
                         <td>{{ .ID }}</td>
-                        <td>{{ .FirstName }}</td>
-                        <td>{{ .LastName }}</td>
+                        <td>{{ .LatinName }}</td>
                         <td>{{ .BloodType }}</td>
-                        <td><a href="https://wa.me/{{.PhoneNumber}}" dir="ltr">{{ .PhoneNumber }}</a></td>
+                        <td><a href="https://wa.me/{{.PhoneNumber}}" dir="ltr" target="_blank">{{ .PhoneNumber }}</a></td>
                         <td>{{ .Address.DistrictName }}</td>
                         <td>{{ .RedTimer }}</td>
                         <td>{{ .PlateletTimer }}</td>
