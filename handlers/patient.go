@@ -57,3 +57,15 @@ func UpdatePatient(c *gin.Context) {
 func DeletePatient(c *gin.Context) {
 	services.DeletePatient(c)
 }
+
+// CheckPatientsWaiting godoc
+// @Summary Check patients waiting for donation
+// @Description Check patients waiting for donation
+// @Tags patients
+// @ID check-patients-waiting
+// @Accept json
+// @Produce json
+// @Router /waiting-patients [get]
+func CheckPatientsWaiting(c *gin.Context) {
+	services.CheckPatientsWaiting(c)
+}

@@ -5,7 +5,6 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/abdulkarim1422/BloodsApp/initializers"
 	"github.com/abdulkarim1422/BloodsApp/models"
 	"github.com/abdulkarim1422/BloodsApp/repositories"
 	"github.com/gin-gonic/gin"
@@ -135,11 +134,5 @@ func DeletePatient(c *gin.Context) {
 
 // Check if patient is waiting for donors
 func CheckPatientsWaiting(c *gin.Context) {
-	var patients []models.Patient
-	result := initializers.DB.Where("red_required != 0 OR platelet_required != 0").Find(&patients)
-	if result.Error != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": result.Error})
-		return
-	}
-	c.JSON(http.StatusOK, patients)
+	repositories.CheckPatientsWaiting()
 }

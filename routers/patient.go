@@ -10,4 +10,6 @@ func RegisterProtectedPatientRoutes(router *gin.Engine) {
 	router.POST("/patient", handlers.CreatePatient)
 	router.PUT("/patient/:id", handlers.UpdatePatient)
 	router.DELETE("/patient/:id", handlers.DeletePatient)
+	router.GET("/waiting-patients", handlers.CheckPatientsWaiting)
+
 }

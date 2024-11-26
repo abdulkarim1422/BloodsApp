@@ -75,3 +75,12 @@ func DeletePatient(id int) error {
 	}
 	return nil
 }
+
+func CheckPatientsWaiting() ([]models.Patient, error) {
+	var patients []models.Patient
+	result := initializers.DB.Where("red_required != 0 OR platelet_required != 0").Find(&patients)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	return patients, nil
+}
