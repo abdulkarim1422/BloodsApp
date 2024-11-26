@@ -74,6 +74,10 @@
                     <option value="1">أحتاجهم اليوم</option>
                 </select> -->
                 
+                <label for="needRed">دم أحمر (كريات دم حمراء):</label>
+                <input type="checkbox" id="needRed" name="needRed" onchange="toggleRedRequired()">
+
+                <div id="redRequiredDiv" style="display:none;">
                 <label for="red_quantity">عدد أكياس الدم الحمراء اللازمة:</label>
                 <select id="red_quantity" name="RedRequired" required>
                     <option value="" selected disabled>اختر عدد الأكياس</option>
@@ -89,7 +93,13 @@
                     <option value="9">9</option>
                     <option value="10">10</option>
                 </select>
+                </div>
                 
+
+                <label for="needPlatelet">دم أبيض (صفائح دمويّة):</label>
+                <input type="checkbox" id="needPlatelet" name="needPlatelet" onchange="togglePlateletRequired()">
+
+                <div id="plateletRequiredDiv" style="display:none;">
                 <label for="platelet_quantity">عدد أكياس الصفائح الدموية اللازمة:</label>
                 <select id="platelet_quantity" name="PlateletRequired" required>
                     <option value="" selected disabled>اختر عدد الأكياس</option>
@@ -101,6 +111,7 @@
                     <option value="5">5</option>
                     <option value="6">6</option>
                 </select>
+                </div>
 
                 <label for="carAvailable">هل السيارة متاحة:</label>
                 <select id="carAvailable" name="CarAvailable" required>
@@ -197,9 +208,28 @@
                 codeDiv.style.display = "none";
             }
         }
+
+        function toggleRedRequired() {
+            var checkBox = document.getElementById("needRed");
+            var redDiv = document.getElementById("redRequiredDiv");
+            if (checkBox.checked) {
+            redDiv.style.display = "block";
+            } else {
+            redDiv.style.display = "none";
+            }
+        }
+
+        function togglePlateletRequired() {
+            var checkBox = document.getElementById("needPlatelet");
+            var plateletDiv = document.getElementById("plateletRequiredDiv");
+            if (checkBox.checked) {
+            plateletDiv.style.display = "block";
+            } else {
+            plateletDiv.style.display = "none";
+            }
+        }
     </script>
     <script src="js/main.js"></script>
-    <script src="js/for
-    m.js"></script>
+    <script src="js/form.js"></script>
 </body>
 </html>
