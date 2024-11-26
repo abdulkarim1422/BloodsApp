@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Donation Form - Blood Donation App</title>
+    <title>فورم التبرّع</title>
     <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
@@ -11,27 +11,27 @@
         <section>
             <h2>استمارة التبرّع</h2>
             <form id="donationForm">
-                <label for="donor_id">Select Donor:</label>
+                <label for="donor_id">المتبرّع:</label>
                 <select id="donor_id" name="donor_id" required>
                     {{ range .donors }}
                     <option value="{{ .ID }}">{{ .BloodType }} \ {{ .FirstName }} {{ .LastName }} (ID: {{ .ID }})</option>
                     {{ end }}
                 </select>
                 
-                <label for="patient_id">Select Patient:</label>
+                <label for="patient_id">المريض:</label>
                 <select id="patient_id" name="patient_id" required>
                     {{ range .patients }}
                     <option value="{{ .ID }}">{{ .BloodType }} \ {{ .FirstName }} {{ .LastName }} (ID: {{ .ID }})</option>
                     {{ end }}
                 </select>
                 
-                <label for="donation_type">Select Donation Type:</label>
+                <label for="donation_type">تبرّع بـــــــــ :</label>
                 <select id="donation_type" name="donation_type" required>
-                    <option value="red">Red Blood Cells</option>
-                    <option value="platelet">Platelet</option>
+                    <option value="red">دم أحمر (كريات دم حمراء)</option>
+                    <option value="platelet">دم أبيض (صفائح دمويّة)</option>
                 </select>
                 
-                <button type="submit">Submit</button>
+                <button type="submit"><strong>توثيق</strong></button>
             </form>
         </section>
     </main>
