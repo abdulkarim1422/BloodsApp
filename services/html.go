@@ -191,3 +191,10 @@ func ShowPatientsWaitingPage(c *gin.Context) {
 		"patients": patients,
 	})
 }
+
+// Specific request
+func ShowSpecificRequest(c *gin.Context) {
+	c.HTML(http.StatusOK, "request.html", gin.H{
+		"title": "Request",
+	})
+}

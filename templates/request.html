@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ .title }}</title>
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+</head>
+<body>
+    <!-- Include the header -->
+    {{ template "dash_header.html" . }}
+    
+    <div class="container mt-5">
+        <h1 class="mb-4">{{ .title }}</h1>
+        <h5>اسم المريض: {{ .patient.LatinName }}</h5>
+        <p>رقم الهاتف: <a href="https://wa.me/{{.patient.PhoneNumber}}" dir="ltr" target="blank">{{ .patient.PhoneNumber }}</a></p>
+        <p>المشفى: {{ .patient.HospitalName }}</p>
+
+    </div>
+</body>
+</html>

@@ -31,5 +31,6 @@ type Patient struct {
 	DeathStatus        bool      `json:"death_status" form:"DeathStatus"`
 	DeathDate          time.Time `json:"death_date,omitempty" form:"DeathDate" time_format:"2006-01-02"`
 	SpecialPatient     bool      `json:"special_patient" form:"SpecialPatient"`
+	RequestsSent       int       `json:"requests_sent" form:"RequestsSent"`
 	Verify             string    `json:"verify,omitempty"`
 }

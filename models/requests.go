@@ -6,28 +6,18 @@ import (
 	"gorm.io/gorm"
 )
 
-// // Requests represents a request in the system
-// // @Description Requests represents a request in the system
-// type Request struct {
-// 	gorm.Model
-// 	PatientID    int    `json:"patient_id"`
-// 	DonorID      int    `json:"donor_id,omitempty"`
-// 	HospitalID   int    `json:"hospital_id,omitempty"`
-// 	HospitalName string `json:"hospital_name" form:"HospitalName"` // Request
-// 	Red          int    `json:"red" form:"Red"`
-// 	Platelet     int    `json:"platelet" form:"Platelet"`
-// 	CarAvailable bool   `json:"car_available" form:"CarAvailable"`
-// 	RedRequired  int    `json:"red_required" form:"RedRequired"` // Request
-// 	// RedReceived        int    `json:"red_recieved" form:"RedReceived"`           // Patient
-// 	PlateletRequired int `json:"platelet_required" form:"PlateletRequired"` // Request
-// 	// PlateletReceived   int    `json:"platelet_recieved" form:"PlateletReceived"` // Patient
-// 	RequestStatus      int    `json:"request_status" form:"RequestStatus"`
-// 	Urgency            int    `json:"urgency" form:"Urgency"` // Request
-// 	Relationship       int    `json:"relationship" form:"Relationship"`
-// 	AcceptsRedCrescent bool   `json:"accepts_red_crescent" form:"AcceptsRedCrescent"`
-// 	RedCrescentCode    string `json:"red_crescent_code" form:"RedCrescentCode"`
-// 	//
-// }
+// Requests represents a sent request in the system
+// @Description Requests represents a sent request in the system
+type Request struct {
+	gorm.Model
+	PatientID         int    `json:"patient_id"`
+	DonorID           int    `json:"donor_id,omitempty"`
+	RedReceived       bool   `json:"red_received" form:"RedReceived"`
+	PlateletReceived  bool   `json:"platelet_received" form:"PlateletReceived"`
+	MessageOpened     bool   `json:"message_opened" form:"MessageOpened"`
+	MarkedAsCompleted bool   `json:"marked_as_completed" form:"MarkedAsCompleted"`
+	RedCrescentCode   string `json:"red_crescent_code" form:"RedCrescentCode"`
+}
 
 // SchedualedRequest represents a schedualed request in the system
 // @Description SchedualedRequest represents a schedualed request in the system
