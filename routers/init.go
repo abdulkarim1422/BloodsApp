@@ -39,7 +39,7 @@ func AllRouters() {
 		RegisterProtectedHTMLRoutes(router)
 		RegisterProtectedMatchRoutes(router)
 		RegisterProtectedPatientRoutes(router)
-		RegisterProtectedSchedual(router)
+		RegisterProtectedScheduale(router)
 	}
 
 	/* Auth API */

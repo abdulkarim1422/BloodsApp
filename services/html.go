@@ -64,13 +64,14 @@ func ShowLoginForm(c *gin.Context) {
 	})
 }
 
+// Schedule Request
 func ShowSpecialPatientForm(c *gin.Context) {
 	patients, err := repositories.GetAllPatients()
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
-	c.HTML(http.StatusOK, "schedual_request_form.html", gin.H{
+	c.HTML(http.StatusOK, "scheduale_request_form.html", gin.H{
 		"title":    "Special Patient Registration",
 		"patients": patients,
 	})
@@ -88,6 +89,7 @@ func ShowSchedualedRequestsPage(c *gin.Context) {
 	})
 }
 
+// Updating the patient and donor
 func ShowUpdatePatientForm(c *gin.Context) {
 	id := c.Param("id")
 	patientID, err := strconv.Atoi(id)
