@@ -12,20 +12,6 @@ import (
 
 var unverifiedDonors = make(map[string]models.Donor)
 
-func ShowDonorsPage(c *gin.Context) {
-	var donors []models.Donor
-	donors, err := repositories.GetAllDonors()
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-		return
-	}
-
-	c.HTML(http.StatusOK, "donors.html", gin.H{
-		"title":  "Donors List",
-		"donors": donors,
-	})
-}
-
 func CreateDonor(c *gin.Context) {
 	var newDonor models.Donor
 	if err := c.ShouldBind(&newDonor); err != nil {

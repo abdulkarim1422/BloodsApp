@@ -4,10 +4,12 @@ import (
 	"net/http"
 	"strconv"
 
+	"github.com/abdulkarim1422/BloodsApp/models"
 	"github.com/abdulkarim1422/BloodsApp/repositories"
 	"github.com/gin-gonic/gin"
 )
 
+// Main and Dashboard pages
 func Main_Page(c *gin.Context) {
 	c.HTML(http.StatusOK, "index.html", gin.H{"title": "Main Page"})
 }
@@ -16,6 +18,7 @@ func Dashboard_Page(c *gin.Context) {
 	c.HTML(http.StatusOK, "dashboard.html", gin.H{"title": "Dashboard"})
 }
 
+// Patient and Donor forms
 func ShowPatientForm(c *gin.Context) {
 	c.HTML(http.StatusOK, "patient_form.html", gin.H{
 		"title": "Patient Registration",
@@ -28,6 +31,7 @@ func ShowDonorForm(c *gin.Context) {
 	})
 }
 
+// Admin forms
 func ShowMatchForm(c *gin.Context) {
 	patients, err := repositories.GetAllPatients()
 	if err != nil {
@@ -125,3 +129,35 @@ func ShowUpdateDonorForm(c *gin.Context) {
 		"donor": donor,
 	})
 }
+
+// Patients and Donors list
+func ShowPatientsPage(c *gin.Context) {
+	var patients []models.Patient
+	patients, err := repositories.GetAllPatients()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.HTML(http.StatusOK, "patients.html", gin.H{
+		"title":    "Patients List",
+		"patients": patients,
+	})
+}
+
+func ShowDonorsPage(c *gin.Context) {
+	var donors []models.Donor
+	donors, err := repositories.GetAllDonors()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.HTML(http.StatusOK, "donors.html", gin.H{
+		"title":  "Donors List",
+		"donors": donors,
+	})
+}
+
+// Waiting patients
+// func ShowPatientsWaitingPage(c *gin.Context) {

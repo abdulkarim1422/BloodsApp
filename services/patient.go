@@ -5,26 +5,13 @@ import (
 	"net/http"
 	"strconv"
 
+	"github.com/abdulkarim1422/BloodsApp/initializers"
 	"github.com/abdulkarim1422/BloodsApp/models"
 	"github.com/abdulkarim1422/BloodsApp/repositories"
 	"github.com/gin-gonic/gin"
 )
 
 var unverifiedPatients = make(map[string]models.Patient)
-
-func ShowPatientsPage(c *gin.Context) {
-	var patients []models.Patient
-	patients, err := repositories.GetAllPatients()
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-		return
-	}
-
-	c.HTML(http.StatusOK, "patients.html", gin.H{
-		"title":    "Patients List",
-		"patients": patients,
-	})
-}
 
 func CreatePatient(c *gin.Context) {
 	var newPatient models.Patient
@@ -144,4 +131,15 @@ func DeletePatient(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{"message": "Patient deleted successfully"})
+}
+
+// Check if patient is waiting for donors
+func CheckPatientsWaiting(c *gin.Context) {
+	var patients []models.Patient
+	result := initializers.DB.Where("red_required != 0 OR platelet_required != 0").Find(&patients)
+	if result.Error != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": result.Error})
+		return
+	}
+	c.JSON(http.StatusOK, patients)
 }
