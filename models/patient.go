@@ -20,8 +20,8 @@ type Patient struct {
 	Gender             string    `json:"gender" form:"Gender"`
 	Address            Address   `json:"address,omitempty" gorm:"embedded"` //form*
 	CarAvailable       bool      `json:"car_available" form:"CarAvailable"` //form
-	Urgency            int       `json:"urgency" form:"Urgency"`            //form
-	RedRequired        int       `json:"red_required" form:"RedRequired"`   //form
+	Urgency            int       `json:"urgency" form:"Urgency"`
+	RedRequired        int       `json:"red_required" form:"RedRequired"` //form
 	RedReceived        int       `json:"red_recieved" form:"RedReceived"`
 	PlateletRequired   int       `json:"platelet_required" form:"PlateletRequired"` //form
 	PlateletReceived   int       `json:"platelet-recieved" form:"PlateletReceived"`
