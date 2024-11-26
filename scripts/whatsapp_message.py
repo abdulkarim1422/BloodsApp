@@ -35,12 +35,12 @@ def send_whatsapp(phone, msg, txt="py", x_cord=958, y_cord=968):
                 time.sleep(1)
                 pyautogui.hotkey('enter')
 
-                print("-Message sent..!!", f"{phone} - {msg.replace('\n', ' ')[:10]}\n")
-                with open(f"scripts/done_{txt}.txt", "a") as x:
-                    x.write(f"{phone} - {msg.replace('\n', ' ')[:10]} - {time.strftime('%Y-%m-%d %H:%M:%S')}\n")
+                print("-Message sent..!!", f"{phone}\n")
+                with open(f"scripts/done_{txt}.txt", "a", encoding="utf-8", errors="replace") as x:
+                    x.write(f"{phone} - {msg.replace('\n', ' ')[:20]} - {time.strftime('%Y-%m-%d %H:%M:%S')}\n")
             except Exception as e:
-                with open(f"scripts/error_{txt}.txt", "a") as error_file:
-                    error_file.write(f"{phone} - {msg.replace('\n', ' ')[:10]} - {time.strftime('%Y-%m-%d %H:%M:%S')}\n")
+                with open(f"scripts/error_{txt}.txt", "a", encoding="utf-8", errors="replace") as error_file:
+                    error_file.write(f"{phone} - {msg.replace('\n', ' ')[:20]} - {time.strftime('%Y-%m-%d %H:%M:%S')}\n")
                 print(f"Failed to send message to {phone}: {e}")
     except Timeout:
         print("Another instance of whatsapp is running. Waiting for it to finish...")
