@@ -26,8 +26,16 @@
                         <p class="card-text">عدد أكياس الصفيحات المحتاجة: {{ .PlateletRequired }}</p>
                         <p class="card-text">القرابة: {{ .Relationship }}</p>
                         <p class="card-text">كود الهلال الأحمر: {{ .RedCrescentCode }}</p>
-                        <a href="/update_patient/{{ .ID }}" class="btn btn-primary">تعديل</a>
-                        <a href="/match/{{ .ID }}" class="btn btn-primary">بحث عن متبرّع</a>
+                        <a href="/update_patient/{{ .ID }}" class="btn btn-primary" style="background-color: #ED5565;border-color: gray;">تعديل</a>
+                        <a href="/match/{{ .ID }}" class="btn btn-primary">بحث عن متبرّعين</a>
+                        {{ if eq .RequestsSent 0 }}
+                        <p class="btn btn-primary mb-0 mr-2" style="background-color: gray;">{{ .RequestsSent }}</p>
+                        {{ else if and (gt .RequestsSent 0) (lt .RequestsSent 10) }}
+                        <p class="btn btn-primary mb-0 mr-2" style="background-color: yellow;">{{ .RequestsSent }}</p>
+                        {{ else if ge .RequestsSent 10 }}
+                        <p class="btn btn-primary mb-0 mr-2" style="background-color: green;">{{ .RequestsSent }}</p>
+                        {{ end }}
+                        <p class="card-text"><small class="text-muted">آخر تحديث: {{ .UpdatedAt }}</small></p>
                     </div>
                 </div>
             </div>
