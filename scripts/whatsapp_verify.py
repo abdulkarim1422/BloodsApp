@@ -35,9 +35,9 @@ def send_whatsapp (phone,code,x_cord=958,y_cord=968):
                 pyautogui.press('enter')
                 time.sleep (4)
 
-                pyautogui.hotkey('ctrl+w')
+                pyautogui.hotkey('ctrl', 'w')
                 time.sleep (1)
-                pyautogui.hotkey('enter')
+                pyautogui.press('enter')
                 
                 print ("-Message sent..!!", f"{phone} - {code}\n")
                 with open("scripts/verify_sent.txt", "a") as x:
