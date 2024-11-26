@@ -54,6 +54,6 @@ if __name__ == "__main__":
     phone = sys.argv[1]
     message = sys.argv[2]
     txt_file_name = sys.argv[3]
-    x_cord = int(os.getenv('x_cord'))
-    y_cord = int(os.getenv('y_cord'))
+    x_cord = os.getenv('x_cord')
+    y_cord = os.getenv('y_cord')
     send_whatsapp(phone, message, txt_file_name, x_cord, y_cord)

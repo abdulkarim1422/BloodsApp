@@ -9,7 +9,7 @@
     <!-- Include the header -->
     {{ template "dash_header.html" . }}
     <main>
-        <section>
+        <section id="matchSection" data-message="{{ .message }}" data-patient-id="{{ .patient.ID }}">
             <h2>نتيجة التّطابق</h2>
             <p>عدد المتبرّعين المتطابقين: <span id="match_count">{{ len .donors }}</span></p>
             <p>المريض: <span id="patient_latin_name">{{ .patient.LatinName }}</span>

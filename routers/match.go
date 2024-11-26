@@ -6,6 +6,5 @@ import (
 )
 
 func RegisterProtectedMatchRoutes(router *gin.Engine) {
-
 	router.POST("/process-match", services.ProcessMatchForm)
 }
