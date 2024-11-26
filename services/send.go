@@ -3,10 +3,10 @@ package services
 import (
 	"fmt"
 	"math/rand"
+	"os"
 	"os/exec"
 	"time"
 
-	"github.com/abdulkarim1422/BloodsApp/initializers"
 	"github.com/abdulkarim1422/BloodsApp/models"
 	"github.com/abdulkarim1422/BloodsApp/repositories"
 )
@@ -28,14 +28,9 @@ func SendMatchResult(patientID int, donors []int) {
 		donorsList = append(donorsList, *donor)
 	}
 
+	var domain = os.Getenv("domain")
 	// Run WhatsApp script Loop
 	for _, donor := range donorsList {
-		// Create the message
-		message := fmt.Sprintf("مرحبًا %s، هذه رسالة تلقائية من تطبيق BloodsApp. يوجد مريض يحتاج إلى تبرع بالدم. يرجى التواصل مع المستشفى للتبرع.", donor.LatinName)
-
-		// Send the message
-		SendWhatsappMessage(donor.PhoneNumber, message, "match")
-
 		// Store the request
 		var request models.Request
 		request.PatientID = int(patient.ID)
@@ -43,7 +38,34 @@ func SendMatchResult(patientID int, donors []int) {
 		request.Address.HospitalName = patient.Address.HospitalName
 		request.RedCrescentCode = patient.RedCrescentCode
 
-		repositories.CreateRequest(&request)
+		requestID, err := repositories.CreateRequest(&request)
+		if err != nil {
+			fmt.Printf("Error creating request: %v\n", err)
+			return
+		}
+		// Create the message
+		message := fmt.Sprintf(
+			`مرحبًا %s،
+	هذه رسالة تلقائية من تطبيق BloodsApp.
+	يوجد مريض يحتاج إلى تبرّع بالدم.
+	زمرة الدم: %s
+	المشفى: %s
+
+	يمكنك الضغط على هذا الرابط للوصول لمعلومات المريض إذا أردت:
+	%s/request/%d
+	`,
+			donor.LatinName, patient.BloodType, patient.Address.HospitalName, domain, requestID)
+
+		// Send the message
+		SendWhatsappMessage(donor.PhoneNumber, message, "match")
+
+		// Add one request to the patient's requests
+		err_adding_request := repositories.AddOneRequestSent(patientID)
+		if err_adding_request != nil {
+			fmt.Printf("Error adding request to patient's requests: %v\n", err_adding_request)
+			return
+		}
+
 	}
 
 	fmt.Printf("Match results sent successfully, and stored in the Request table in database\n")
@@ -61,7 +83,11 @@ func sendVerificationCode(phone, code string) {
 }
 
 func SendWhatsappMessage(phone string, message string, txt_file_name string) {
-	cmd := exec.Command(initializers.PythonCaller, "scripts/whatsapp_message.py", phone, message, txt_file_name)
+	pythonCaller := os.Getenv("PythonCaller")
+	if pythonCaller == "" {
+		pythonCaller = "python3"
+	}
+	cmd := exec.Command(pythonCaller, "scripts/whatsapp_message.py", phone, message, txt_file_name)
 	output, err := cmd.CombinedOutput()
 	if err != nil {
 		fmt.Printf("Error sending WhatsApp message: %v\n", err)
