@@ -48,6 +48,14 @@ func UpdateRequest(request *models.Request) error {
 	return nil
 }
 
+func SetMessageOpened(requestID int) error {
+	result := initializers.DB.Model(&models.Request{}).Where("id = ?", requestID).Update("message_opened", true)
+	if result.Error != nil {
+		return result.Error
+	}
+	return nil
+}
+
 func DeleteRequest(id int) error {
 	result := initializers.DB.Delete(&models.Request{}, id)
 	if result.Error != nil {

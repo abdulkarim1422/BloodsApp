@@ -194,7 +194,53 @@ func ShowPatientsWaitingPage(c *gin.Context) {
 
 // Specific request
 func ShowSpecificRequest(c *gin.Context) {
+	// Get the request ID from the query string
+	reqeustID := c.Param("id")
+	if reqeustID == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid reqeustID"})
+
+		return
+	}
+
+	// Convert the request ID to an integer
+	requestIDint, err := strconv.Atoi(reqeustID)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request ID"})
+		return
+	}
+
+	// Get the request by ID
+	request, err := repositories.GetRequestByID(requestIDint)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	// Update the request status to "viewed"
+	err = repositories.SetMessageOpened(requestIDint)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	// Get the patient by ID
+	patient, err := repositories.GetPatientByID(request.PatientID)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	// Get the donor by ID
+	donor, err := repositories.GetDonorByID(request.DonorID)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	// Render the request.html template
 	c.HTML(http.StatusOK, "request.html", gin.H{
-		"title": "Request",
+		"title":   "طلب المريض",
+		"patient": patient,
+		"donor":   donor,
 	})
 }

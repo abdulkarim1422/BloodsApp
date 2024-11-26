@@ -14,8 +14,7 @@
         <h1 class="mb-4">{{ .title }}</h1>
         <h5>اسم المريض: {{ .patient.LatinName }}</h5>
         <p>رقم الهاتف: <a href="https://wa.me/{{.patient.PhoneNumber}}" dir="ltr" target="blank">{{ .patient.PhoneNumber }}</a></p>
-        <p>المشفى: {{ .patient.HospitalName }}</p>
-
+        <p>المشفى: {{ .patient.Address.HospitalName }}</p>
     </div>
 </body>
 </html>
