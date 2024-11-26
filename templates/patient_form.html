@@ -79,7 +79,7 @@
 
                 <div id="redRequiredDiv" style="display:none;">
                 <label for="red_quantity">عدد أكياس الدم الحمراء اللازمة:</label>
-                <select id="red_quantity" name="RedRequired" required>
+                <select id="red_quantity" name="RedRequired">
                     <option value="" selected disabled>اختر عدد الأكياس</option>
                     <option value="0">0</option>
                     <option value="1">1</option>
@@ -101,7 +101,8 @@
 
                 <div id="plateletRequiredDiv" style="display:none;">
                 <label for="platelet_quantity">عدد أكياس الصفائح الدموية اللازمة:</label>
-                <select id="platelet_quantity" name="PlateletRequired" required>
+                <select id="
+                " name="PlateletRequired">
                     <option value="" selected disabled>اختر عدد الأكياس</option>
                     <option value="0">0</option>
                     <option value="1">1</option>
@@ -140,7 +141,8 @@
                 <label for="verification_code">رمز التحقق:</label>
                 <p>سيتم إرسال رمز التحقق إلى رقم الواتساب الخاص بك في غضون 45 ثانية.</p>
                 <input type="text" id="verification_code" name="VerificationCode" required>
-                <button id="verifyButton">تحقق</button>
+                <button id="ve
+                rifyButton">تحقق</button>
             </div>
         </section>
     </main>
@@ -177,6 +179,7 @@
             .catch(error => console.error('Error:', error));
         });
 
+        // Verify the patient's phone number
         document.getElementById('verifyButton').addEventListener('click', function() {
             const verificationCode = document.getElementById('verification_code').value;
             const patient_id = localStorage.getItem('patient_id');
@@ -199,6 +202,7 @@
             .catch(error => console.error('Error:', error));
         });
         
+        // Toggle the display of the Red Crescent code field
         function toggleRedCrescentCode() {
             var selectBox = document.getElementById("acceptsRedCrescent");
             var codeDiv = document.getElementById("redCrescentCodeDiv");
@@ -209,24 +213,27 @@
             }
         }
 
+        // Toggle the display of the blood required quantity field
         function toggleRedRequired() {
-            var checkBox = document.getElementById("needRed");
-            var redDiv = document.getElementById("redRequiredDiv");
-            if (checkBox.checked) {
-            redDiv.style.display = "block";
-            } else {
-            redDiv.style.display = "none";
-            }
+            const redRequiredDiv = document.getElementById('redRequiredDiv');
+            redRequiredDiv.style.display = document.getElementById('needRed').checked ? 'block' : 'none';
         }
 
         function togglePlateletRequired() {
-            var checkBox = document.getElementById("needPlatelet");
-            var plateletDiv = document.getElementById("plateletRequiredDiv");
-            if (checkBox.checked) {
-            plateletDiv.style.display = "block";
-            } else {
-            plateletDiv.style.display = "none";
+            const plateletRequiredDiv = document.getElementById('plateletRequiredDiv');
+            plateletRequiredDiv.style.display = document.getElementById('needPlatelet').checked ? 'block' : 'none';
+        }
+
+        // Validate that at least Red or Platelet is selected
+        function validateForm() {
+            const redQuantity = document.getElementById('red_quantity').value;
+            const plateletQuantity = document.getElementById('platelet_quantity').value;
+
+            if (redQuantity === "" && plateletQuantity === "") {
+                alert("يجب اختيار عدد أكياس الدم الحمراء أو عدد أكياس الصفائح الدموية.");
+                return false;
             }
+            return true;
         }
     </script>
     <script src="js/main.js"></script>
