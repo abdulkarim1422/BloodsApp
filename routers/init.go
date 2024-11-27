@@ -22,7 +22,7 @@ func AllRouters() {
 
 	RegisterStaticRoutes(router)
 
-	router.Use(gin.Recovery(), lib.Logger())
+	router.Use(gin.Recovery(), lib.Logger(), middlewares.MethodOverride())
 
 	// Public routes
 	RegisterOpenHTMLRoutes(router)
