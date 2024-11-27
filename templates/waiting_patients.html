@@ -31,7 +31,7 @@
                         {{ if eq .RequestsSent 0 }}
                         <p class="btn btn-primary mb-0 mr-2" style="background-color: gray;">{{ .RequestsSent }}</p>
                         {{ else if and (gt .RequestsSent 0) (lt .RequestsSent 10) }}
-                        <p class="btn btn-primary mb-0 mr-2" style="background-color: yellow;">{{ .RequestsSent }}</p>
+                        <p class="btn btn-primary mb-0 mr-2" style="background-color: orange;">{{ .RequestsSent }}</p>
                         {{ else if ge .RequestsSent 10 }}
                         <p class="btn btn-primary mb-0 mr-2" style="background-color: green;">{{ .RequestsSent }}</p>
                         {{ end }}
