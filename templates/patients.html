@@ -16,7 +16,7 @@
                         <th>عدد أكياء الدم الحمراء المستلمة</th>
                         <th>عدد أكياس الصفيحات المحتاجة</th>
                         <th>عدد أكياس الصفيحات المستلمة</th>
-                        <th>توفّر سيارة</th>
+                        <th>وسيلة النقل</th>
                         <th>تعديل</th>
                     </tr>
                 </thead>
@@ -32,7 +32,7 @@
                         <td>{{ .RedReceived }}</td>
                         <td><strong>{{ .PlateletRequired }}</strong></td>
                         <td>{{ .PlateletReceived }}</td>
-                        <td>{{ .CarAvailable }}</td>
+                        <td>{{ .Transportation }}</td>
                         <td><a href="/update_patient/{{ .ID }}">تعديل</a></td>
                     </tr>
                     {{ end }}
