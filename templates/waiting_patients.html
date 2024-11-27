@@ -42,6 +42,28 @@
             {{ end }}
         </div>
     </div>
+    <br>
+    <div class="container mt-5">
+        <h1 class="mb-4">الطلبات المجدولة</h1>
+        <div class="row">
+            {{ range .schedualedRequests }}
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <div class="card-body text-right">
+                        <h5 class="card-title"><strong>{{ .LatinName }}</strong></h5>
+                        <p class="card-text">رقم الهاتف: <a href="https://wa.me/{{.PhoneNumber}}" dir="ltr" target="_blank" class="btn btn-primary" style="background-color: green;border-color: greenyellow;">{{ .PhoneNumber }}</a></p>
+                        <p class="card-text">زمرة الدم: <strong>{{ .BloodType }}</strong></p>
+                        <p class="card-text">عدد أكياس الدم الحمراء المحتاجة: {{ .RedRequired }}</p>
+                        <p class="card-text">عدد أكياس الصفيحات المحتاجة: {{ .PlateletRequired }}</p>
+                        <p class="card-text">تاريخ الطلب القادم: {{ .NextRequestDate }}</p>
+                        <p class="card-text"><small class="text-muted">آخر تحديث: {{ .UpdatedAt }}</small></p>
+                    </div>
+                </div>
+            </div>
+            {{ end }}
+        </div>
+        
+    </div>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
