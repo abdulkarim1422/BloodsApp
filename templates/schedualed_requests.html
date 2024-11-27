@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="css/style.css">
     <title>Scheduled Requests - Blood Donation App</title>
 </head>
 <body>
@@ -19,11 +18,12 @@
                         <th>رقم المريض</th>
                         <th>اسم المريض</th>
                         <th>زرمة الدّم</th>
+                        <th>رقم المريض</th>
                         <th>المدّة بين الطلبات</th>
                         <th>كمّيّة الطلبات</th>
                         <th>اسم المرض</th>
                         <th>تاريخ الطلب التالي</th>
-                        <th>تمّ الطلب</th>
+                        <th>الطلبات المحقّقة</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -31,13 +31,14 @@
                     <tr>
                         <td>{{ .ID }}</td>
                         <td>{{ .PatientID }}</td>
-                        <td>{{ .Patient.FirstName }} {{ .Patient.LastName }}</td>
-                        <td>{{ .Patient.BloodType }}</td>
-                        <td>{{ .RequestInterval }}</td>
+                        <td>{{ .LatinName }}</td>
+                        <td>{{ .BloodType }}</td>
+                        <td>{{ .PhoneNumber }}</td>
+                        <td>{{ .RequestInterval }} يوم</td>
                         <td>{{ .RequestFrequency }}</td>
                         <td>{{ .DiseaseName }}</td>
-                        <td>{{ .NextRequestDate.Format "2006-01-02" }}</td>
-                        <td>{{ .RequestsDone }}</td>
+                        <td>{{ .NextRequestDate.Format "2006.01.02" }}</td>
+                        <td>{{ .RequestsSent }}</td>
                     </tr>
                     {{ end }}
                 </tbody>
