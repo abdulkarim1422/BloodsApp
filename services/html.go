@@ -246,7 +246,7 @@ func ShowSpecificRequest(c *gin.Context) {
 
 	// Render the request.html template
 	c.HTML(http.StatusOK, "request.html", gin.H{
-		"title":   "طلب المريض",
+		"title":   "طلب تبرّع بالدّم",
 		"patient": patient,
 		"donor":   donor,
 		"request": request,
