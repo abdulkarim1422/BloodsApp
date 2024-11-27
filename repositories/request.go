@@ -68,7 +68,7 @@ func CreateSchedualedRequest(schedualedRequest *models.SchedualedRequest) error 
 
 func GetAllSchedualedRequests() ([]models.SchedualedRequest, error) {
 	var schedualedRequests []models.SchedualedRequest
-	result := initializers.DB.Preload("Patient").Find(&schedualedRequests)
+	result := initializers.DB.Find(&schedualedRequests)
 	if result.Error != nil {
 		return nil, result.Error
 	}
