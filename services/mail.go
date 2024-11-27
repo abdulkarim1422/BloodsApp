@@ -27,12 +27,27 @@ func SendMail(emailReq EmailRequest) error {
 	smtpPort := os.Getenv("SMTP_PORT")
 
 	recipients := strings.Split(emailReq.To, ",")
+	// Filter out empty email addresses
+	var validRecipients []string
+	for _, recipient := range recipients {
+		if strings.TrimSpace(recipient) != "" {
+			validRecipients = append(validRecipients, recipient)
+		}
+	}
+
+	// Log the recipient email addresses
+	log.Printf("Sending email to: %v", validRecipients)
+
+	if len(validRecipients) == 0 {
+		log.Println("No valid email addresses to send to.")
+		return nil
+	}
 
 	message := []byte("Subject: " + emailReq.Subject + "\r\n\r\n" + emailReq.Body)
 
 	auth := smtp.PlainAuth("", from, password, smtpHost)
 
-	err = smtp.SendMail(smtpHost+":"+smtpPort, auth, from, recipients, message)
+	err = smtp.SendMail(smtpHost+":"+smtpPort, auth, from, validRecipients, message)
 	if err != nil {
 		log.Fatalf("smtp error: %s", err)
 		return err
