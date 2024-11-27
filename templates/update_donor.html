@@ -31,12 +31,6 @@
                     <option value="O+" {{ if eq .donor.BloodType "O+" }}selected{{ end }}>O+</option>
                     <option value="O-" {{ if eq .donor.BloodType "O-" }}selected{{ end }}>O-</option>
                 </select>
-
-                <label for="redTimer">تاريخ التبرّع بالدم الأحمر القادم:</label>
-                <input type="date" id="redTimer" name="redTimer" value="{{ .donor.RedTimer }}" required>
-
-                <label for="plateletTimer">تاريخ التبرّع بالصفائح الدمويّة القادم:</label>
-                <input type="date" id="plateletTimer" name="plateletTimer" value="{{ .donor.PlateletTimer }}" required>
                 
                 <label for="districtName">العنوان:</label>
                 <input type="text" id="districtName" name="DistrictName" placeholder="İlçe" value="{{ .donor.Address.DistrictName }}" required>
@@ -49,10 +43,10 @@
                 </select>
 
                 <label fir="redTimer">تاريخ التبرّع بالدم الأحمر القادم:</label>
-                <input type="date" id="redTimer" name="RedTimer" value="{{ .donor.RedTimer }}">
+                <input type="date" id="redTimer" name="RedTimer" value="{{ .donor.RedTimer.Format "2006-01-02" }}">
 
                 <label fir="plateletTimer">تاريخ التبرّع بالصفائح الدمويّة القادم:</label>
-                <input type="date" id="plateletTimer" name="PlateletTimer" value="{{ .donor.PlateletTimer }}">
+                <input type="date" id="plateletTimer" name="PlateletTimer" value="{{ .donor.PlateletTimer.Format "2006-01-02" }}">
 
                 <label for="score">النقاط:</label>
                 <input type="number" id="score" name="Score" value="{{ .donor.Score }}">
