@@ -85,7 +85,7 @@ func DonateRed(c *gin.Context) {
 	go SendFeedBackToDonor(donor.Email, donor.PhoneNumber)
 
 	c.JSON(http.StatusOK, gin.H{
-		"message":            "Patient red quantity updated and donor red timer increased",
+		"message":            "Patient red quantity updated and donor red timer increased, donor score increased, and feedbacks sent",
 		"patient_id":         patient.ID,
 		"patient_first_name": patient.FirstName,
 		"patient_last_name":  patient.LastName,
@@ -173,7 +173,7 @@ func DonatePlatelet(c *gin.Context) {
 	go SendFeedBackToDonor(donor.Email, donor.PhoneNumber)
 
 	response := gin.H{
-		"message":             "Patient platelet quantity updated and donor platelet timer increased",
+		"message":             "Patient platelet quantity updated and donor platelet timer increased, donor score increased, and feedbacks sent",
 		"patient_id":          patient.ID,
 		"patient_first_name":  patient.FirstName,
 		"patient_last_name":   patient.LastName,
