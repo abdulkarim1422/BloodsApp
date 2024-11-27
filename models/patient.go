@@ -18,8 +18,8 @@ type Patient struct {
 	BloodType          string    `json:"bloodType" form:"BloodType"` //form
 	BirthDate          time.Time `json:"birth_date,omitempty" form:"BirthDate" time_format:"2006-01-02"`
 	Gender             string    `json:"gender" form:"Gender"`
-	Address            Address   `json:"address,omitempty" gorm:"embedded"` //form*
-	CarAvailable       bool      `json:"car_available" form:"CarAvailable"` //form
+	Address            Address   `json:"address,omitempty" gorm:"embedded"`    //form*
+	Transportation     string    `json:"transportation" form:"Transportation"` //form
 	Urgency            int       `json:"urgency" form:"Urgency"`
 	RedRequired        int       `json:"red_required" form:"RedRequired"` //form
 	RedReceived        int       `json:"red_recieved" form:"RedReceived"`

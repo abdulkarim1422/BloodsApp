@@ -23,7 +23,7 @@
                 
                 <label for="blood_type">فصيلة الدم:</label>
                 <select id="blood_type" name="BloodType" required>
-                    <option value="" selected disabled>اختر فصيلة الدم</option>
+                    <option value="" selected disabled></option>
                     <option value="A+">A+</option>
                     <option value="A-">A-</option>
                     <option value="B+">B+</option>
@@ -54,7 +54,7 @@
                 <div id="relationship">
                 <lablel for="relationship">علاقة صاحب رقم الهاتف بالمريض:</lablel>
                 <select id="relationship" name="Relationship" required>
-                    <option value="" selected disabled>اختر العلاقة</option>
+                    <option value="" selected disabled></option>
                     <option value="self">المريض نفسه</option>
                     <option value="family">أحد أفراد العائلة</option>
                     <option value="friend">صديق</option>
@@ -67,7 +67,7 @@
                 
                 <label for="urgency">درجة الاستعجال:</label>
                 <select id="urgency" name="Urgency" required>
-                    <option value="" selected disabled>اختر درجة الاستعجال</option>
+                    <option value="" selected disabled></option>
                     <option value="6">أحتاجهم خلال هذا الشهر</option>
                     <option value="5">أحتاجهم خلال هذا الأسبوع</option>
                     <option value="4">أحتاجهم غداً في أي وقت</option>
@@ -108,11 +108,12 @@
                 </select>
                 </div>
 
-                <label for="carAvailable">هل السيارة متاحة:</label>
-                <select id="carAvailable" name="CarAvailable" required>
-                    <option value="" selected disabled>اختر</option>
-                    <option value="false">لا</option>
-                    <option value="true">نعم</option>
+                <label for="transportation">وسيلة النّقل</label>
+                <select id="transportation" name="Transportation">
+                    <option value="" selected disabled></option>
+                    <option value="none">غير متوفّر</option>
+                    <option value="taxi">يمكنني دفع مقابل سيارة أجرة للمتبرّع</option>
+                    <option value="car">يمكنني توصيل المتبرّع بالسيارة</option>
                 </select>
                 
                 <label for="acceptsRedCrescent">هل يقبل المشفى التبرّع من الهلال الأحمر؟:</label>
@@ -127,7 +128,15 @@
                     <input type="text" id="redCrescentCode" name="RedCrescentCode">
                 </div>
 
-                
+                <div id="requiresNationalityDiv" style="display:none;">
+                    <label for="requiresNationality">هل يتطلّب المشفى جنسيّة تركيّة من المتبرّع؟</label>
+                    <select id="requiresNationality" name="RequiresNationality">
+                        <option value="" selected disabled></option>
+                        <option value="false">لا</option>
+                        <option value="true">نعم</option>
+                    </select>
+                </div>
+
                 <button type="submit">إرسال</button>
             </form>
 
@@ -198,11 +207,14 @@
         // Toggle the display of the Red Crescent code field
         function toggleRedCrescentCode() {
             var selectBox = document.getElementById("acceptsRedCrescent");
-            var codeDiv = document.getElementById("redCrescentCodeDiv");
+            var redCrescentCodeDiv = document.getElementById("redCrescentCodeDiv");
+            var requiresNationalityDiv = document.getElementById("requiresNationalityDiv");
             if (selectBox.value === "true") {
-                codeDiv.style.display = "block";
+                redCrescentCodeDiv.style.display = "block";
+                requiresNationalityDiv.style.display = "none";
             } else {
-                codeDiv.style.display = "none";
+                redCrescentCodeDiv.style.display = "none";
+                requiresNationalityDiv.style.display = "block";
             }
         }
     </script>
