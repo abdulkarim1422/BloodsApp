@@ -64,8 +64,8 @@ func DeleteRequest(id int) error {
 	return nil
 }
 
-func CreateSchedualedRequest(request *models.SchedualedRequest) error {
-	result := initializers.DB.Create(request)
+func CreateSchedualedRequest(schedualedRequest *models.SchedualedRequest) error {
+	result := initializers.DB.Create(schedualedRequest)
 	if result.Error != nil {
 		return result.Error
 	}
@@ -73,12 +73,12 @@ func CreateSchedualedRequest(request *models.SchedualedRequest) error {
 }
 
 func GetAllSchedualedRequests() ([]models.SchedualedRequest, error) {
-	var requests []models.SchedualedRequest
-	result := initializers.DB.Preload("Patient").Find(&requests)
+	var schedualedRequests []models.SchedualedRequest
+	result := initializers.DB.Preload("Patient").Find(&schedualedRequests)
 	if result.Error != nil {
 		return nil, result.Error
 	}
-	return requests, nil
+	return schedualedRequests, nil
 }
 
 func DeleteScheduledRequest(id int) error {
@@ -87,4 +87,13 @@ func DeleteScheduledRequest(id int) error {
 		return result.Error
 	}
 	return nil
+}
+
+func GetWaitingScheduals() ([]models.SchedualedRequest, error) {
+	var schedualedRequests []models.SchedualedRequest
+	result := initializers.DB.Where("next_request_date < ?", "now()").Find(&schedualedRequests)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	return schedualedRequests, nil
 }
