@@ -26,7 +26,6 @@ go.work.sum
 .env
 
 #other
-*.csv
 *_error.txt
 *_done.txt
 *.lock
