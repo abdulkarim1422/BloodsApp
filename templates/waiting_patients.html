@@ -21,7 +21,7 @@
                         <p class="card-text">رقم الهاتف: <a href="https://wa.me/{{.PhoneNumber}}" dir="ltr" target="_blank" class="btn btn-primary" style="background-color: green;border-color: greenyellow;">{{ .PhoneNumber }}</a></p>
                         <p class="card-text">زمرة الدم: <strong>{{ .BloodType }}</strong></p>
                         <p class="card-text">المشفى: <strong>{{ .Address.HospitalName }}</strong></p>
-                        <p class="card-text">توفّر سيارة: {{ .CarAvailable }}</p>
+                        <p class="card-text">طريقة التنقّل: {{ .Transportation }}</p>
                         <p class="card-text">عدد أكياس الدم الحمراء المحتاجة: {{ .RedRequired }}</p>
                         <p class="card-text">عدد أكياس الصفيحات المحتاجة: {{ .PlateletRequired }}</p>
                         <p class="card-text">القرابة: {{ .Relationship }}</p>
@@ -35,7 +35,7 @@
                         {{ else if ge .RequestsSent 10 }}
                         <p class="btn btn-primary mb-0 mr-2" style="background-color: green;">{{ .RequestsSent }}</p>
                         {{ end }}
-                        <p class="card-text"><small class="text-muted">آخر تحديث: {{ .UpdatedAt }}</small></p>
+                        <p class="card-text"><small class="text-muted">آخر تحديث: {{ .UpdatedAt.Format "2006-01-02 | 15:04" }}</small></p>
                     </div>
                 </div>
             </div>
@@ -56,7 +56,7 @@
                         <p class="card-text">عدد أكياس الدم الحمراء المحتاجة: {{ .RedRequired }}</p>
                         <p class="card-text">عدد أكياس الصفيحات المحتاجة: {{ .PlateletRequired }}</p>
                         <p class="card-text">تاريخ الطلب القادم: {{ .NextRequestDate }}</p>
-                        <p class="card-text"><small class="text-muted">آخر تحديث: {{ .UpdatedAt }}</small></p>
+                        <p class="card-text"><small class="text-muted">آخر تحديث: {{ .UpdatedAt.Format "2006-01-02 | 15:04" }}</small></p>
                     </div>
                 </div>
             </div>
