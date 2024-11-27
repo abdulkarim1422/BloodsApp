@@ -5,6 +5,8 @@ import (
 	"github.com/abdulkarim1422/BloodsApp/models"
 )
 
+// Request ---------------------------
+
 func CreateRequest(request *models.Request) (int, error) {
 	result := initializers.DB.Create(request)
 	if result.Error != nil {
@@ -58,6 +60,8 @@ func DeleteRequest(id int) error {
 	return nil
 }
 
+// SchedualedRequest ---------------------------
+
 func CreateSchedualedRequest(schedualedRequest *models.SchedualedRequest) error {
 	result := initializers.DB.Create(schedualedRequest)
 	if result.Error != nil {
@@ -90,4 +94,32 @@ func GetWaitingScheduals() ([]models.SchedualedRequest, error) {
 		return nil, result.Error
 	}
 	return schedualedRequests, nil
+}
+
+func GetSchedualedRequestByID(id int) (*models.SchedualedRequest, error) {
+	var schedualedRequest models.SchedualedRequest
+	result := initializers.DB.First(&schedualedRequest, id)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	if result.RowsAffected > 0 {
+		return &schedualedRequest, nil
+	}
+	return nil, nil
+}
+
+func UpdateSchedualedRequest(schedualedRequest *models.SchedualedRequest) error {
+	result := initializers.DB.Model(&schedualedRequest).Where("id = ?", schedualedRequest.ID).Updates(schedualedRequest)
+	if result.Error != nil {
+		return result.Error
+	}
+	return nil
+}
+
+func DeleteSchedualedRequest(id int) error {
+	result := initializers.DB.Delete(&models.SchedualedRequest{}, id)
+	if result.Error != nil {
+		return result.Error
+	}
+	return nil
 }
