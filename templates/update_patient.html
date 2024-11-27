@@ -46,52 +46,52 @@
 
                 <label for="urgency">درجة الاستعجال:</label>
                 <select id="urgency" name="Urgency" required>
-                    <option value="5" {{ if eq .patient.Urgency "6" }}selected{{ end }}>أحتاجهم خلال هذا الشهر</option>
-                    <option value="4" {{ if eq .patient.Urgency "5" }}selected{{ end }}>أحتاجهم خلال هذا الأسبوع</option>
-                    <option value="3" {{ if eq .patient.Urgency "4" }}selected{{ end }}>أحتاجهم غداً في أي وقت</option>
-                    <option value="2" {{ if eq .patient.Urgency "3" }}selected{{ end }}>أحتاجهم غداً باكراً</option>
-                    <option value="1" {{ if eq .patient.Urgency "2" }}selected{{ end }}>أحتاجهم اليوم</option>
-                    <option value="0" {{ if eq .patient.Urgency "1" }}selected{{ end }}>أحتاجهم الآن</option>
+                    <option value="5" {{ if eq .patient.Urgency 6 }}selected{{ end }}>أحتاجهم خلال هذا الشهر</option>
+                    <option value="4" {{ if eq .patient.Urgency 5 }}selected{{ end }}>أحتاجهم خلال هذا الأسبوع</option>
+                    <option value="3" {{ if eq .patient.Urgency 4 }}selected{{ end }}>أحتاجهم غداً في أي وقت</option>
+                    <option value="2" {{ if eq .patient.Urgency 3 }}selected{{ end }}>أحتاجهم غداً باكراً</option>
+                    <option value="1" {{ if eq .patient.Urgency 2 }}selected{{ end }}>أحتاجهم اليوم</option>
+                    <option value="0" {{ if eq .patient.Urgency 1 }}selected{{ end }}>أحتاجهم الآن</option>
                 </select>
                 
                 <label for="red_quantity">عدد أكياس الدم الحمراء اللازمة:</label>
                 <select id="red_quantity" name="RedRequired" required>
-                    <option value="0" {{ if eq .patient.RedRequired "0" }}selected{{ end }}>0</option>
-                    <option value="1" {{ if eq .patient.RedRequired "1" }}selected{{ end }}>1</option>
-                    <option value="2" {{ if eq .patient.RedRequired "2" }}selected{{ end }}>2</option>
-                    <option value="3" {{ if eq .patient.RedRequired "3" }}selected{{ end }}>3</option>
-                    <option value="4" {{ if eq .patient.RedRequired "4" }}selected{{ end }}>4</option>
-                    <option value="5" {{ if eq .patient.RedRequired "5" }}selected{{ end }}>5</option>
-                    <option value="6" {{ if eq .patient.RedRequired "6" }}selected{{ end }}>6</option>
-                    <option value="7" {{ if eq .patient.RedRequired "7" }}selected{{ end }}>7</option>
-                    <option value="8" {{ if eq .patient.RedRequired "8" }}selected{{ end }}>8</option>
-                    <option value="9" {{ if eq .patient.RedRequired "9" }}selected{{ end }}>9</option>
-                    <option value="10" {{ if eq .patient.RedRequired "10" }}selected{{ end }}>10</option>
+                    <option value="0" {{ if eq .patient.RedRequired 0 }}selected{{ end }}>0</option>
+                    <option value="1" {{ if eq .patient.RedRequired 1 }}selected{{ end }}>1</option>
+                    <option value="2" {{ if eq .patient.RedRequired 2 }}selected{{ end }}>2</option>
+                    <option value="3" {{ if eq .patient.RedRequired 3 }}selected{{ end }}>3</option>
+                    <option value="4" {{ if eq .patient.RedRequired 4 }}selected{{ end }}>4</option>
+                    <option value="5" {{ if eq .patient.RedRequired 5 }}selected{{ end }}>5</option>
+                    <option value="6" {{ if eq .patient.RedRequired 6 }}selected{{ end }}>6</option>
+                    <option value="7" {{ if eq .patient.RedRequired 7 }}selected{{ end }}>7</option>
+                    <option value="8" {{ if eq .patient.RedRequired 8 }}selected{{ end }}>8</option>
+                    <option value="9" {{ if eq .patient.RedRequired 9 }}selected{{ end }}>9</option>
+                    <option value="10" {{ if eq .patient.RedRequired 10 }}selected{{ end }}>10</option>
                 </select>
                 
                 <label for="platelet_quantity">عدد أكياس الصفائح الدموية اللازمة:</label>
                 <select id="platelet_quantity" name="PlateletRequired" required>
-                    <option value="0" {{ if eq .patient.PlateletRequired "0" }}selected{{ end }}>0</option>
-                    <option value="1" {{ if eq .patient.PlateletRequired "1" }}selected{{ end }}>1</option>
-                    <option value="2" {{ if eq .patient.PlateletRequired "2" }}selected{{ end }}>2</option>
-                    <option value="3" {{ if eq .patient.PlateletRequired "3" }}selected{{ end }}>3</option>
-                    <option value="4" {{ if eq .patient.PlateletRequired "4" }}selected{{ end }}>4</option>
-                    <option value="5" {{ if eq .patient.PlateletRequired "5" }}selected{{ end }}>5</option>
-                    <option value="6" {{ if eq .patient.PlateletRequired "6" }}selected{{ end }}>6</option>
+                    <option value="0" {{ if eq .patient.PlateletRequired 0 }}selected{{ end }}>0</option>
+                    <option value="1" {{ if eq .patient.PlateletRequired 1 }}selected{{ end }}>1</option>
+                    <option value="2" {{ if eq .patient.PlateletRequired 2 }}selected{{ end }}>2</option>
+                    <option value="3" {{ if eq .patient.PlateletRequired 3 }}selected{{ end }}>3</option>
+                    <option value="4" {{ if eq .patient.PlateletRequired 4 }}selected{{ end }}>4</option>
+                    <option value="5" {{ if eq .patient.PlateletRequired 5 }}selected{{ end }}>5</option>
+                    <option value="6" {{ if eq .patient.PlateletRequired 6 }}selected{{ end }}>6</option>
                 </select>
 
                 <label for="transportation">وسيلة النّقل:</label>
                 <select id="transportation" name="Transportation" required>
-                    <option value="none" {{ if eq .patient.CarAvailable "none" }}selected{{ end }}>غير متوفّر</option>
-                    <option value="taxi" {{ if eq .patient.CarAvailable "taxi" }}selected{{ end }}>يمكنني دفع مقابل سيارة أجرة للمتبرّع</option>
-                    <option value="car" {{ if eq .patient.CarAvailable "car" }}selected{{ end }}>يمكنني توصيل المتبرّع بالسيارة</option>
+                    <option value="none" {{ if eq .patient.Transportation "none" }}selected{{ end }}>غير متوفّر</option>
+                    <option value="taxi" {{ if eq .patient.Transportation "taxi" }}selected{{ end }}>يمكنني دفع مقابل سيارة أجرة للمتبرّع</option>
+                    <option value="car" {{ if eq .patient.Transportation "car" }}selected{{ end }}>يمكنني توصيل المتبرّع بالسيارة</option>
                 </select>
                 
                 <label for="acceptsRedCrescent">هل يقبل المشفى التبرّع من الهلال الأحمر؟:</label>
                 <select id="acceptsRedCrescent" name="AcceptsRedCrescent" required>
                     <option value="" selected disabled>اختر</option>
-                    <option value="false" {{ if eq .patient.AcceptsRedCrescent "false" }}selected{{ end }}>لا</option>
-                    <option value="true" {{ if eq .patient.AcceptsRedCrescent "true" }}selected{{ end }}>نعم</option>
+                    <option value="false" {{ if eq .patient.AcceptsRedCrescent false }}selected{{ end }}>لا</option>
+                    <option value="true" {{ if eq .patient.AcceptsRedCrescent true }}selected{{ end }}>نعم</option>
                 </select>
 
                 <label for="redCrescentCode">كود الهلال الأحمر (إن توفّر):</label>
@@ -100,15 +100,15 @@
                 <label for="requiresNationality">هل يتطلّب المشفى جنسيّة تركيّة من المتبرّع؟</label>
                 <select id="requiresNationality" name="RequiresNationality">
                     <option value="" selected disabled></option>
-                    <option value="false" {{ if eq .patient.RequiresNationality "false" }}selected{{ end }}>لا</option>
-                    <option value="true" {{ if eq .patient.RequiresNationality "true" }}selected{{ end }}>نعم</option>
+                    <option value="false" {{ if eq .patient.RequiresNationality false }}selected{{ end }}>لا</option>
+                    <option value="true" {{ if eq .patient.RequiresNationality true }}selected{{ end }}>نعم</option>
                 </select>
 
                 <label for="deathStatus">هل توفي المريض؟</label>
                 <select id="deathStatus" name="DeathStatus">
                     <option value="" selected disabled></option>
-                    <option value="false" {{ if eq .patient.DeathStatus "false" }}selected{{ end }}>لا</option>
-                    <option value="true" {{ if eq .patient.DeathStatus "true" }}selected{{ end }}>نعم</option>
+                    <option value="false" {{ if eq .patient.DeathStatus false }}selected{{ end }}>لا</option>
+                    <option value="true" {{ if eq .patient.DeathStatus true }}selected{{ end }}>نعم</option>
                 </select>
 
                 <button type="submit">تحديث</button>
