@@ -96,7 +96,7 @@ func ShowSpecialPatientForm(c *gin.Context) {
 		return
 	}
 	c.HTML(http.StatusOK, "scheduale_request_form.html", gin.H{
-		"title":    "Special Patient Registration",
+		"title":    "تسجيل مواعيد لمضرضى خاصّين",
 		"patients": patients,
 	})
 }
@@ -186,9 +186,16 @@ func ShowPatientsWaitingPage(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
+	schedualedRequests, err := repositories.GetWaitingScheduals()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
 	c.HTML(http.StatusOK, "waiting_patients.html", gin.H{
-		"title":    "قائمة المرضى المنتظرين",
-		"patients": patients,
+		"title":              "قائمة المرضى المنتظرين",
+		"patients":           patients,
+		"schedualedRequests": schedualedRequests,
 	})
 }
 
