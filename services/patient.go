@@ -19,9 +19,6 @@ func CreatePatient(c *gin.Context) {
 		return
 	}
 
-	// Manually set `CarAvailable` based on form submission
-	newPatient.CarAvailable = c.PostForm("CarAvailable") == "true"
-
 	// Generate and assign verification code
 	newPatient.Verify = generateVerificationCode()
 

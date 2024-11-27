@@ -19,9 +19,6 @@ func CreateDonor(c *gin.Context) {
 		return
 	}
 
-	// Handle the CarAvailable checkbox value
-	newDonor.CarAvailable = c.PostForm("CarAvailable") == "true"
-
 	// Generate and assign verification code
 	newDonor.Verify = generateVerificationCode()
 
