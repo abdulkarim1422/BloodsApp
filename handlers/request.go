@@ -25,7 +25,7 @@ func CreateSchedualedRequest(c *gin.Context) {
 // @Accept  json
 // @Produce  json
 // @Success 200 {array} models.SchedualedRequest "List of schedualed requests"
-// @Router /schedualed-requests [get]
+// @Router /get-all-schedualed-requests [get]
 func GetAllSchedualedRequests(c *gin.Context) {
 	services.GetAllSchedualedRequests(c)
 }

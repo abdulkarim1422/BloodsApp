@@ -8,7 +8,7 @@ import (
 
 func RegisterProtectedScheduale(router *gin.Engine) {
 	router.POST("/scheduale-request", handlers.CreateSchedualedRequest)
-	router.GET("/schedualed-requests", handlers.GetAllSchedualedRequests)
+	router.GET("/get-all-schedualed-requests", handlers.GetAllSchedualedRequests)
 	router.DELETE("/schedualed-request/:id", handlers.DeleteScheduledRequest)
 
 	router.GET("/requests", services.GetAllRequests)
