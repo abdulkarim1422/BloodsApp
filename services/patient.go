@@ -34,6 +34,22 @@ func CreatePatient(c *gin.Context) {
 	c.JSON(http.StatusCreated, gin.H{"id": tempID})
 }
 
+func ApiCreatePatient(c *gin.Context) {
+	var newPatient models.Patient
+	if err := c.ShouldBind(&newPatient); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	err := repositories.CreatePatient(&newPatient)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusCreated, gin.H{"id": newPatient.ID})
+}
+
 func VerifyPatient(c *gin.Context) {
 	patientID := c.Param("id")
 	var request struct {

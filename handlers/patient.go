@@ -31,6 +31,19 @@ func CreatePatient(c *gin.Context) {
 	services.CreatePatient(c)
 }
 
+// ApiCreatePatient godoc
+// @Summary Create a patient
+// @Description Create a patient
+// @Tags patients
+// @ID create-patient
+// @Accept json
+// @Produce json
+// @Param patient body models.Patient true "Patient object"
+// @Router /api/patient [post]
+func ApiCreatePatient(c *gin.Context) {
+	services.ApiCreatePatient(c)
+}
+
 // UpdatePatient godoc
 // @Summary Update a patient
 // @Description Update a patient
