@@ -4,37 +4,50 @@ import (
 	"fmt"
 	"net/http"
 	"strconv"
+	"time"
 
 	"github.com/abdulkarim1422/BloodsApp/models"
 	"github.com/abdulkarim1422/BloodsApp/repositories"
 	"github.com/gin-gonic/gin"
 )
 
+// Request --------------------------
+
+func GetAllRequests(c *gin.Context) {
+	requests, err := repositories.GetAllRequests()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, requests)
+}
+
+// SchedualedRequest --------------------------
+
 func CreateSchedualedRequest(c *gin.Context) {
-	var newRequest models.SchedualedRequest
-	if err := c.ShouldBind(&newRequest); err != nil {
+	var schedualedRequest models.SchedualedRequest
+	if err := c.ShouldBind(&schedualedRequest); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request", "details": err.Error()})
 		return
 	}
 
 	// Log the request payload
-	fmt.Printf("Received request: %+v\n", newRequest)
+	fmt.Printf("Received request: %+v\n", schedualedRequest)
 
 	// Get the patient
-	patient, err := repositories.GetPatientByID(newRequest.PatientID)
+	patient, err := repositories.GetPatientByID(schedualedRequest.PatientID)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
-	// // Bind the patient to the newRequest.Patient
-	// newRequest.Patient = *patient
-	newRequest.LatinName = patient.LatinName
-	newRequest.PhoneNumber = patient.PhoneNumber
-	newRequest.BloodType = patient.BloodType
+	// Add patient info to the schedualedRequest
+	schedualedRequest.LatinName = patient.LatinName
+	schedualedRequest.PhoneNumber = patient.PhoneNumber
+	schedualedRequest.BloodType = patient.BloodType
 
 	// Create the schedualed request
-	if err := repositories.CreateSchedualedRequest(&newRequest); err != nil {
+	if err := repositories.CreateSchedualedRequest(&schedualedRequest); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
@@ -52,12 +65,46 @@ func CreateSchedualedRequest(c *gin.Context) {
 }
 
 func GetAllSchedualedRequests(c *gin.Context) {
-	requests, err := repositories.GetAllSchedualedRequests()
+	schedualedRequests, err := repositories.GetAllSchedualedRequests()
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
-	c.JSON(http.StatusOK, requests)
+	c.JSON(http.StatusOK, schedualedRequests)
+}
+
+func PerformSchedualedRequest(schedualedRequestID int) error {
+	schedualedRequest, err := repositories.GetSchedualedRequestByID(schedualedRequestID)
+	if err != nil {
+		return fmt.Errorf("schedualed request not found")
+	}
+	if schedualedRequest == nil {
+		return fmt.Errorf("schedualed request not found")
+	}
+
+	// Get the patient
+	patient, err := repositories.GetPatientByID(schedualedRequest.PatientID)
+	if err != nil {
+		return fmt.Errorf("patient not found")
+	}
+
+	// Update patient's reqiured blood
+	patient.RedRequired = schedualedRequest.RedRequired
+	patient.PlateletRequired = schedualedRequest.PlateletRequired
+
+	if err := repositories.UpdatePatient(patient); err != nil {
+		return fmt.Errorf("failed to update patient")
+	}
+
+	// Update schedualed request
+	schedualedRequest.RequestsSent = schedualedRequest.RequestsSent + 1
+	schedualedRequest.RequestFrequency = schedualedRequest.RequestFrequency - 1
+	schedualedRequest.NextRequestDate = time.Now().AddDate(0, 0, schedualedRequest.RequestInterval)
+	if err := repositories.UpdateSchedualedRequest(schedualedRequest); err != nil {
+		return fmt.Errorf("failed to update schedualed request")
+	}
+
+	return nil
 }
 
 func DeleteScheduledRequest(c *gin.Context) {
@@ -73,13 +120,4 @@ func DeleteScheduledRequest(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{"message": "Scheduled request deleted successfully"})
-}
-
-func GetAllRequests(c *gin.Context) {
-	requests, err := repositories.GetAllRequests()
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-		return
-	}
-	c.JSON(http.StatusOK, requests)
 }
