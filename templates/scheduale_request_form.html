@@ -11,12 +11,12 @@
     {{ template "dash_header.html" . }}
     <main>
         <section>
-            <h2>تسجيل مريض خاص</h2>
+            <h2>{{ .title }}</h2>
             <form action="/scheduale-request" method="POST">
                 <label for="patient_id">اختر المريض:</label>
                 <select id="patient_id" name="patient_id" required>
                     {{ range .patients }}
-                    <option value="{{ .ID }}">{{ .BloodType }} \ {{ .FirstName }} {{ .LastName }} (ID: {{ .ID }})</option>
+                    <option value="{{ .ID }}">{{ .BloodType }} \ {{ .LatinName }} (ID: {{ .ID }})</option>
                     {{ end }}
                 </select>
                 
