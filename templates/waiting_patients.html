@@ -11,7 +11,7 @@
     {{ template "dash_header.html" . }}
 
     <div class="container mt-5">
-        <h1 class="mb-4">{{ .title }}</h1>
+        <h1 class="mb-4 text-center">{{ .title }}</h1>
         <div class="row">
             {{ range .patients }}
             <div class="col-md-4">
@@ -21,10 +21,18 @@
                         <p class="card-text">رقم الهاتف: <a href="https://wa.me/{{.PhoneNumber}}" dir="ltr" target="_blank" class="btn btn-primary" style="background-color: green;border-color: greenyellow;">{{ .PhoneNumber }}</a></p>
                         <p class="card-text">زمرة الدم: <strong>{{ .BloodType }}</strong></p>
                         <p class="card-text">المشفى: <strong>{{ .Address.HospitalName }}</strong></p>
-                        <p class="card-text">طريقة التنقّل: {{ .Transportation }}</p>
-                        <p class="card-text">عدد أكياس الدم الحمراء المحتاجة: {{ .RedRequired }}</p>
-                        <p class="card-text">عدد أكياس الصفيحات المحتاجة: {{ .PlateletRequired }}</p>
-                        <p class="card-text">القرابة: {{ .Relationship }}</p>
+                        <p class="card-text">التنقّل: <strong>
+                            {{ if eq .Transportation "taxi" }}يمكنني دفع مقابل سيارة أجرة للمتبرّع{{end}}
+                            {{ if eq .Transportation "car" }}يمكنني توصيل المتبرّع بالسيارة{{end}}
+                        </strong></p>
+                        <p class="card-text">عدد أكياس الدم الحمراء المحتاجة: <strong>{{ .RedRequired }}</strong></p>
+                        <p class="card-text">عدد أكياس الصفيحات المحتاجة: <strong>{{ .PlateletRequired }}</strong></p>
+                        <p class="card-text">القرابة: <strong>
+                            {{ if eq .Relationship "self" }}المريض نفسه{{ end }}
+                            {{ if eq .Relationship "family" }}أحد أفراد العائلة{{ end }}
+                            {{ if eq .Relationship "friend" }}صديق{{ end }}
+                            {{ if eq .Relationship "other" }}آخر{{ end }}
+                        </strong></p>
                         <p class="card-text">كود الهلال الأحمر: {{ .RedCrescentCode }}</p>
                         <a href="/update_patient/{{ .ID }}" class="btn btn-primary" style="background-color: #ED5565;border-color: gray;">تعديل</a>
                         <a href="/match/{{ .ID }}" class="btn btn-primary">بحث عن متبرّعين</a>
@@ -35,7 +43,7 @@
                         {{ else if ge .RequestsSent 10 }}
                         <p class="btn btn-primary mb-0 mr-2" style="background-color: green;">{{ .RequestsSent }}</p>
                         {{ end }}
-                        <p class="card-text"><small class="text-muted">آخر تحديث: {{ .UpdatedAt.Format "2006-01-02 | 15:04" }}</small></p>
+                        <p class="card-text mt-2"><small class="text-muted">آخر تحديث: {{ .UpdatedAt.Format "2006-01-02 | 15:04" }}</small></p>
                     </div>
                 </div>
             </div>
@@ -44,7 +52,7 @@
     </div>
     <br>
     <div class="container mt-5">
-        <h1 class="mb-4">الطلبات المجدولة</h1>
+        <h1 class="mb-4 text-center">الطلبات المجدولة</h1>
         <div class="row">
             {{ range .schedualedRequests }}
             <div class="col-md-4">
@@ -53,9 +61,9 @@
                         <h5 class="card-title"><strong>{{ .LatinName }}</strong></h5>
                         <p class="card-text">رقم الهاتف: <a href="https://wa.me/{{.PhoneNumber}}" dir="ltr" target="_blank" class="btn btn-primary" style="background-color: green;border-color: greenyellow;">{{ .PhoneNumber }}</a></p>
                         <p class="card-text">زمرة الدم: <strong>{{ .BloodType }}</strong></p>
-                        <p class="card-text">عدد أكياس الدم الحمراء المحتاجة: {{ .RedRequired }}</p>
-                        <p class="card-text">عدد أكياس الصفيحات المحتاجة: {{ .PlateletRequired }}</p>
-                        <p class="card-text">تاريخ الطلب القادم: {{ .NextRequestDate }}</p>
+                        <p class="card-text">عدد أكياس الدم الحمراء المحتاجة: <strong>{{ .RedRequired }}</strong></p>
+                        <p class="card-text">عدد أكياس الصفيحات المحتاجة: <strong>{{ .PlateletRequired }}</strong></p>
+                        <p class="card-text">تاريخ الطلب القادم: <strong>{{ .NextRequestDate.Format "2006.01.02 | 15:04" }}</strong></p>
                         <p class="card-text"><small class="text-muted">آخر تحديث: {{ .UpdatedAt.Format "2006-01-02 | 15:04" }}</small></p>
                     </div>
                 </div>
