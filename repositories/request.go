@@ -35,13 +35,7 @@ func GetRequestByID(id int) (*models.Request, error) {
 }
 
 func UpdateRequest(request *models.Request) error {
-	result := initializers.DB.Model(&request).Where("id = ?", request.ID).Updates(models.Request{
-		RedReceived:       request.RedReceived,
-		PlateletReceived:  request.PlateletReceived,
-		MessageOpened:     request.MessageOpened,
-		MarkedAsCompleted: request.MarkedAsCompleted,
-		RedCrescentCode:   request.RedCrescentCode,
-	})
+	result := initializers.DB.Model(&request).Where("id = ?", request.ID).Updates(request)
 	if result.Error != nil {
 		return result.Error
 	}

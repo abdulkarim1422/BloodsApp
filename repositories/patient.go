@@ -48,21 +48,7 @@ func CreatePatient(patient *models.Patient) error {
 }
 
 func UpdatePatient(patient *models.Patient) error {
-	result := initializers.DB.Model(&patient).Where("id = ?", patient.ID).Updates(models.Patient{
-		FirstName: patient.FirstName,
-		LastName:  patient.LastName,
-		// Don't update PhoneNumber
-		BloodType:        patient.BloodType,
-		BirthDate:        patient.BirthDate,
-		Gender:           patient.Gender,
-		Address:          patient.Address,
-		Transportation:   patient.Transportation,
-		Urgency:          patient.Urgency,
-		RedRequired:      patient.RedRequired,
-		RedReceived:      patient.RedReceived,
-		PlateletRequired: patient.PlateletRequired,
-		PlateletReceived: patient.PlateletReceived,
-	})
+	result := initializers.DB.Model(&patient).Where("id = ?", patient.ID).Updates(patient)
 	if result.Error != nil {
 		return result.Error
 	}

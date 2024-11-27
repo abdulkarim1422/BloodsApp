@@ -47,20 +47,7 @@ func CreateDonor(donor *models.Donor) error {
 }
 
 func UpdateDonor(donor *models.Donor) error {
-	result := initializers.DB.Model(&donor).Where("id = ?", donor.ID).Updates(models.Donor{
-		FirstName: donor.FirstName,
-		LastName:  donor.LastName,
-		// Don't update PhoneNumber
-		BloodType:      donor.BloodType,
-		BirthDate:      donor.BirthDate,
-		Gender:         donor.Gender,
-		Address:        donor.Address,
-		Transportation: donor.Transportation,
-		Paid:           donor.Paid,
-		RedTimer:       donor.RedTimer,
-		PlateletTimer:  donor.PlateletTimer,
-		Score:          donor.Score,
-	})
+	result := initializers.DB.Model(&donor).Where("id = ?", donor.ID).Updates(donor)
 	if result.Error != nil {
 		return result.Error
 	}
