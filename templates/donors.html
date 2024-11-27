@@ -32,8 +32,8 @@
                         <td>{{ .BloodType }}</td>
                         <td><a href="https://wa.me/{{.PhoneNumber}}" dir="ltr" target="_blank">{{ .PhoneNumber }}</a></td>
                         <td>{{ .Address.DistrictName }}</td>
-                        <td>{{ .RedTimer }}</td>
-                        <td>{{ .PlateletTimer }}</td>
+                        <td>{{ .RedTimer.Format "2006.01.02" }}</td>
+                        <td>{{ .PlateletTimer.Format "2006.01.02" }}</td>
                         <td>{{ .Score }}</td>
                         <td><a href="/update_donor/{{ .ID }}">تعديل</a></td>
                     </tr>
