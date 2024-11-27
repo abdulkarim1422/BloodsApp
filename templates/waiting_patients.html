@@ -64,13 +64,37 @@
                         <p class="card-text">عدد أكياس الدم الحمراء المحتاجة: <strong>{{ .RedRequired }}</strong></p>
                         <p class="card-text">عدد أكياس الصفيحات المحتاجة: <strong>{{ .PlateletRequired }}</strong></p>
                         <p class="card-text">تاريخ الطلب القادم: <strong>{{ .NextRequestDate.Format "2006.01.02 | 15:04" }}</strong></p>
-                        <p class="card-text"><small class="text-muted">آخر تحديث: {{ .UpdatedAt.Format "2006-01-02 | 15:04" }}</small></p>
+                        <p class="card-text"><small class="text-muted">آخر تحديث: {{ .UpdatedAt.Format "2006.01.02 | 15:04" }}</small></p>
+                        <form id="performRequestForm-{{ .ID }}" action="/perform-schedualed-request/{{ .ID }}" method="POST" style="display:inline; box-shadow: none;">
+                            <button type="submit" class="btn btn-primary">بدء الطلب</button>
+                        </form>
+                        <script>
+                            document.getElementById('performRequestForm-{{ .ID }}').addEventListener('submit', function(e) {
+                                e.preventDefault();
+                                const form = this;
+                                fetch(form.action, {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json'
+                                    }
+                                })
+                                .then(response => response.json())
+                                .then(data => {
+                                    if (data.error) {
+                                        alert(data.error);
+                                    } else {
+                                        alert('Schedualed request performed successfully');
+                                        window.location.reload();
+                                    }
+                                })
+                                .catch(error => console.error('Error:', error));
+                            });
+                        </script>
                     </div>
                 </div>
             </div>
             {{ end }}
         </div>
-        
     </div>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
