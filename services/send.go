@@ -35,8 +35,6 @@ func SendMatchResult(patientID int, donors []int) {
 		var request models.Request
 		request.PatientID = int(patient.ID)
 		request.DonorID = int(donor.ID)
-		request.Address.HospitalName = patient.Address.HospitalName
-		request.RedCrescentCode = patient.RedCrescentCode
 
 		requestID, err := repositories.CreateRequest(&request)
 		if err != nil {
