@@ -5,16 +5,62 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ .title }}</title>
     <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
     <!-- Include the header -->
     {{ template "dash_header.html" . }}
     
     <div class="container mt-5">
-        <h1 class="mb-4">{{ .title }}</h1>
-        <h5>اسم المريض: {{ .patient.LatinName }}</h5>
-        <p>رقم الهاتف: <a href="https://wa.me/{{.patient.PhoneNumber}}" dir="ltr" target="blank">{{ .patient.PhoneNumber }}</a></p>
-        <p>المشفى: {{ .patient.Address.HospitalName }}</p>
+        <h1 class="mb-4 text-right">{{ .title }}</h1>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <div class="card-body text-right">
+                        <h5 class="card-title"><strong>معلومات المريض</strong></h5>
+                        <h2>{{ .patient.LatinName }}</h2>
+                        <p class="card-text">رقم الهاتف: <a href="https://wa.me/{{.patient.PhoneNumber}}" dir="ltr" target="_blank" class="btn btn-primary" style="background-color: green;border-color: greenyellow;">{{ .patient.PhoneNumber }}</a></p>
+                        <p>المشفى: <a href="#" class="btn btn-primary" style="background-color: grey;">{{ .patient.Address.HospitalName }}</a></p>
+                        <p>{{ .patient.Transportation }}</p>
+                        <p>زمرة الدم: <a href="#" class="btn btn-primary">{{ .patient.BloodType }}</a></p>
+                        <p>عدد أكياس الدم الحمراء المحتاجة: <a href="#" class="btn btn-secondary">{{ .patient.RedRequired }}</a></p>
+                        <p>عدد أكياس الصفيحات المحتاجة: <a href="#" class="btn btn-secondary">{{ .patient.PlateletRequired }}</a></p>
+                        <p>القرابة: <strong>
+                            {{ if eq .patient.Relationship "self" }}المريض نفسه{{ end }}
+                            {{ if eq .patient.Relationship "family" }}أحد أفراد العائلة{{ end }}
+                            {{ if eq .patient.Relationship "friend" }}صديق{{ end }}
+                            {{ if eq .patient.Relationship "other" }}آخر{{ end }}
+                        </strong></p>
+                        <p>كود الهلال الأحمر: {{ .patient.RedCrescentCode }}</p>
+                        <p>الحالة: {{ .patient.Urgency }}</p>
+                        <p>الملاحظات: {{ .patient.Notes }}</p>
+                        <p>تاريخ الطلب: <strong>{{ .request.CreatedAt.Format "2006-01-02 | 15:04" }}</strong></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <div class="card-body text-right">
+                        <h5 class="card-title"><strong>معلومات المتبرّع</strong></h5>
+                        <h2>{{ .donor.LatinName }}</h2>
+                        <p>زمرة الدم: <a href="#" class="btn btn-primary">{{ .donor.BloodType }}</a></p>
+                        <p>العنوان: <strong>{{ .donor.Address.DistrictName}}</strong></p>
+                        <p>{{ .donor.Transportation }}</p>
+                        <p>عدد مرّات التبرّع سابقاً: <strong>{{ .donor.Score }}</strong></p>
+                        <a href="/update_donor/{{ .donor.ID }}" class="btn btn-primary" style="background-color: #ED5565;border-color: gray;">تعديل</a>
+                        <a href="/donated/{{ .donor.ID }}" class="btn btn-primary" style="background-color: green;">تــــــمّ الـــتـــبـــرّ ع</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="text-right text-muted small">
+            آخر تحديث: <strong>{{ .request.UpdatedAt.Format "2006-01-02 | 15:04" }}</strong>
+        </div>
     </div>
+
+
+    <!-- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> -->
 </body>
 </html>

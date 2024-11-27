@@ -249,5 +249,6 @@ func ShowSpecificRequest(c *gin.Context) {
 		"title":   "طلب المريض",
 		"patient": patient,
 		"donor":   donor,
+		"request": request,
 	})
 }
