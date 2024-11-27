@@ -13,12 +13,20 @@
     <main>
         <section>
             <h2>تعديل معلومات المتبرّع</h2>
+
+            <!-- Delete Donor -->
+            <form id="deleteDonorForm" action="/donor/{{ .donor.ID }}" method="POST" style="box-shadow: none; background-color: aliceblue;">
+                <input type="hidden" name="_method" value="DELETE">
+                <button type="submit" class="btn btn-danger" style="background-color: rgb(150, 0, 0);">حذف المتبرّع</button>
+            </form>
+
+            <!-- Update Donor -->
             <form id="updateDonorForm" action="/donor/{{ .donor.ID }}" method="PUT">
                 <label for="latin_name">الاسم:</label>
                 <input type="text" id="latin_name" name="LatinName" value="{{ .donor.LatinName }}" required>
 
                 <label for="phone">رقم الهاتف:</label>
-                <input type="text" id="phone" name="phone" value="{{ .donor.PhoneNumber }}" required>
+                <input type="text" id="phone" name="phone" value="{{ .donor.PhoneNumber }}" style="direction: ltr;" required>
 
                 <label for="bloodType">فصيلة الدم:</label>
                 <select id="bloodType" name="bloodType" required>
@@ -54,5 +62,12 @@
                 <button type="submit">حفظ</button>
         </section>
     </main>
+    <script>
+        document.getElementById('deleteDonorForm').addEventListener('submit', function(e) {
+            if (!confirm('هل أنت متأكد أنك تريد حذف هذا المتبرّع؟')) {
+                e.preventDefault();
+            }
+        });
+    </script>
 </body>
 </html>
