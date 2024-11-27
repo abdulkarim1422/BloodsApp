@@ -28,6 +28,7 @@ type Patient struct {
 	Relationship       string    `json:"relationship" form:"Relationship"`                               //FORM~
 	AcceptsRedCrescent bool      `json:"accepts_red_crescent" form:"AcceptsRedCrescent"`                 //FORM~
 	RedCrescentCode    string    `json:"red_crescent_code" form:"RedCrescentCode"`                       //FORM~
+	Notes              string    `json:"notes,omitempty" form:"Notes"`                                   //none ?edit
 	DeathStatus        bool      `json:"death_status" form:"DeathStatus"`                                //edit
 	DeathDate          time.Time `json:"death_date,omitempty" form:"DeathDate" time_format:"2006-01-02"` //auto
 	SpecialPatient     bool      `json:"special_patient" form:"SpecialPatient"`                          //Schedule form - auto

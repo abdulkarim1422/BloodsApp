@@ -22,6 +22,7 @@ type Donor struct {
 	Address        Address   `json:"address,omitempty" gorm:"embedded"`                              //FORM~*
 	Transportation string    `json:"transportation" form:"Transportation"`                           //FORM~
 	Paid           bool      `json:"paid,omitempty"`                                                 //none
+	Notes          string    `json:"notes,omitempty" form:"Notes"`                                   //none ?edit
 	RedTimer       time.Time `json:"red_timer" time_format:"2006-01-02"`                             //auto
 	PlateletTimer  time.Time `json:"platelet_timer" time_format:"2006-01-02"`                        //auto
 	Score          int       `json:"score"`                                                          //auto
