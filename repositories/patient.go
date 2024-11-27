@@ -8,7 +8,7 @@ import (
 
 func GetAllPatients() ([]models.Patient, error) {
 	var patients []models.Patient
-	result := initializers.DB.Where("death_status =! ?", true).Find(&patients)
+	result := initializers.DB.Where("death_status != ?", true).Find(&patients)
 	if result.Error != nil {
 		return nil, result.Error
 	}
