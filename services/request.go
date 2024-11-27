@@ -27,8 +27,11 @@ func CreateSchedualedRequest(c *gin.Context) {
 		return
 	}
 
-	// Bind the patient to the newRequest.Patient
-	newRequest.Patient = *patient
+	// // Bind the patient to the newRequest.Patient
+	// newRequest.Patient = *patient
+	newRequest.LatinName = patient.LatinName
+	newRequest.PhoneNumber = patient.PhoneNumber
+	newRequest.BloodType = patient.BloodType
 
 	// Create the schedualed request
 	if err := repositories.CreateSchedualedRequest(&newRequest); err != nil {

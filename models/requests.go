@@ -28,12 +28,16 @@ type Request struct {
 type SchedualedRequest struct {
 	gorm.Model
 	PatientID        int       `json:"patient_id" form:"patient_id"`
-	Patient          Patient   `gorm:"foreignKey:PatientID"`
+	LatinName        string    `json:"latinName,omitempty" form:"LatinName"`
+	PhoneNumber      string    `json:"phone_number" form:"PhoneNumber"`
+	BloodType        string    `json:"bloodType" form:"BloodType"`
+	DiseaseName      string    `json:"disease_name" form:"disease_name"`
+	RedRequired      int       `json:"red_required" form:"RedRequired"`
+	PlateletRequired int       `json:"platelet_required" form:"PlateletRequired"`
 	RequestInterval  int       `json:"request_interval" form:"request_interval"`
 	RequestFrequency int       `json:"request_frequency" form:"request_frequency"`
-	DiseaseName      string    `json:"disease_name" form:"disease_name"`
 	NextRequestDate  time.Time `json:"next_request_date" form:"next_request_date" time_format:"2006-01-02"`
-	RequestsDone     int       `json:"requests_done" form:"requests_done"`
+	RequestsSent     int       `json:"requests_sent" form:"requests_sent"`
 }
 
 // Disease represents a disease in the system
