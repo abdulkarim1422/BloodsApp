@@ -15,9 +15,12 @@ type Request struct {
 	Address           Address `json:"address,omitempty" gorm:"embedded"`
 	RedReceived       bool    `json:"red_received" form:"RedReceived"`
 	PlateletReceived  bool    `json:"platelet_received" form:"PlateletReceived"`
+	RedCrescentCode   string  `json:"red_crescent_code" form:"RedCrescentCode"`
 	MessageOpened     bool    `json:"message_opened" form:"MessageOpened"`
 	MarkedAsCompleted bool    `json:"marked_as_completed" form:"MarkedAsCompleted"`
-	RedCrescentCode   string  `json:"red_crescent_code" form:"RedCrescentCode"`
+	RequestRejected   bool    `json:"request_rejected" form:"RequestRejected"`
+	RequestAccepted   bool    `json:"request_accepted" form:"RequestAccepted"`
+	RequestCancelled  bool    `json:"request_cancelled" form:"RequestCancelled"`
 }
 
 // SchedualedRequest represents a schedualed request in the system
