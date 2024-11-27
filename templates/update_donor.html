@@ -41,11 +41,21 @@
                 <label for="districtName">العنوان:</label>
                 <input type="text" id="districtName" name="DistrictName" placeholder="İlçe" value="{{ .donor.Address.DistrictName }}" required>
 
-                <!-- <label for="carAvailable">هل السيارة متاحة:</label>
-                <select id="carAvailable" name="CarAvailable">
-                  <option value="false" {{ if eq .donor.CarAvailable false }}selected{{ end }} >لا</option>
-                  <option value="true" {{ if eq .donor.CarAvailable true }}selected{{ end }} >نعم</option>
-                </select> -->
+                <label for="transportation">وسيلة التنقّل</label>
+                <select id="transportation" name="Transportation" required>
+                    <option value="public" {{ if eq .donor.Transportation "public" }}selected{{ end }}>أستخدم المواصلات العامّة</option>
+                    <option value="taxi" {{ if eq .donor.Transportation "taxi" }}selected{{ end }}>أستخدم سيارة الأُجرة</option>
+                    <option value="car" {{ if eq .donor.Transportation "car" }}selected{{ end }}>أستخدم سيارتي</option>
+                </select>
+
+                <label fir="redTimer">تاريخ التبرّع بالدم الأحمر القادم:</label>
+                <input type="date" id="redTimer" name="RedTimer" value="{{ .donor.RedTimer }}">
+
+                <label fir="plateletTimer">تاريخ التبرّع بالصفائح الدمويّة القادم:</label>
+                <input type="date" id="plateletTimer" name="PlateletTimer" value="{{ .donor.PlateletTimer }}">
+
+                <label for="score">النقاط:</label>
+                <input type="number" id="score" name="Score" value="{{ .donor.Score }}">
 
                 <button type="submit">حفظ</button>
         </section>
