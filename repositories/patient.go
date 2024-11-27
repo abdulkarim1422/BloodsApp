@@ -8,7 +8,7 @@ import (
 
 func GetAllPatients() ([]models.Patient, error) {
 	var patients []models.Patient
-	result := initializers.DB.Find(&patients)
+	result := initializers.DB.Where("death_status =! ?", true).Find(&patients)
 	if result.Error != nil {
 		return nil, result.Error
 	}
@@ -56,7 +56,7 @@ func UpdatePatient(patient *models.Patient) error {
 		BirthDate:        patient.BirthDate,
 		Gender:           patient.Gender,
 		Address:          patient.Address,
-		CarAvailable:     patient.CarAvailable,
+		Transportation:   patient.Transportation,
 		Urgency:          patient.Urgency,
 		RedRequired:      patient.RedRequired,
 		RedReceived:      patient.RedReceived,
@@ -79,7 +79,7 @@ func DeletePatient(id int) error {
 
 func CheckPatientsWaiting() ([]models.Patient, error) {
 	var patients []models.Patient
-	result := initializers.DB.Where("red_required != 0 OR platelet_required != 0").Find(&patients)
+	result := initializers.DB.Where("(red_required != 0 OR platelet_required != 0) AND (death_status != ?)", true).Find(&patients)
 	if result.Error != nil {
 		return nil, result.Error
 	}

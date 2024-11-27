@@ -51,15 +51,15 @@ func UpdateDonor(donor *models.Donor) error {
 		FirstName: donor.FirstName,
 		LastName:  donor.LastName,
 		// Don't update PhoneNumber
-		BloodType:     donor.BloodType,
-		BirthDate:     donor.BirthDate,
-		Gender:        donor.Gender,
-		Address:       donor.Address,
-		CarAvailable:  donor.CarAvailable,
-		Paid:          donor.Paid,
-		RedTimer:      donor.RedTimer,
-		PlateletTimer: donor.PlateletTimer,
-		Score:         donor.Score,
+		BloodType:      donor.BloodType,
+		BirthDate:      donor.BirthDate,
+		Gender:         donor.Gender,
+		Address:        donor.Address,
+		Transportation: donor.Transportation,
+		Paid:           donor.Paid,
+		RedTimer:       donor.RedTimer,
+		PlateletTimer:  donor.PlateletTimer,
+		Score:          donor.Score,
 	})
 	if result.Error != nil {
 		return result.Error
