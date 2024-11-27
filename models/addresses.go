@@ -14,6 +14,7 @@ type Address struct {
 	DistrictName string `json:"district_name" form:"DistrictName"`
 	HospitalID   int    `json:"hospital_id" form:"HospitalID"`
 	HospitalName string `json:"hospital_name" form:"HospitalName"`
+	Href         string `json:"href" form:"Href"`
 }
 
 // Countries represents a country in the system
