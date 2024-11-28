@@ -12,6 +12,7 @@ func RegisterOpenHTMLRoutes(router *gin.Engine) {
 	router.GET("/login", services.ShowLoginForm)
 
 	router.GET("/request_donor/:id", services.ShowSpecificRequestForDonor)
+	router.GET("/request_patient/:id", services.ShowSpecificRequestForPatient)
 }
 
 func RegisterProtectedHTMLRoutes(router *gin.Engine) {
