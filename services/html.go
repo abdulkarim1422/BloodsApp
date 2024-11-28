@@ -200,7 +200,7 @@ func ShowPatientsWaitingPage(c *gin.Context) {
 }
 
 // Specific request
-func ShowSpecificRequest(c *gin.Context) {
+func ShowSpecificRequestForDonor(c *gin.Context) {
 	// Get the request ID from the query string
 	reqeustID := c.Param("id")
 	if reqeustID == "" {
@@ -245,7 +245,7 @@ func ShowSpecificRequest(c *gin.Context) {
 	}
 
 	// Render the request.html template
-	c.HTML(http.StatusOK, "request.html", gin.H{
+	c.HTML(http.StatusOK, "request_patient.html", gin.H{
 		"title":   "طلب تبرّع بالدّم",
 		"patient": patient,
 		"donor":   donor,

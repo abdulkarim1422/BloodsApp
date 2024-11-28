@@ -71,7 +71,9 @@
             </div>
         </div> 
         <div class="text-center mb-4">
-            <a href="/donated/{{ .donor.ID }}" class="btn btn-primary" style="background-color: green;">تــــــمّ الـــتـــبـــرّ ع</a>
+            <p>تــــــمّ الـــتـــبـــرّ ع؟</p>
+            <a href="/mark-donated/?id={{ .request.ID }}&type=red" class="btn btn-primary" style="background-color: pink;">تبرّعت بدم أحمر (كريّات دم حمراء)</a>
+            <a href="/mark-donated/?id={{ .request.ID }}&type=platelet" class="btn btn-primary" style="background-color: skyblue;">تبرّعت بدم أبيض (صفائح دمويّة)</a>
         </div>
         <div class="text-center">
         <p>تاريخ الطلب: <strong>{{ .request.CreatedAt.Format "2006.01.02 | 15:04" }}</strong></p>
