@@ -44,8 +44,16 @@ func UpdateRequest(request *models.Request) error {
 	return nil
 }
 
-func SetMessageOpened(requestID int) error {
-	result := initializers.DB.Model(&models.Request{}).Where("id = ?", requestID).Update("message_opened", true)
+func SetMessageOpenedByDonor(requestID int) error {
+	result := initializers.DB.Model(&models.Request{}).Where("id = ?", requestID).Update("message_opened_by_donor", true)
+	if result.Error != nil {
+		return result.Error
+	}
+	return nil
+}
+
+func SetMessageOpenedByPatient(requestID int) error {
+	result := initializers.DB.Model(&models.Request{}).Where("id = ?", requestID).Update("message_opened_by_patient", true)
 	if result.Error != nil {
 		return result.Error
 	}
