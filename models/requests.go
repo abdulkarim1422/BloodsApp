@@ -10,15 +10,17 @@ import (
 // @Description Requests represents a sent request in the system
 type Request struct {
 	gorm.Model
-	PatientID         int  `json:"patient_id"`
-	DonorID           int  `json:"donor_id,omitempty"`
-	RedReceived       bool `json:"red_received" form:"RedReceived"`
-	PlateletReceived  bool `json:"platelet_received" form:"PlateletReceived"`
-	MessageOpened     bool `json:"message_opened" form:"MessageOpened"`
-	MarkedAsCompleted bool `json:"marked_as_completed" form:"MarkedAsCompleted"`
-	RequestRejected   bool `json:"request_rejected" form:"RequestRejected"`
-	RequestAccepted   bool `json:"request_accepted" form:"RequestAccepted"`
-	RequestCancelled  bool `json:"request_cancelled" form:"RequestCancelled"`
+	PatientID         int    `json:"patient_id"`
+	DonorID           int    `json:"donor_id,omitempty"`
+	PatientFeedback   string `json:"patient_feedback,omitempty"`
+	DonorFeedback     string `json:"donor_feedback,omitempty"`
+	RedReceived       bool   `json:"red_received" form:"RedReceived"`
+	PlateletReceived  bool   `json:"platelet_received" form:"PlateletReceived"`
+	MessageOpened     bool   `json:"message_opened" form:"MessageOpened"`
+	MarkedAsCompleted bool   `json:"marked_as_completed" form:"MarkedAsCompleted"`
+	RequestRejected   bool   `json:"request_rejected" form:"RequestRejected"`
+	RequestAccepted   bool   `json:"request_accepted" form:"RequestAccepted"`
+	RequestCancelled  bool   `json:"request_cancelled" form:"RequestCancelled"`
 }
 
 // SchedualedRequest represents a schedualed request in the system
