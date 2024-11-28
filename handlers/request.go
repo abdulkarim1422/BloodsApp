@@ -68,3 +68,18 @@ func PerformSchedualedRequest(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, gin.H{"message": "Schedualed request performed successfully"})
 }
+
+func MarkAsDonated(c *gin.Context) {
+	requestID := c.Query("id")
+	donationType := c.Query("type")
+	requestIDint, err := strconv.Atoi(requestID)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid ID format"})
+		return
+	}
+	if err := services.MarkAsDonated(requestIDint, donationType); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"message": "Request marked as donated, feedback will be sent to the patient"})
+}

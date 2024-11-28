@@ -15,4 +15,7 @@ func RegisterProtectedScheduale(router *gin.Engine) {
 
 	// Request --------------------------
 	router.GET("/requests", services.GetAllRequests)
+
+	// request page
+	router.POST("/mark-donated", handlers.MarkAsDonated)
 }
