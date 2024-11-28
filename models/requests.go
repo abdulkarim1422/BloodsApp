@@ -10,17 +10,18 @@ import (
 // @Description Requests represents a sent request in the system
 type Request struct {
 	gorm.Model
-	PatientID         int    `json:"patient_id"`
-	DonorID           int    `json:"donor_id,omitempty"`
-	PatientFeedback   string `json:"patient_feedback,omitempty"`                   // patient form
-	DonorFeedback     string `json:"donor_feedback,omitempty"`                     // donor form
-	RedReceived       bool   `json:"red_received" form:"RedReceived"`              // donor form
-	PlateletReceived  bool   `json:"platelet_received" form:"PlateletReceived"`    // donor form
-	MessageOpened     bool   `json:"message_opened" form:"MessageOpened"`          // donor link
-	MarkedAsCompleted bool   `json:"marked_as_completed" form:"MarkedAsCompleted"` // donor form
-	RequestRejected   bool   `json:"request_rejected" form:"RequestRejected"`      // patient form
-	RequestAccepted   bool   `json:"request_accepted" form:"RequestAccepted"`      // patient form
-	RequestCancelled  bool   `json:"request_cancelled" form:"RequestCancelled"`    // auto
+	PatientID              int    `json:"patient_id"`
+	DonorID                int    `json:"donor_id,omitempty"`
+	PatientFeedback        string `json:"patient_feedback,omitempty"`                              // patient form
+	DonorFeedback          string `json:"donor_feedback,omitempty"`                                // donor form
+	RedReceived            bool   `json:"red_received" form:"RedReceived"`                         // donor form
+	PlateletReceived       bool   `json:"platelet_received" form:"PlateletReceived"`               // donor form
+	MessageOpenedByDonor   bool   `json:"message_opened_by_donor" form:"MessageOpenedByDonor"`     // donor link
+	MessageOpenedByPatient bool   `json:"message_opened_by_patient" form:"MessageOpenedByPatient"` // patient link
+	MarkedAsCompleted      bool   `json:"marked_as_completed" form:"MarkedAsCompleted"`            // donor form
+	RequestRejected        bool   `json:"request_rejected" form:"RequestRejected"`                 // patient form
+	RequestAccepted        bool   `json:"request_accepted" form:"RequestAccepted"`                 // patient form
+	RequestCancelled       bool   `json:"request_cancelled" form:"RequestCancelled"`               // auto
 }
 
 // SchedualedRequest represents a schedualed request in the system
