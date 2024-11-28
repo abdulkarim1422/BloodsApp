@@ -64,17 +64,39 @@
                             {{ if eq .donor.Transportation "car" }}أستخدم سيارتي{{end}}
                         </p>
                         <p>عدد مرّات التبرّع سابقاً: <strong>{{ .donor.Score }}</strong></p>
-                        <a href="/update_donor/{{ .donor.ID }}" class="btn btn-primary" style="background-color: #ED5565;border-color: gray;">تعديل</a>
+                        <a href="/update_donor/{{ .donor.ID }}" class="btn btn-primary" style="background-color: #ED5565;border-color: gray;">تعديل أو حذف معلوماتي</a>
                         <p class="text-muted small mt-2">آخر تحديث: <strong>{{ .donor.UpdatedAt.Format "2006.01.02 | 15:04" }}</strong></p>
                     </div>
                 </div>
             </div>
-        </div> 
-        <div class="text-center mb-4">
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <div class="card-body text-right">
+                        <h5 class="card-title"><strong>تــــــمّ الـــتـــبـــرّ ع؟</strong></h5>
+                        <h2 style="color: blue;">فورم التبرّع</h2>
+                        <form id="donationForm" style="margin-top: 10%;" action="/mark-donated" method="POST">
+                            <input type="hidden" name="requestID" value="{{ .request.ID }}">
+                            <label for="type">بماذا تبرّعت؟:</label>
+                            <select class="form-control" id="type" name="type" required>
+                                <option value="" selected disabled></option>
+                                <option value="red">تبرّعت بدم أحمر (كريّات دم حمراء)</option>
+                                <option value="platelet">تبرّعت بدم أبيض (صفائح دمويّة)</option>
+                            </select>
+                            <label for="feedback" style="margin-top: 5%;">رسالة وملاحظات:</label>
+                            <p>يمكنك كتابة ملاحظات بشأن المريض، وكذلك تقييمك للتطبيق وأي رسالة أخرى.</p>
+                            <textarea class="form-control" id="feedback" name="feedback" rows="3"></textarea>
+                            <p class="text-muted small">ملاحظة: سيتمّ قراءة رسائلكم، وفي حال كتبتم شيء يستهدف العامّة قد نشاركه على مواقع التّواصل.</p>
+                            <button type="submit" class="btn btn-primary" style="background-color: #ED5565;border-color: gray; margin-top: 10%;">تسجيل التبرّع</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="text-center mb-4">
             <p>تــــــمّ الـــتـــبـــرّ ع؟</p>
             <a href="/mark-donated/?id={{ .request.ID }}&type=red" class="btn btn-primary" style="background-color: pink;">تبرّعت بدم أحمر (كريّات دم حمراء)</a>
             <a href="/mark-donated/?id={{ .request.ID }}&type=platelet" class="btn btn-primary" style="background-color: skyblue;">تبرّعت بدم أبيض (صفائح دمويّة)</a>
-        </div>
+        </div> -->
         <div class="text-center">
         <p>تاريخ الطلب: <strong>{{ .request.CreatedAt.Format "2006.01.02 | 15:04" }}</strong></p>
         </div>
