@@ -22,7 +22,7 @@ func GetAllRequests(c *gin.Context) {
 	c.JSON(http.StatusOK, requests)
 }
 
-func MarkAsDonated(requestID int, donationType string) error {
+func MarkAsDonated(requestID int, donationType string, feedback string) error {
 	request, err := repositories.GetRequestByID(requestID)
 	if err != nil {
 		return fmt.Errorf("request not found")
@@ -33,6 +33,7 @@ func MarkAsDonated(requestID int, donationType string) error {
 
 	// Mark the request as completed (marked by the donor)
 	request.MarkedAsCompleted = true
+	request.DonorFeedback = feedback
 
 	// Mark the donation type as received
 	if donationType == "red" {
@@ -41,6 +42,7 @@ func MarkAsDonated(requestID int, donationType string) error {
 		request.PlateletReceived = true
 	}
 
+	// Update the request
 	if err := repositories.UpdateRequest(request); err != nil {
 		return fmt.Errorf("failed to update request")
 	}
