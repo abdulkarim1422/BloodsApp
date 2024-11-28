@@ -199,7 +199,7 @@ func ShowPatientsWaitingPage(c *gin.Context) {
 	})
 }
 
-// Specific request
+// Specific request --------------------------------
 func ShowSpecificRequestForDonor(c *gin.Context) {
 	// Get the request ID from the query string
 	reqeustID := c.Param("id")
@@ -224,7 +224,7 @@ func ShowSpecificRequestForDonor(c *gin.Context) {
 	}
 
 	// Update the request status to "viewed"
-	err = repositories.SetMessageOpened(requestIDint)
+	err = repositories.SetMessageOpenedByDonor(requestIDint)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
@@ -244,7 +244,60 @@ func ShowSpecificRequestForDonor(c *gin.Context) {
 		return
 	}
 
-	// Render the request.html template
+	// Render the request_donor.html template
+	c.HTML(http.StatusOK, "request_donor.html", gin.H{
+		"title":   "طلب تبرّع بالدّم",
+		"patient": patient,
+		"donor":   donor,
+		"request": request,
+	})
+}
+
+func ShowSpecificRequestForPatient(c *gin.Context) {
+	// Get the request ID from the query string
+	reqeustID := c.Param("id")
+	if reqeustID == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid reqeustID"})
+
+		return
+	}
+
+	// Convert the request ID to an integer
+	requestIDint, err := strconv.Atoi(reqeustID)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request ID"})
+		return
+	}
+
+	// Get the request by ID
+	request, err := repositories.GetRequestByID(requestIDint)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	// Update the request status to "viewed"
+	err = repositories.SetMessageOpenedByPatient(requestIDint)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	// Get the patient by ID
+	patient, err := repositories.GetPatientByID(request.PatientID)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	// Get the donor by ID
+	donor, err := repositories.GetDonorByID(request.DonorID)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	// Render the request_patient.html template
 	c.HTML(http.StatusOK, "request_patient.html", gin.H{
 		"title":   "طلب تبرّع بالدّم",
 		"patient": patient,
