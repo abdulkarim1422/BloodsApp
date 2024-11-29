@@ -12,12 +12,14 @@ import (
 )
 
 func SendMatchResult(patientID int, donors []int) {
+	// Get the patient
 	patient, err := repositories.GetPatientByID(patientID)
 	if err != nil {
 		fmt.Printf("Error getting patient: %v\n", err)
 		return
 	}
 
+	// Get the donors
 	var donorsList []models.Donor
 	for _, donorID := range donors {
 		donor, err := repositories.GetDonorByID(donorID)
@@ -28,8 +30,8 @@ func SendMatchResult(patientID int, donors []int) {
 		donorsList = append(donorsList, *donor)
 	}
 
-	var domain = os.Getenv("domain")
 	// Run WhatsApp script Loop
+	var domain = os.Getenv("domain")
 	for _, donor := range donorsList {
 		// Store the request
 		var request models.Request
@@ -41,6 +43,14 @@ func SendMatchResult(patientID int, donors []int) {
 			fmt.Printf("Error creating request: %v\n", err)
 			return
 		}
+
+		// Generate JWT
+		tokenString, err := GenerateRequestJWT(requestID)
+		if err != nil {
+			fmt.Printf("Error generating JWT: %v\n", err)
+			return
+		}
+
 		// Create the message
 		message := fmt.Sprintf(
 			`مرحبًا %s،
@@ -50,9 +60,9 @@ func SendMatchResult(patientID int, donors []int) {
 	المشفى: %s
 
 	يمكنك الضغط على هذا الرابط للوصول لمعلومات المريض إذا أردت:
-	%s/request_donor/%d
+	%s/request_donor/%d/%s
 	`,
-			donor.LatinName, patient.BloodType, patient.Address.HospitalName, domain, requestID)
+			donor.LatinName, patient.BloodType, patient.Address.HospitalName, domain, requestID, tokenString)
 
 		// Send the message
 		SendWhatsappMessage(donor.PhoneNumber, message, "match")
