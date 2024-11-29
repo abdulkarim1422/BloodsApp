@@ -14,17 +14,20 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-var jwtKey = []byte("your_secret_key")
-
 func GenerateJWT(username string) (string, error) {
 	expirationTime := time.Now().Add(24 * time.Hour)
-	claims := &jwt.RegisteredClaims{
-		Subject:   username,
-		ExpiresAt: jwt.NewNumericDate(expirationTime),
+	claims := &jwt.MapClaims{
+		"username":  username,
+		"ExpiresAt": jwt.NewNumericDate(expirationTime),
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	return token.SignedString(jwtKey)
+	tokenString, err := token.SignedString([]byte(os.Getenv("JWT_SECRET")))
+	if err != nil {
+		return "failed to create token", err
+	}
+
+	return tokenString, nil
 }
 
 func Login(c *gin.Context) {
@@ -49,6 +52,7 @@ func Login(c *gin.Context) {
 		return
 	}
 
+	// Generate a JWT token
 	token, err := GenerateJWT(user.Username)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to generate token"})
@@ -60,14 +64,17 @@ func Login(c *gin.Context) {
 
 	// Set the token in a cookie
 	// Parameters: name, value, maxAge (in seconds), path, domain, secure, httpOnly
-	c.SetCookie("token", token, 3600, "/", "", false, true)
+	c.SetCookie("Autherization", token, 3600*24, "/", "", false, true)
 	c.JSON(http.StatusOK, gin.H{"message": "Login successful"})
 }
 
 func Logout(c *gin.Context) {
 	// Clear the token cookie
-	c.SetCookie("token", "", -1, "/", "", false, true)
-	c.JSON(http.StatusOK, gin.H{"message": "Logout successful"})
+	c.SetCookie("Autherization", "", -1, "/", "", false, true)
+	// c.JSON(http.StatusOK, gin.H{"message": "Logout successful"})
+
+	// Redirect to the main page
+	c.Redirect(http.StatusFound, "/")
 }
 
 func Signup(c *gin.Context) {
@@ -137,8 +144,9 @@ func GetAllUsers(c *gin.Context) {
 }
 
 func CheckLogin(c *gin.Context) {
+	token, _ := c.Cookie("Autherization")
 	username, _ := c.Get("username")
-	c.JSON(http.StatusOK, gin.H{"message": "Welcome!", "username": username})
+	c.JSON(http.StatusOK, gin.H{"message": "Logged in!", "token": token, "username": username})
 }
 
 func UserForgotPassword(c *gin.Context) {
