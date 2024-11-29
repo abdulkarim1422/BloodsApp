@@ -14,7 +14,24 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-func GenerateJWT(username string) (string, error) {
+// Generating JWT ------------------------------------------------
+func GenerateRequestJWT(requestID int) (string, error) {
+	expirationTime := time.Now().Add(24 * time.Hour * 30) // 30 days
+	claims := &jwt.MapClaims{
+		"request_id": requestID,
+		"ExpiresAt":  jwt.NewNumericDate(expirationTime),
+	}
+
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	tokenString, err := token.SignedString([]byte(os.Getenv("JWT_SECRET")))
+	if err != nil {
+		return "failed to create token", err
+	}
+
+	return tokenString, nil
+}
+
+func GenerateUserJWT(username string) (string, error) {
 	expirationTime := time.Now().Add(24 * time.Hour)
 	claims := &jwt.MapClaims{
 		"username":  username,
@@ -30,6 +47,7 @@ func GenerateJWT(username string) (string, error) {
 	return tokenString, nil
 }
 
+// Login and Logout ------------------------------------------------
 func Login(c *gin.Context) {
 	var request struct {
 		Identifier string `json:"identifier"` // Can be either username or email
@@ -53,7 +71,7 @@ func Login(c *gin.Context) {
 	}
 
 	// Generate a JWT token
-	token, err := GenerateJWT(user.Username)
+	token, err := GenerateUserJWT(user.Username)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to generate token"})
 		return
@@ -77,6 +95,7 @@ func Logout(c *gin.Context) {
 	c.Redirect(http.StatusFound, "/")
 }
 
+// Signup ------------------------------------------------
 func Signup(c *gin.Context) {
 	var request struct {
 		Username   string `json:"username"`
@@ -118,6 +137,7 @@ func Signup(c *gin.Context) {
 	c.JSON(http.StatusCreated, gin.H{"message": "User created successfully"})
 }
 
+// Admin stuff ------------------------------------------------
 func GetAllUsers(c *gin.Context) {
 	var request struct {
 		AdminToken string `json:"admin_token"`
@@ -149,6 +169,7 @@ func CheckLogin(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"message": "Logged in!", "token": token, "username": username})
 }
 
+// Forgot Password ------------------------------------------------
 func UserForgotPassword(c *gin.Context) {
 	var request struct {
 		Email string `json:"email" binding:"required"`
@@ -165,7 +186,7 @@ func UserForgotPassword(c *gin.Context) {
 	}
 
 	// Generate reset token
-	resetToken, err := GenerateJWT(user.Username)
+	resetToken, err := GenerateUserJWT(user.Username)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to generate reset token"})
 		return
@@ -192,6 +213,7 @@ func UserForgotPassword(c *gin.Context) {
 
 // func UserResetPassword(c *gin.Context) {
 
+// Session ------------------------------------------------
 func CreateSession(username string, ClientIP string) {
 	session := models.Session{
 		Username:   username,
