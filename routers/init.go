@@ -1,6 +1,8 @@
 package routers
 
 import (
+	"net/http"
+
 	_ "github.com/abdulkarim1422/BloodsApp/docs" // Swagger docs | Import the generated documentation
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
@@ -47,6 +49,11 @@ func AllRouters() {
 
 	// Swagger
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+
+	// Handle 404 errors
+	router.NoRoute(func(c *gin.Context) {
+		services.RenderErrorPage(c, http.StatusNotFound, "Page not found")
+	})
 
 	router.Run(":8080")
 }

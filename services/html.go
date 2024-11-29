@@ -305,3 +305,10 @@ func ShowSpecificRequestForPatient(c *gin.Context) {
 		"request": request,
 	})
 }
+
+func RenderErrorPage(c *gin.Context, status int, message string) {
+	c.HTML(status, "error.html", gin.H{
+		"title":   "Error",
+		"message": message,
+	})
+}
