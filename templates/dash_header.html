@@ -13,7 +13,11 @@
             <div class="menu-icon" onclick="toggleMenu()">&#9776;</div>
             <ul class="nav-links">
                 <li><a href="/">الصفحة الرئيسيّة</a></li>
-                <li><a href="/logout">تسجيل الخروج</a></li>
+                <li>
+                    <form id="logoutForm" action="/logout" method="POST" style="display: inline;">
+                        <button type="submit" style="background: none; border: none; color: inherit; cursor: pointer; font: inherit; outline: inherit;">تسجيل الخروج</button>
+                    </form>
+                </li>
                 <li>|</li>
                 <li><a href="/donors">قائمة المتبرّعين</a></li>
                 <li><a href="/patients">قائمة المرضى</a></li>
