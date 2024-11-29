@@ -5,7 +5,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func RegisterProtectedDonorRoutes(router *gin.Engine) {
+func RegisterProtectedDonorRoutes(router *gin.RouterGroup) {
 	router.GET("/donor/:id", handlers.DonorByID)
 	router.POST("/donor", handlers.CreateDonor)
 	router.PUT("/donor/:id", handlers.UpdateDonor)

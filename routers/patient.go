@@ -5,7 +5,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func RegisterProtectedPatientRoutes(router *gin.Engine) {
+func RegisterProtectedPatientRoutes(router *gin.RouterGroup) {
 	router.GET("/patient/:id", handlers.GetPatientByID)
 	router.POST("/patient", handlers.CreatePatient)
 	router.PUT("/patient/:id", handlers.UpdatePatient)

@@ -15,7 +15,7 @@ func RegisterOpenHTMLRoutes(router *gin.Engine) {
 	router.GET("/request_patient/:id", services.ShowSpecificRequestForPatient)
 }
 
-func RegisterProtectedHTMLRoutes(router *gin.Engine) {
+func RegisterProtectedHTMLRoutes(router *gin.RouterGroup) {
 	router.GET("/dashboard", services.Dashboard_Page)
 	router.GET("/match", services.ShowMatchForm)
 	router.GET("/donation_form", services.ShowDonationForm)

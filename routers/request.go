@@ -6,7 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func RegisterProtectedScheduale(router *gin.Engine) {
+func RegisterProtectedScheduale(router *gin.RouterGroup) {
 	// SchedualedRequest --------------------------
 	router.POST("/scheduale-request", handlers.CreateSchedualedRequest)
 	router.GET("/get-all-schedualed-requests", handlers.GetAllSchedualedRequests)
