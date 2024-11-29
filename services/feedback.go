@@ -63,6 +63,13 @@ func RecievePetientFeedbackInfo(request *models.Request) {
 		return
 	}
 
+	// Generate JWT
+	tokenString, err := GenerateRequestJWT(int(request.ID))
+	if err != nil {
+		fmt.Printf("Error generating JWT: %v\n", err)
+		return
+	}
+
 	// Create the message body
 	var domain = os.Getenv("domain")
 	message := fmt.Sprintf(
@@ -70,11 +77,11 @@ func RecievePetientFeedbackInfo(request *models.Request) {
 هذه رسالة تلقائية من تطبيق BloodsApp.
 وفقاً للبيانات التي وصلتنا، لقد قام بالتبرّع بالدّم لك %s.
 نرجو منك تأكيد الاستلام وتقييمه عبر ملء الاستمارة التالية:
-%s/request_patient/%d
+%s/request_patient/%d/%s
 
 هذه الخطوة مهمّة لكي لا تحدث أي أخطاء. شكراً لتعاونكم.
 `,
-		patient.LatinName, donor.LatinName, domain, request.ID)
+		patient.LatinName, donor.LatinName, domain, request.ID, tokenString)
 
 	SendFormToPatient(patient.Email, patient.PhoneNumber, message)
 
