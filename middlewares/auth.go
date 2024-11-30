@@ -62,13 +62,22 @@ func JWTAuthMiddleware() gin.HandlerFunc {
 	}
 }
 
-func ValidateRequestToken(c *gin.Context) {
+func ValidateRequestToken(c *gin.Context) error {
 	// Get the token from the query string
-	tokenString := c.Param("token")
+	tokenString := c.Query("token")
 	if tokenString == "" {
+		// Check if logged in
+		tokenString, _ := c.Cookie("Autherization")
+		if tokenString != "" {
+			JWTAuthMiddleware()(c)
+			if c.IsAborted() {
+				return fmt.Errorf("token required")
+			}
+			return nil
+		}
+		// Not logged in
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid token"})
-		c.Abort()
-		return
+		return fmt.Errorf("invalid token")
 	}
 
 	// Parse and validate the token
@@ -80,9 +89,18 @@ func ValidateRequestToken(c *gin.Context) {
 		return []byte(os.Getenv("JWT_SECRET")), nil
 	})
 	if err != nil {
+		// Check if logged in
+		tokenString, _ := c.Cookie("Autherization")
+		if tokenString != "" {
+			JWTAuthMiddleware()(c)
+			if c.IsAborted() {
+				return fmt.Errorf("token required")
+			}
+			return nil
+		}
+		// Not logged in
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid token"})
-		c.Abort()
-		return
+		return fmt.Errorf("invalid token")
 	}
 
 	// Check if the token is valid
@@ -90,8 +108,7 @@ func ValidateRequestToken(c *gin.Context) {
 		// Check the expiration time
 		if float64(time.Now().Unix()) > claims["ExpiresAt"].(float64) {
 			c.JSON(http.StatusUnauthorized, gin.H{"error": "Token expired"})
-			c.Abort()
-			return
+			return fmt.Errorf("token expired")
 		}
 
 		// Attach to req
@@ -101,6 +118,8 @@ func ValidateRequestToken(c *gin.Context) {
 		c.Next()
 	} else {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid token"})
-		c.Abort()
+		return fmt.Errorf("invalid token")
 	}
+
+	return nil
 }
