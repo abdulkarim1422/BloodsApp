@@ -29,6 +29,8 @@ func AllRouters() {
 	// Public routes
 	RegisterOpenHTMLRoutes(router)
 	RegisterSendRoutes(router)
+	RegisterOpenPatientRoutes(router)
+	RegisterOpenDonorRoutes(router)
 
 	// Protected routes
 	protected := router.Group("/")
@@ -36,11 +38,11 @@ func AllRouters() {
 	{
 		protected.POST("/check-login", services.CheckLogin)
 
+		RegisterProtectedHTMLRoutes(protected)
 		RegisterProtectedDonationRoutes(protected)
 		RegisterProtectedDonorRoutes(protected)
-		RegisterProtectedHTMLRoutes(protected)
-		RegisterProtectedMatchRoutes(protected)
 		RegisterProtectedPatientRoutes(protected)
+		RegisterProtectedMatchRoutes(protected)
 		RegisterProtectedScheduale(protected)
 	}
 
