@@ -77,7 +77,7 @@ func RecievePetientFeedbackInfo(request *models.Request) {
 هذه رسالة تلقائية من تطبيق BloodsApp.
 وفقاً للبيانات التي وصلتنا، لقد قام بالتبرّع بالدّم لك %s.
 نرجو منك تأكيد الاستلام وتقييمه عبر ملء الاستمارة التالية:
-%s/request_patient/%d/%s
+%s/request_patient/%d?token=%s
 
 هذه الخطوة مهمّة لكي لا تحدث أي أخطاء. شكراً لتعاونكم.
 `,

@@ -60,7 +60,7 @@ func SendMatchResult(patientID int, donors []int) {
 	المشفى: %s
 
 	يمكنك الضغط على هذا الرابط للوصول لمعلومات المريض إذا أردت:
-	%s/request_donor/%d/%s
+	%s/request_donor/%d?token=%s
 	`,
 			donor.LatinName, patient.BloodType, patient.Address.HospitalName, domain, requestID, tokenString)
 
