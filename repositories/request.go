@@ -131,3 +131,11 @@ func DeleteSchedualedRequest(id int) error {
 	}
 	return nil
 }
+
+func DeleteAllSchedualedRequestsForPatient(patientID int) error {
+	result := initializers.DB.Where("patient_id = ?", patientID).Delete(&models.SchedualedRequest{})
+	if result.Error != nil {
+		return result.Error
+	}
+	return nil
+}

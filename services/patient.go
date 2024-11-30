@@ -142,7 +142,12 @@ func DeletePatient(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"message": "Patient deleted successfully"})
+	err = repositories.DeleteAllSchedualedRequestsForPatient(intID)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"message": "Patient deleted successfully, as well as its scheduled requests"})
 }
 
 // Check if patient is waiting for donors
