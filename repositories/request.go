@@ -139,3 +139,14 @@ func DeleteAllSchedualedRequestsForPatient(patientID int) error {
 	}
 	return nil
 }
+
+func MarkAsClosedAllPatientRequests(patientID int) error {
+	result := initializers.DB.Model(&models.Request{}).Where(
+		"patient_id = ? && marked_as_completed != true && request_rejected != true && request_accepted != true",
+		patientID,
+	).Update("request_cancelled", true)
+	if result.Error != nil {
+		return result.Error
+	}
+	return nil
+}

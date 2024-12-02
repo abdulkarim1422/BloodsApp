@@ -141,6 +141,11 @@ func DeletePatient(patientID int) error {
 		fmt.Printf("Error deleting patient requests: %v", err)
 		return err
 	}
+	err = repositories.MarkAsClosedAllPatientRequests(patientID)
+	if err != nil {
+		fmt.Printf("Error marking patient requests as closed: %v", err)
+		return err
+	}
 	return nil
 }
 
