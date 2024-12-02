@@ -1,6 +1,9 @@
 package handlers
 
 import (
+	"net/http"
+	"strconv"
+
 	"github.com/abdulkarim1422/BloodsApp/services"
 	"github.com/gin-gonic/gin"
 )
@@ -68,7 +71,17 @@ func UpdatePatient(c *gin.Context) {
 // @Param id path string true "Patient ID"
 // @Router /patient/{id} [delete]
 func DeletePatient(c *gin.Context) {
-	services.DeletePatient(c)
+	id := c.Param("id")
+	intID, err := strconv.Atoi(id)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid ID format"})
+		return
+	}
+	err = services.DeletePatient(intID)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
 }
 
 // CheckPatientsWaiting godoc

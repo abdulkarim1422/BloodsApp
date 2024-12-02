@@ -130,24 +130,18 @@ func UpdatePatient(c *gin.Context) {
 	c.Redirect(http.StatusFound, "/patients")
 }
 
-func DeletePatient(c *gin.Context) {
-	id := c.Param("id")
-	intID, err := strconv.Atoi(id)
+func DeletePatient(patientID int) error {
+	err := repositories.DeletePatient(patientID)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid ID format"})
-		return
+		fmt.Printf("Error deleting patient: %v", err)
+		return err
 	}
-	err = repositories.DeletePatient(intID)
+	err = repositories.DeleteAllSchedualedRequestsForPatient(patientID)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-		return
+		fmt.Printf("Error deleting patient requests: %v", err)
+		return err
 	}
-	err = repositories.DeleteAllSchedualedRequestsForPatient(intID)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-		return
-	}
-	c.JSON(http.StatusOK, gin.H{"message": "Patient deleted successfully, as well as its scheduled requests"})
+	return nil
 }
 
 // Check if patient is waiting for donors
