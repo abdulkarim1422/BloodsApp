@@ -87,3 +87,23 @@ func MarkAsDonated(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, gin.H{"message": "Request marked as donated and donor feedback saved, feedback will be sent to the patient"})
 }
+
+func MarkAsReceived(c *gin.Context) {
+	var donationForm struct {
+		RequestID string `form:"requestID" binding:"required"`
+		QQQ       string `form:"qqq" binding:"required"`
+		Feedback  string `form:"feedback"`
+	}
+
+	requestIDint, err := strconv.Atoi(donationForm.RequestID)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid ID format"})
+		return
+	}
+
+	if err := services.MarkAsReceived(requestIDint, donationForm.QQQ, donationForm.Feedback); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"message": "Request marked as received and patient feedback saved, feedback will be sent to the donor"})
+}
