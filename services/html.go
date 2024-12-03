@@ -261,7 +261,9 @@ func ShowSpecificRequestForDonor(c *gin.Context) {
 
 func ShowSpecificRequestForPatient(c *gin.Context) {
 	// Validate the request token
-	middlewares.ValidateRequestToken(c)
+	if middlewares.ValidateRequestToken(c) != nil {
+		return
+	}
 
 	// Get the request ID from the query string
 	reqeustID := c.Param("id")
