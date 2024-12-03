@@ -66,6 +66,32 @@ func MarkAsReceived(requestID int, qqq string, feedback string) error {
 	request.PatientFeedback = feedback
 	if qqq == "yes" {
 		request.RequestAccepted = true
+		// Store the request in the patient's data and check if more requests are needed
+		patient, err := repositories.GetPatientByID(request.PatientID)
+		if err != nil {
+			return fmt.Errorf("patient not found")
+		}
+		if patient == nil {
+			return fmt.Errorf("patient not found")
+		}
+
+		// Update patient's reqiured blood
+		if request.RedReceived {
+			patient.RedReceived = +1
+			patient.RedRequired = -1
+		}
+		if request.PlateletReceived {
+			patient.PlateletReceived = +1
+			patient.PlateletRequired = -1
+		}
+
+		// Check if the patient has received all the required blood
+		if patient.RedReceived == 0 && patient.PlateletReceived == 0 {
+			err = repositories.MarkAsCancelledAllPatientRequests(int(patient.ID))
+			if err != nil {
+				return fmt.Errorf("failed to mark as cancelled all patient requests")
+			}
+		}
 	} else if qqq == "no" {
 		request.RequestRejected = true
 	}
