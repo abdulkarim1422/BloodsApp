@@ -53,6 +53,31 @@ func MarkAsDonated(requestID int, donationType string, feedback string) error {
 	return nil
 }
 
+func MarkAsReceived(requestID int, qqq string, feedback string) error {
+	request, err := repositories.GetRequestByID(requestID)
+	if err != nil {
+		return fmt.Errorf("request not found")
+	}
+	if request == nil {
+		return fmt.Errorf("request not found")
+	}
+
+	// Mark the request as accepted or rejected (marked by the patient)
+	request.PatientFeedback = feedback
+	if qqq == "yes" {
+		request.RequestAccepted = true
+	} else if qqq == "no" {
+		request.RequestRejected = true
+	}
+
+	// Update the request
+	if err := repositories.UpdateRequest(request); err != nil {
+		return fmt.Errorf("failed to update request")
+	}
+
+	return nil
+}
+
 // SchedualedRequest --------------------------
 
 func CreateSchedualedRequest(c *gin.Context) {
