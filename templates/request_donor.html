@@ -11,7 +11,7 @@
     <!-- Include the header -->
     {{ template "index_header.html" . }}
     
-    <div class="container mt-5">
+    <div class="container mt-5" id="content">
         <h1 class="mb-4 text-center" dir="rtl">{{ .title }}</h1>
         <h1 class="mb-4 text-center" dir="rtl">رقم الطّلب: {{ .request.ID }}</h1>
         <div class="row">
@@ -104,6 +104,27 @@
             آخر تحديث: <strong>{{ .request.UpdatedAt.Format "2006.01.02 | 15:04" }}</strong>
         </div>
     </div>
+
+    <div id="message" style="display: none;">
+        <p>Patient request is closed</p>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Assuming .request is an object with the RequestCancelled property
+            const request = {
+                RequestCancelled: true // Replace with actual logic to get this value
+            };
+
+            const content = document.getElementById('content');
+            const message = document.getElementById('message');
+
+            if (request.RequestCancelled) {
+                content.style.display = 'none';
+                message.style.display = 'block';
+            }
+        });
+    </script>
 
 
     <!-- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
