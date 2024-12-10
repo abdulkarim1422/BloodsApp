@@ -13,23 +13,21 @@ type GeoResponse struct {
 	City    string `json:"city"`
 }
 
-func GetLocation(c *gin.Context) {
+func GetLocation(c *gin.Context) (string, string) {
 	ip := c.ClientIP()
 	// ip := c.Query("ip")
 	url := fmt.Sprintf("http://ip-api.com/json/%s", ip)
 	resp, err := http.Get(url)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to get location"})
-		return
+		return "", ""
 	}
 	defer resp.Body.Close()
 
 	var geo GeoResponse
 	err = json.NewDecoder(resp.Body).Decode(&geo)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to decode response"})
-		return
+		return "", ""
 	}
 
-	c.JSON(http.StatusOK, gin.H{"country": geo.Country, "city": geo.City})
+	return geo.Country, geo.City
 }
