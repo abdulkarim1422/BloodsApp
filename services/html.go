@@ -1,6 +1,7 @@
 package services
 
 import (
+	"fmt"
 	"net/http"
 	"strconv"
 
@@ -21,8 +22,12 @@ func Dashboard_Page(c *gin.Context) {
 
 // Patient and Donor forms
 func ShowPatientForm(c *gin.Context) {
+	country, city := GetLocation(c)
+	fmt.Printf("Country: %s, City: %s\n", country, city)
 	c.HTML(http.StatusOK, "patient_form.html", gin.H{
-		"title": "Patient Registration",
+		"title":   "Patient Registration",
+		"Country": country,
+		"City":    city,
 	})
 }
 
