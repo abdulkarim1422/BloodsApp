@@ -101,7 +101,7 @@ func SendFormToPatient(mail string, phone string, body string) {
 	}
 
 	// Send feedback message to the patient
-	SendWhatsappMessage(phone, body, "patient_feedback")
+	SendSMSMessage(phone, body, "patient_feedback")
 
 	fmt.Printf("Feedback message sent to the patient: %v\n", phone)
 }
