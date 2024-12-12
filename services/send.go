@@ -90,22 +90,6 @@ func sendVerificationCode(phone, code string) {
 	fmt.Printf("Verification code sent successfully: %s\n", code)
 }
 
-// func SendSMSMessage(phone string, message string, txt_file_name string) {
-// 	pythonCaller := os.Getenv("PythonCaller")
-// 	if pythonCaller == "" {
-// 		pythonCaller = "python3"
-// 	}
-// 	cmd := exec.Command(pythonCaller, "scripts/whatsapp_message.py", phone, message, txt_file_name)
-// 	output, err := cmd.CombinedOutput()
-// 	if err != nil {
-// 		fmt.Printf("Error sending SMS message: %v\n", err)
-// 		fmt.Printf("Command output: %s\n", output)
-// 		return
-// 	}
-// 	fmt.Printf("SMS message sent successfully: %s\n", output)
-
-// }
-
 func SendSMSMessage(phone string, message string, txt_file_name string) {
 	url := fmt.Sprintf("%s?phone=%s&message=%s&txt_file_name=%s", os.Getenv("SMS_MS"), phone, message, txt_file_name)
 	resp, err := http.Post(url, "application/json", nil)
