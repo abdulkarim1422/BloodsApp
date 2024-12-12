@@ -8,15 +8,13 @@ The Blood Donation App is a web application designed to facilitate the process o
 - **Donor Registration**: Users can register as blood donors by providing their personal details and blood type.
 - **Patient Registration**: Users can register patients who need blood donations, specifying the required blood type and urgency.
 - **Donation Management**: Admins can manage donations, matching donors with patients based on blood type compatibility.
-- **WhatsApp Verification**: Verification codes are sent to users via WhatsApp to ensure authenticity.
-- **Feedback System**: Send feedback to donors and patients via email and WhatsApp.
+- **Feedback System**: Send feedback to donors and patients via email.
 
 ## Technologies Used
 - **Frontend**: HTML, CSS, JavaScript
 - **Backend**: Go (Golang), Gin framework
 - **Database**: PostgreSQL
 - **ORM**: GORM
-- **Other**: Python for WhatsApp integration
 
 ## Installation
 1. Clone the repository:
@@ -64,15 +62,13 @@ This project is licensed under the MIT License.
 - **تسجيل المتبرعين**: يمكن للمستخدمين التسجيل كمتبرعين بالدم من خلال تقديم تفاصيلهم الشخصية وفصيلة الدم.
 - **تسجيل المرضى**: يمكن للمستخدمين تسجيل المرضى الذين يحتاجون إلى تبرعات بالدم، مع تحديد فصيلة الدم المطلوبة ومدى الحاجة.
 - **إدارة التبرعات**: يمكن للمسؤولين إدارة التبرعات، ومطابقة المتبرعين مع المرضى بناءً على توافق فصيلة الدم.
-- **التحقق عبر الواتساب**: يتم إرسال رموز التحقق إلى المستخدمين عبر الواتساب لضمان الأصالة.
-- **نظام التغذية الراجعة**: إرسال التغذية الراجعة إلى المتبرعين والمرضى عبر البريد الإلكتروني والواتساب.
+- **نظام التغذية الراجعة**: إرسال التغذية الراجعة إلى المتبرعين والمرضى عبر البريد الإلكتروني.
 
 ## التقنيات المستخدمة
 - **الواجهة الأمامية**: HTML, CSS, JavaScript
 - **الواجهة الخلفية**: Go (Golang), إطار عمل Gin
 - **قاعدة البيانات**: PostgreSQL
 - **ORM**: GORM
-- **أخرى**: Python للتكامل مع الواتساب
 
 ## التثبيت
 1. استنساخ المستودع:
