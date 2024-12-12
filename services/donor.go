@@ -22,7 +22,7 @@ func CreateDonor(c *gin.Context) {
 	// Generate and assign verification code
 	newDonor.Verify = generateVerificationCode()
 
-	// Send verification code via WhatsApp
+	// Send verification code via SMS
 	go sendVerificationCode(newDonor.PhoneNumber, newDonor.Verify)
 
 	// Temporarily store the donor data
