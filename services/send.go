@@ -30,7 +30,7 @@ func SendMatchResult(patientID int, donors []int) {
 		donorsList = append(donorsList, *donor)
 	}
 
-	// Run WhatsApp script Loop
+	// Run SMS script Loop
 	var domain = os.Getenv("domain")
 	for _, donor := range donorsList {
 		// Store the request
