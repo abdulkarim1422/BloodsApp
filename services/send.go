@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"math/rand"
 	"net/http"
+	"net/url"
 	"os"
 	"time"
 
@@ -91,8 +92,10 @@ func sendVerificationCode(phone, code string) {
 }
 
 func SendSMSMessage(phone string, message string, txt_file_name string) {
-	url := fmt.Sprintf("%s?phone=%s&message=%s&txt_file_name=%s", os.Getenv("SMS_MS"), phone, message, txt_file_name)
+	encodedMessage := url.QueryEscape(message)
+	url := fmt.Sprintf("%s?phone=%s&message=%s&txt_file_name=%s", os.Getenv("SMS_MS"), phone, encodedMessage, txt_file_name)
 	resp, err := http.Post(url, "application/json", nil)
+	fmt.Printf("sending post request: %s\n", url)
 	if err != nil {
 		fmt.Printf("Failed to send SMS: %v\n", err)
 		return
