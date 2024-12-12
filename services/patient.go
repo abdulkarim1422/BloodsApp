@@ -22,7 +22,7 @@ func CreatePatient(c *gin.Context) {
 	// Generate and assign verification code
 	newPatient.Verify = generateVerificationCode()
 
-	// Send verification code via WhatsApp
+	// Send verification code via SMS
 	go sendVerificationCode(newPatient.PhoneNumber, newPatient.Verify)
 
 	// Temporarily store the patient data
