@@ -3,8 +3,8 @@ package services
 import (
 	"fmt"
 	"math/rand"
+	"net/http"
 	"os"
-	"os/exec"
 	"time"
 
 	"github.com/abdulkarim1422/BloodsApp/models"
@@ -65,7 +65,7 @@ func SendMatchResult(patientID int, donors []int) {
 			donor.LatinName, patient.BloodType, patient.Address.HospitalName, domain, requestID, tokenString)
 
 		// Send the message
-		SendWhatsappMessage(donor.PhoneNumber, message, "match")
+		SendSMSMessage(donor.PhoneNumber, message, "match")
 
 		// Add one request to the patient's requests
 		err_adding_request := repositories.AddOneRequestSent(patientID)
@@ -86,22 +86,39 @@ func generateVerificationCode() string {
 
 func sendVerificationCode(phone, code string) {
 	msg := fmt.Sprintf("رسالة التحقّق هي: %v", code)
-	SendWhatsappMessage(phone, msg, "verification")
+	SendSMSMessage(phone, msg, "verification")
 	fmt.Printf("Verification code sent successfully: %s\n", code)
 }
 
-func SendWhatsappMessage(phone string, message string, txt_file_name string) {
-	pythonCaller := os.Getenv("PythonCaller")
-	if pythonCaller == "" {
-		pythonCaller = "python3"
-	}
-	cmd := exec.Command(pythonCaller, "scripts/whatsapp_message.py", phone, message, txt_file_name)
-	output, err := cmd.CombinedOutput()
+// func SendSMSMessage(phone string, message string, txt_file_name string) {
+// 	pythonCaller := os.Getenv("PythonCaller")
+// 	if pythonCaller == "" {
+// 		pythonCaller = "python3"
+// 	}
+// 	cmd := exec.Command(pythonCaller, "scripts/whatsapp_message.py", phone, message, txt_file_name)
+// 	output, err := cmd.CombinedOutput()
+// 	if err != nil {
+// 		fmt.Printf("Error sending SMS message: %v\n", err)
+// 		fmt.Printf("Command output: %s\n", output)
+// 		return
+// 	}
+// 	fmt.Printf("SMS message sent successfully: %s\n", output)
+
+// }
+
+func SendSMSMessage(phone string, message string, txt_file_name string) {
+	url := fmt.Sprintf("%s?phone=%s&message=%s&txt_file_name=%s", os.Getenv("SMS_MS"), phone, message, txt_file_name)
+	resp, err := http.Post(url, "application/json", nil)
 	if err != nil {
-		fmt.Printf("Error sending WhatsApp message: %v\n", err)
-		fmt.Printf("Command output: %s\n", output)
+		fmt.Printf("Failed to send SMS: %v\n", err)
 		return
 	}
-	fmt.Printf("WhatsApp message sent successfully: %s\n", output)
+	defer resp.Body.Close()
 
+	if resp.StatusCode != http.StatusOK {
+		fmt.Printf("Failed to send SMS: received status code %d\n", resp.StatusCode)
+		return
+	}
+
+	fmt.Printf("SMS sent successfully to %s\n", phone)
 }
