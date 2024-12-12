@@ -51,7 +51,7 @@ The Blood Donation App is a web application designed to facilitate the process o
 Contributions are welcome! Please fork the repository and create a pull request with your changes.
 
 ## License
-This project is licensed under the MIT License.
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
 # تطبيق التبرع بالدم
 
@@ -105,4 +105,4 @@ This project is licensed under the MIT License.
 المساهمات مرحب بها! يرجى استنساخ المستودع وإنشاء طلب سحب مع التغييرات الخاصة بك.
 
 ## الترخيص
-هذا المشروع مرخص بموجب ترخيص MIT.
+هذا المشروع مرخص بموجب ترخيص MIT. راجع ملف [LICENSE](LICENSE) لمزيد من التفاصيل.
