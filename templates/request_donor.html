@@ -111,12 +111,12 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const requestData = {{ .request | json }};
+            const requestData = {{ .request.RequestCancelled }};
 
             const content = document.getElementById('content');
             const message = document.getElementById('message');
 
-            if (requestData.RequestCancelled) {
+            if (requestData) {
                 content.style.display = 'none';
                 message.style.display = 'block';
             }
