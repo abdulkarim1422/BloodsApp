@@ -111,15 +111,12 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Assuming .request is an object with the RequestCancelled property
-            const request = {
-                RequestCancelled: true // Replace with actual logic to get this value
-            };
+            const requestData = {{ .request | json }};
 
             const content = document.getElementById('content');
             const message = document.getElementById('message');
 
-            if (request.RequestCancelled) {
+            if (requestData.RequestCancelled) {
                 content.style.display = 'none';
                 message.style.display = 'block';
             }
