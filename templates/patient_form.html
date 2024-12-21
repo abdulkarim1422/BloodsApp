@@ -167,13 +167,12 @@
                 <input type="hidden" name="CityID" id="cityID">
 
                 <!-- District Dropdown (only shown if City is Istanbul) -->
-                <div id="districtContainer" style="display: {{ if eq .City "Istanbul" }}block{{ else }}none{{ end }}">
+                <div id="districtContainer" style="display: none;">
                     <label for="District">المنطقة:</label>
-                    <select name="District" id="districtDropdown" onchange="loadHospitals()">
+                    <select name="District" id="districtDropdown">
                         <option value="" selected disabled></option>
                     </select>
                 </div>
-
 
                 <!-- Hospital Dropdown (only shown after district is selected) -->
                 <div id="hospitalContainer" style="display: none;">
@@ -565,21 +564,6 @@
         }
 
         document.addEventListener('DOMContentLoaded', function() {
-        // // Load cities
-        // fetch('/static/cities.json')
-        //     .then(response => response.json())
-        //     .then(data => {
-        //         const cityDropdown = document.getElementById('cityDropdown');
-        //         data.forEach(city => {
-        //             const option = document.createElement('option');
-        //             option.value = city.name;
-        //             option.textContent = city.name;
-        //             option.setAttribute('data-cityid', city['data-cityid']);
-        //             cityDropdown.appendChild(option);
-        //         });
-        //     })
-        //     .catch(error => console.error('Error loading cities:', error));
-
         // Load Istanbul districts
         fetch('/static/istanbul_districts.json')
             .then(response => response.json())
