@@ -31,6 +31,7 @@ func AllRouters() {
 	RegisterSendRoutes(router)
 	RegisterOpenPatientRoutes(router)
 	RegisterOpenDonorRoutes(router)
+	RegisterOpenScheduale(router)
 
 	// Protected routes
 	protected := router.Group("/")

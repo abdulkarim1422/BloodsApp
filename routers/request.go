@@ -6,6 +6,13 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// to be protected later ???
+func RegisterOpenScheduale(router *gin.Engine) {
+	// request page
+	router.POST("/mark-donated", handlers.MarkAsDonated)
+	router.POST("/mark-received", handlers.MarkAsReceived)
+}
+
 func RegisterProtectedScheduale(router *gin.RouterGroup) {
 	// SchedualedRequest --------------------------
 	router.POST("/scheduale-request", handlers.CreateSchedualedRequest)
@@ -15,8 +22,4 @@ func RegisterProtectedScheduale(router *gin.RouterGroup) {
 
 	// Request --------------------------
 	router.GET("/requests", services.GetAllRequests)
-
-	// request page
-	router.POST("/mark-donated", handlers.MarkAsDonated)
-	router.POST("/mark-received", handlers.MarkAsReceived)
 }
