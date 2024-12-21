@@ -76,6 +76,10 @@ func MarkAsDonated(c *gin.Context) {
 		Feedback  string `form:"feedback"`
 	}
 
+	if err := c.ShouldBind(&donationForm); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
 	requestIDint, err := strconv.Atoi(donationForm.RequestID)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid ID format"})
