@@ -1,17 +1,31 @@
-# Makefile for running go app in the background
+APP_NAME=myapp       # A name to represent the application
+PID_FILE=app.pid     # File to store the PID of the running process
+LOG_FILE=app.log     # Log file for the application
 
-# Define the app command as a variable for easier reuse
-GO_CMD = nohup go run . > app.log 2>&1 &
-
-# Target to start the app
+# Run the application in the background
 start:
-    $(GO`_CMD)
-    echo "go app started."
+	@if [ -f $(PID_FILE) ]; then \
+		echo "Application is already running (PID=$$(cat $(PID_FILE)))"; \
+	else \
+		echo "Starting application..."; \
+		nohup go run . > $(LOG_FILE) 2>&1 & echo $$! > $(PID_FILE); \
+		echo "Application started (PID=$$(cat $(PID_FILE)))"; \
+	fi
 
-# Target to stop the app
+# Stop the running application
 stop:
-    @pkill -f "go run ."
-    echo "go app stopped."
+	@if [ -f $(PID_FILE) ]; then \
+		echo "Stopping application..."; \
+		kill -9 $$(cat $(PID_FILE)) && rm -f $(PID_FILE); \
+		echo "Application stopped."; \
+	else \
+		echo "Application is not running."; \
+	fi
 
-# Target to restart the app
-restart: stop start
+# Clean up logs and PID file
+clean: stop
+	rm -f $(PID_FILE) $(LOG_FILE)
+
+# Show logs
+logs:
+	@tail -f $(LOG_FILE)
