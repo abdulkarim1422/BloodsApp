@@ -1,0 +1,608 @@
+
+<!DOCTYPE html>
+<html dir="rtl">
+<head>
+    <title>تسجيل المريض - تطبيق التبرع بالدم</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/form.css">
+    <style>
+        option:disabled {
+            color: gray;
+        }
+    </style>
+</head>
+<body>
+    <!-- Include the header -->
+    {{ template "index_header.html" . }}
+    <main>
+        <section>
+            <h2>تسجيل المريض</h2>
+            <form id="patientForm">
+                <label for="latin_name">الاسم باللغة التركيّة:</label>
+                <input type="text" id="latin_name" name="LatinName" placeholder="İsim Soyisim" required>
+
+                <label for="blood_type">فصيلة الدم:</label>
+                <select id="blood_type" name="BloodType" required>
+                    <option value="" selected disabled></option>
+                    <option value="A+">A+</option>
+                    <option value="A-">A-</option>
+                    <option value="B+">B+</option>
+                    <option value="B-">B-</option>
+                    <option value="AB+">AB+</option>
+                    <option value="AB-">AB-</option>
+                    <option value="O+">O+</option>
+                    <option value="O-">O-</option>
+                </select>
+
+                <label for="phone">رقم الهاتف للتواصل (واتسآب):</label>
+                <div class="phone-input">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/b/b4/Flag_of_Turkey.svg" alt="Turkey Flag">
+                    <span>+90</span>
+                    <input type="text" placeholder="(539) 123 12 34" id="phone" name="PhoneNumber" maxlength="15" required>
+                </div>
+
+                <div id="relationship">
+                <lablel for="relationship">علاقة صاحب رقم الهاتف بالمريض:</lablel>
+                <select id="relationship" name="Relationship" required>
+                    <option value="" selected disabled></option>
+                    <option value="self">المريض نفسه</option>
+                    <option value="family">أحد أفراد العائلة</option>
+                    <option value="friend">صديق</option>
+                    <option value="other">آخر</option>
+                </select>
+                </div>
+
+                <!-- Country Textbox (only shown if country is not Türkiye) -->
+                <input
+                    type="text"
+                    name="Country"
+                    id="countryTextbox"
+                    value="{{ if not (eq .Country "Türkiye") }}{{ .Country }}{{ end }}"
+                    placeholder="البلد"
+                    style="display: {{ if eq .Country "Türkiye" }}none{{ else }}block{{ end }}"
+                    onchange="toggleFields()"
+                    {{ if eq .Country "Türkiye" }}disabled{{ end }}
+                >
+
+                <!-- City Dropdown (only shown if country is Türkiye) -->
+                <div id="cityContainer" style="display: {{ if eq .Country "Türkiye" }}block{{ else }}none{{ end }}">
+                    <label for="City">المدينة:</label>
+                    <select name="City" id="cityDropdown" onchange="toggleFields()" {{ if eq .City "Istanbul" }}disabled{{ end }}>
+                        <option value="" selected disabled></option>
+                        <option value="Adana" data-cityid="TR01" {{ if eq .City "Adana" }}selected{{ end }}>Adana</option>
+                        <option value="Adıyaman" data-cityid="TR02" {{ if eq .City "Adıyaman" }}selected{{ end }}>Adıyaman</option>
+                        <option value="Afyon" data-cityid="TR03" {{ if eq .City "Afyon" }}selected{{ end }}>Afyon</option>
+                        <option value="Ağrı" data-cityid="TR04" {{ if eq .City "Ağrı" }}selected{{ end }}>Ağrı</option>
+                        <option value="Amasya" data-cityid="TR05" {{ if eq .City "Amasya" }}selected{{ end }}>Amasya</option>
+                        <option value="Ankara" data-cityid="TR06" {{ if eq .City "Ankara" }}selected{{ end }}>Ankara</option>
+                        <option value="Antalya" data-cityid="TR07" {{ if eq .City "Antalya" }}selected{{ end }}>Antalya</option>
+                        <option value="Artvin" data-cityid="TR08" {{ if eq .City "Artvin" }}selected{{ end }}>Artvin</option>
+                        <option value="Aydın" data-cityid="TR09" {{ if eq .City "Aydın" }}selected{{ end }}>Aydın</option>
+                        <option value="Balıkesir" data-cityid="TR10" {{ if eq .City "Balıkesir" }}selected{{ end }}>Balıkesir</option>
+                        <option value="Bilecik" data-cityid="TR11" {{ if eq .City "Bilecik" }}selected{{ end }}>Bilecik</option>
+                        <option value="Bingöl" data-cityid="TR12" {{ if eq .City "Bingöl" }}selected{{ end }}>Bingöl</option>
+                        <option value="Bitlis" data-cityid="TR13" {{ if eq .City "Bitlis" }}selected{{ end }}>Bitlis</option>
+                        <option value="Bolu" data-cityid="TR14" {{ if eq .City "Bolu" }}selected{{ end }}>Bolu</option>
+                        <option value="Burdur" data-cityid="TR15" {{ if eq .City "Burdur" }}selected{{ end }}>Burdur</option>
+                        <option value="Bursa" data-cityid="TR16" {{ if eq .City "Bursa" }}selected{{ end }}>Bursa</option>
+                        <option value="Çanakkale" data-cityid="TR17" {{ if eq .City "Çanakkale" }}selected{{ end }}>Çanakkale</option>
+                        <option value="Çankırı" data-cityid="TR18" {{ if eq .City "Çankırı" }}selected{{ end }}>Çankırı</option>
+                        <option value="Çorum" data-cityid="TR19" {{ if eq .City "Çorum" }}selected{{ end }}>Çorum</option>
+                        <option value="Denizli" data-cityid="TR20" {{ if eq .City "Denizli" }}selected{{ end }}>Denizli</option>
+                        <option value="Diyarbakır" data-cityid="TR21" {{ if eq .City "Diyarbakır" }}selected{{ end }}>Diyarbakır</option>
+                        <option value="Edirne" data-cityid="TR22" {{ if eq .City "Edirne" }}selected{{ end }}>Edirne</option>
+                        <option value="Elazığ" data-cityid="TR23" {{ if eq .City "Elazığ" }}selected{{ end }}>Elazığ</option>
+                        <option value="Erzincan" data-cityid="TR24" {{ if eq .City "Erzincan" }}selected{{ end }}>Erzincan</option>
+                        <option value="Erzurum" data-cityid="TR25" {{ if eq .City "Erzurum" }}selected{{ end }}>Erzurum</option>
+                        <option value="Eskişehir" data-cityid="TR26" {{ if eq .City "Eskişehir" }}selected{{ end }}>Eskişehir</option>
+                        <option value="Gaziantep" data-cityid="TR27" {{ if eq .City "Gaziantep" }}selected{{ end }}>Gaziantep</option>
+                        <option value="Giresun" data-cityid="TR28" {{ if eq .City "Giresun" }}selected{{ end }}>Giresun</option>
+                        <option value="Gümüşhane" data-cityid="TR29" {{ if eq .City "Gümüşhane" }}selected{{ end }}>Gümüşhane</option>
+                        <option value="Hakkari" data-cityid="TR30" {{ if eq .City "Hakkari" }}selected{{ end }}>Hakkari</option>
+                        <option value="Hatay" data-cityid="TR31" {{ if eq .City "Hatay" }}selected{{ end }}>Hatay</option>
+                        <option value="Isparta" data-cityid="TR32" {{ if eq .City "Isparta" }}selected{{ end }}>Isparta</option>
+                        <option value="Mersin" data-cityid="TR33" {{ if eq .City "Mersin" }}selected{{ end }}>Mersin</option>
+                        <option value="İstanbul" data-cityid="TR34" {{ if eq .City "Istanbul" }}selected{{ end }}>İstanbul</option>
+                        <option value="İzmir" data-cityid="TR35" {{ if eq .City "İzmir" }}selected{{ end }}>İzmir</option>
+                        <option value="Kars" data-cityid="TR36" {{ if eq .City "Kars" }}selected{{ end }}>Kars</option>
+                        <option value="Kastamonu" data-cityid="TR37" {{ if eq .City "Kastamonu" }}selected{{ end }}>Kastamonu</option>
+                        <option value="Kayseri" data-cityid="TR38" {{ if eq .City "Kayseri" }}selected{{ end }}>Kayseri</option>
+                        <option value="Kırklareli" data-cityid="TR39" {{ if eq .City "Kırklareli" }}selected{{ end }}>Kırklareli</option>
+                        <option value="Kırşehir" data-cityid="TR40" {{ if eq .City "Kırşehir" }}selected{{ end }}>Kırşehir</option>
+                        <option value="Kocaeli" data-cityid="TR41" {{ if eq .City "Kocaeli" }}selected{{ end }}>Kocaeli</option>
+                        <option value="Konya" data-cityid="TR42" {{ if eq .City "Konya" }}selected{{ end }}>Konya</option>
+                        <option value="Kütahya" data-cityid="TR43" {{ if eq .City "Kütahya" }}selected{{ end }}>Kütahya</option>
+                        <option value="Malatya" data-cityid="TR44" {{ if eq .City "Malatya" }}selected{{ end }}>Malatya</option>
+                        <option value="Manisa" data-cityid="TR45" {{ if eq .City "Manisa" }}selected{{ end }}>Manisa</option>
+                        <option value="Kahramanmaraş" data-cityid="TR46" {{ if eq .City "Kahramanmaraş" }}selected{{ end }}>Kahramanmaraş</option>
+                        <option value="Mardin" data-cityid="TR47" {{ if eq .City "Mardin" }}selected{{ end }}>Mardin</option>
+                        <option value="Muğla" data-cityid="TR48" {{ if eq .City "Muğla" }}selected{{ end }}>Muğla</option>
+                        <option value="Muş" data-cityid="TR49" {{ if eq .City "Muş" }}selected{{ end }}>Muş</option>
+                        <option value="Nevşehir" data-cityid="TR50" {{ if eq .City "Nevşehir" }}selected{{ end }}>Nevşehir</option>
+                        <option value="Niğde" data-cityid="TR51" {{ if eq .City "Niğde" }}selected{{ end }}>Niğde</option>
+                        <option value="Ordu" data-cityid="TR52" {{ if eq .City "Ordu" }}selected{{ end }}>Ordu</option>
+                        <option value="Rize" data-cityid="TR53" {{ if eq .City "Rize" }}selected{{ end }}>Rize</option>
+                        <option value="Sakarya" data-cityid="TR54" {{ if eq .City "Sakarya" }}selected{{ end }}>Sakarya</option>
+                        <option value="Samsun" data-cityid="TR55" {{ if eq .City "Samsun" }}selected{{ end }}>Samsun</option>
+                        <option value="Siirt" data-cityid="TR56" {{ if eq .City "Siirt" }}selected{{ end }}>Siirt</option>
+                        <option value="Sinop" data-cityid="TR57" {{ if eq .City "Sinop" }}selected{{ end }}>Sinop</option>
+                        <option value="Sivas" data-cityid="TR58" {{ if eq .City "Sivas" }}selected{{ end }}>Sivas</option>
+                        <option value="Tekirdağ" data-cityid="TR59" {{ if eq .City "Tekirdağ" }}selected{{ end }}>Tekirdağ</option>
+                        <option value="Tokat" data-cityid="TR60" {{ if eq .City "Tokat" }}selected{{ end }}>Tokat</option>
+                        <option value="Trabzon" data-cityid="TR61" {{ if eq .City "Trabzon" }}selected{{ end }}>Trabzon</option>
+                        <option value="Tunceli" data-cityid="TR62" {{ if eq .City "Tunceli" }}selected{{ end }}>Tunceli</option>
+                        <option value="Şanlıurfa" data-cityid="TR63" {{ if eq .City "Şanlıurfa" }}selected{{ end }}>Şanlıurfa</option>
+                        <option value="Uşak" data-cityid="TR64" {{ if eq .City "Uşak" }}selected{{ end }}>Uşak</option>
+                        <option value="Van" data-cityid="TR65" {{ if eq .City "Van" }}selected{{ end }}>Van</option>
+                        <option value="Yozgat" data-cityid="TR66" {{ if eq .City "Yozgat" }}selected{{ end }}>Yozgat</option>
+                        <option value="Zonguldak" data-cityid="TR67" {{ if eq .City "Zonguldak" }}selected{{ end }}>Zonguldak</option>
+                        <option value="Aksaray" data-cityid="TR68" {{ if eq .City "Aksaray" }}selected{{ end }}>Aksaray</option>
+                        <option value="Bayburt" data-cityid="TR69" {{ if eq .City "Bayburt" }}selected{{ end }}>Bayburt</option>
+                        <option value="Karaman" data-cityid="TR70" {{ if eq .City "Karaman" }}selected{{ end }}>Karaman</option>
+                        <option value="Kırıkkale" data-cityid="TR71" {{ if eq .City "Kırıkkale" }}selected{{ end }}>Kırıkkale</option>
+                        <option value="Batman" data-cityid="TR72" {{ if eq .City "Batman" }}selected{{ end }}>Batman</option>
+                        <option value="Şırnak" data-cityid="TR73" {{ if eq .City "Şırnak" }}selected{{ end }}>Şırnak</option>
+                        <option value="Bartın" data-cityid="TR74" {{ if eq .City "Bartın" }}selected{{ end }}>Bartın</option>
+                        <option value="Ardahan" data-cityid="TR75" {{ if eq .City "Ardahan" }}selected{{ end }}>Ardahan</option>
+                        <option value="Iğdır" data-cityid="TR76" {{ if eq .City "Iğdır" }}selected{{ end }}>Iğdır</option>
+                        <option value="Yalova" data-cityid="TR77" {{ if eq .City "Yalova" }}selected{{ end }}>Yalova</option>
+                        <option value="Karabük" data-cityid="TR78" {{ if eq .City "Karabük" }}selected{{ end }}>Karabük</option>
+                        <option value="Kilis" data-cityid="TR79" {{ if eq .City "Kilis" }}selected{{ end }}>Kilis</option>
+                        <option value="Osmaniye" data-cityid="TR80" {{ if eq .City "Osmaniye" }}selected{{ end }}>Osmaniye</option>
+                        <option value="Düzce" data-cityid="TR81" {{ if eq .City "Düzce" }}selected{{ end }}>Düzce</option>
+                    </select>
+                </div>
+                <!-- City Textbox (only shown if country is not Türkiye) -->
+                <input
+                type="text"
+                name="City"
+                id="cityTextbox"
+                value="{{ if not (eq .Country "Türkiye") }}{{ .City }}{{ end }}"
+                placeholder="المدينة"
+                style="display: {{ if eq .Country "Türkiye" }}none{{ else }}block{{ end }}"
+                {{ if eq .Country "Türkiye" }}disabled{{ end }}
+                >
+
+                <!-- Hidden City ID -->
+                <input type="hidden" name="CityID" id="cityID">
+
+            <!-- District Dropdown (only shown if City is Istanbul) -->
+            <div id="districtContainer" style="display: {{ if eq .City "Istanbul" }}block{{ else }}none{{ end }}">
+                <label for="District">المنطقة:</label>
+                <select name="District" id="districtDropdown" onchange="loadHospitals()">
+                        <option value="Adalar">Adalar</option>
+                        <option value="Arnavutköy">Arnavutköy</option>
+                        <option value="Ataşehir">Ataşehir</option>
+                        <option value="Avcılar">Avcılar</option>
+                        <option value="Bağcılar">Bağcılar</option>
+                        <option value="Bahçelievler">Bahçelievler</option>
+                        <option value="Bakırköy">Bakırköy</option>
+                        <option value="Başakşehir">Başakşehir</option>
+                        <option value="Bayrampaşa">Bayrampaşa</option>
+                        <option value="Beşiktaş">Beşiktaş</option>
+                        <option value="Beykoz">Beykoz</option>
+                        <option value="Beylikdüzü">Beylikdüzü</option>
+                        <option value="Beyoğlu">Beyoğlu</option>
+                        <option value="Büyükçekmece">Büyükçekmece</option>
+                        <option value="Çatalca">Çatalca</option>
+                        <option value="Çekmeköy">Çekmeköy</option>
+                        <option value="Esenler">Esenler</option>
+                        <option value="Esenyurt">Esenyurt</option>
+                        <option value="Eyüpsultan">Eyüpsultan</option>
+                        <option value="Fatih">Fatih</option>
+                        <option value="Gaziosmanpaşa">Gaziosmanpaşa</option>
+                        <option value="Güngören">Güngören</option>
+                        <option value="Kadıköy">Kadıköy</option>
+                        <option value="Kağıthane">Kağıthane</option>
+                        <option value="Kartal">Kartal</option>
+                        <option value="Küçükçekmece">Küçükçekmece</option>
+                        <option value="Maltepe">Maltepe</option>
+                        <option value="Pendik">Pendik</option>
+                        <option value="Sancaktepe">Sancaktepe</option>
+                        <option value="Sarıyer">Sarıyer</option>
+                        <option value="Silivri">Silivri</option>
+                        <option value="Şile">Şile</option>
+                        <option value="Şişli">Şişli</option>
+                        <option value="Sultanbeyli">Sultanbeyli</option>
+                        <option value="Sultangazi">Sultangazi</option>
+                        <option value="Tuzla">Tuzla</option>
+                        <option value="Ümraniye">Ümraniye</option>
+                        <option value="Üsküdar">Üsküdar</option>
+                        <option value="Zeytinburnu">Zeytinburnu</option>
+                    </select>
+                </div>
+
+
+                <!-- Hospital Dropdown (only shown after district is selected) -->
+                <div id="hospitalContainer" style="display: none;">
+                    <label for="HospitalName">المشفى:</label>
+                    <select name="HospitalName" id="hospitalDropdown">
+                        <!-- Hospital options will be populated based on district selection -->
+                    </select>
+                </div>
+
+                <!-- Hospital Name Input (if not Istanbul) -->
+                <input
+                    type="text"
+                    name="HospitalName"
+                    id="hospitalName"
+                    value="{{ .HospitalName }}"
+                    placeholder="Hastane ismi"
+                    style="display: {{ if eq .City "Istanbul" }}none{{ else }}block{{ end }}"
+                >
+
+
+                <!-- <label for="hospitalName">اسم المستشفى:</label>
+                <input type="text" id="hospitalName" name="HospitalName" placeholder="Hastane ismi" required> -->
+
+                <label for="urgency">درجة الاستعجال:</label>
+                <select id="urgency" name="Urgency" required>
+                    <option value="" selected disabled></option>
+                    <option value="6">أحتاجهم خلال هذا الشهر</option>
+                    <option value="5">أحتاجهم خلال هذا الأسبوع</option>
+                    <option value="4">أحتاجهم غداً في أي وقت</option>
+                    <option value="3">أحتاجهم غداً باكراً</option>
+                    <option value="2">أحتاجهم اليوم</option>
+                    <option value="1">أحتاجهم الآن</option>
+                </select>
+
+                <div id="redRequiredDiv">
+                <label for="red_quantity">عدد أكياس الدم الحمراء اللازمة:</label>
+                <select id="red_quantity" name="RedRequired" required>
+                    <option value="" selected disabled>اختر عدد الأكياس</option>
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                </select>
+                </div>
+
+                <div id="plateletRequiredDiv">
+                <label for="platelet_quantity">عدد أكياس الصفائح الدموية اللازمة:</label>
+                <select id="platelet_quantity" name="PlateletRequired" required>
+                    <option value="" selected disabled>اختر عدد الأكياس</option>
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                </select>
+                </div>
+
+                <label for="transportation">وسيلة النّقل</label>
+                <select id="transportation" name="Transportation">
+                    <option value="" selected disabled></option>
+                    <option value="none">غير متوفّر</option>
+                    <option value="taxi">يمكنني دفع مقابل سيارة أجرة للمتبرّع</option>
+                    <option value="car">يمكنني توصيل المتبرّع بالسيارة</option>
+                </select>
+                
+                <label for="acceptsRedCrescent">هل يقبل المشفى التبرّع من الهلال الأحمر؟:</label>
+                <select id="acceptsRedCrescent" name="AcceptsRedCrescent" onchange="toggleRedCrescentCode()" required>
+                    <option value="" selected disabled>اختر</option>
+                    <option value="false">لا</option>
+                    <option value="true">نعم</option>
+                </select>
+
+                <div id="redCrescentCodeDiv" style="display:none;">
+                    <label for="redCrescentCode">كود الهلال الأحمر (إن توفّر):</label>
+                    <input type="text" id="redCrescentCode" name="RedCrescentCode">
+                </div>
+
+                <div id="requiresNationalityDiv" style="display:none;">
+                    <label for="requiresNationality">هل يتطلّب المشفى جنسيّة تركيّة من المتبرّع؟</label>
+                    <select id="requiresNationality" name="RequiresNationality">
+                        <option value="" selected disabled></option>
+                        <option value="false">لا</option>
+                        <option value="true">نعم</option>
+                    </select>
+                </div>
+
+                <button type="submit">إرسال</button>
+            </form>
+
+            <div id="verificationSection" style="display:none;">
+                <label for="verification_code">رمز التحقق:</label>
+                <p>سيتم إرسال رمز التحقق إلى رقم الواتساب الخاص بك في غضون 45 ثانية.</p>
+                <input type="text" id="verification_code" name="VerificationCode" required>
+                <button id="verifyButton">تحقق</button>
+            </div>
+        </section>
+    </main>
+    <script>
+        document.getElementById('patientForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get the phone number value and remove non-numeric characters
+            const phoneInput = document.getElementById('phone');
+            let rawPhoneNumber = phoneInput.value.replace(/\D/g, ''); // Remove formatting (non-numeric characters)
+            
+            // Add the +90 Turkish country code
+            const formattedPhoneNumber = `+90${rawPhoneNumber}`;
+            
+            // Create a new FormData object to include the raw phone number
+            const formData = new FormData(this);
+            formData.set('PhoneNumber', formattedPhoneNumber); // Override the PhoneNumber field with the raw number
+
+            // Submit the form data to the server
+            fetch('/patient', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    alert(data.error);
+                } else {
+                    document.getElementById('patientForm').style.display = 'none';
+                    document.getElementById('verificationSection').style.display = 'block';
+                    localStorage.setItem('patient_id', data.id);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
+
+        // Verify the patient's phone number
+        document.getElementById('verifyButton').addEventListener('click', function() {
+            const verificationCode = document.getElementById('verification_code').value;
+            const patient_id = localStorage.getItem('patient_id');
+            fetch(`/verify-patient/${patient_id}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ verificationCode })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    alert(data.error);
+                } else {
+                    alert('تم التحقق بنجاح');
+                    window.location.href = '/';
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
+        
+        // Toggle the display of the Red Crescent code field
+        function toggleRedCrescentCode() {
+            var selectBox = document.getElementById("acceptsRedCrescent");
+            var redCrescentCodeDiv = document.getElementById("redCrescentCodeDiv");
+            var requiresNationalityDiv = document.getElementById("requiresNationalityDiv");
+            if (selectBox.value === "true") {
+                redCrescentCodeDiv.style.display = "block";
+                requiresNationalityDiv.style.display = "none";
+            } else {
+                redCrescentCodeDiv.style.display = "none";
+                requiresNationalityDiv.style.display = "block";
+            }
+        }
+
+        // Toggle the display of the country, city and district fields
+        function toggleFields() {
+            const countryInput = document.getElementById("countryTextbox");
+            const cityContainer = document.getElementById("cityContainer");
+            const cityInput = document.getElementById("cityTextbox");
+            const citySelect = document.getElementById("cityDropdown");
+            const districtContainer = document.getElementById("districtContainer");
+            const districtDropdown = document.getElementById("districtDropdown");
+            const hospitalContainer = document.getElementById('hospitalContainer');
+            const hospitalDropdown = document.getElementById("hospitalDropdown");
+            const hospitalInput = document.getElementById("hospitalName");
+
+            const countryValue = document.getElementById("countryTextbox").value;
+            const selectedCity = citySelect.value || cityInput.value;
+
+            // Show or hide country and city fields based on selection
+            if (countryValue === "Türkiye" || countryValue === "Turkiye" || countryValue === "Turkey") {
+                countryInput.style.display = "none";
+                cityInput.setAttribute("disabled", "true");
+                cityInput.style.display = "none";
+                citySelect.removeAttribute("disabled");
+                cityContainer.style.display = "block";
+            } else {
+                countryInput.style.display = "block";
+                cityInput.removeAttribute("disabled");
+                cityInput.style.display = "block";
+                citySelect.setAttribute("disabled", "true");
+                cityContainer.style.display = "none";
+            }
+
+            // Show or hide district dropdown based on city
+            if (selectedCity === "Istanbul" || selectedCity === "İstanbul") {
+                districtContainer.style.display = "block";
+                cityContainer.style.display = "none"; // Hide the city dropdown
+                cityInput.style.display = "none"; // Hide the city input
+                hospitalContainer.style.display = "none"; // Hide the hospital list until district is selected
+            } else {
+                districtContainer.style.display = "none";
+                cityContainer.style.display = "block"; // Show the city dropdown
+                cityInput.style.display = "block"; // Show the city textbox
+                hospitalInput.style.display = "block"; // Show hospital input as text box for other cities
+            }
+        }
+
+        function loadHospitals() {
+            const districtValue = document.getElementById("districtDropdown").value;
+            const hospitalContainer = document.getElementById("hospitalContainer");
+            const hospitalDropdown = document.getElementById("hospitalDropdown");
+            const hospitals = {
+                "Fatih": [
+                    "Cerrahpaşa Tıp Fakültesi Hastanesi",
+                    "Haseki Eğitim ve Araştırma Hastanesi",
+                    "İstanbul Üniversitesi Çapa Tıp Fakültesi Hastanesi"
+                ],
+                "Beyoğlu": [
+                    "Beyoğlu Göz Eğitim ve Araştırma Hastanesi"
+                ],
+                "Kadıköy": [
+                    "Acıbadem Kadıköy Hastanesi",
+                    "Kadıköy Şifa Hastanesi",
+                    "Florence Nightingale Hastanesi"
+                ],
+                "Üsküdar": [
+                    "Üsküdar Devlet Hastanesi",
+                    "Medipol Üniversitesi Hastanesi",
+                    "Acıbadem Altunizade Hastanesi"
+                ],
+                "Beşiktaş": [
+                    "American Hastanesi",
+                    "Liv Hospital"
+                ],
+                "Bakırköy": [
+                    "Bakırköy Dr. Sadi Konuk Eğitim ve Araştırma Hastanesi",
+                    "Medicana International İstanbul Hastanesi"
+                ],
+                "Sarıyer": [
+                    "Acıbadem Maslak Hastanesi",
+                    "İstinye Üniversitesi Hastanesi Liv Hospital"
+                ],
+                "Başakşehir": [
+                    "Başakşehir Çam ve Sakura Şehir Hastanesi",
+                    "Başakşehir Devlet Hastanesi",
+                    "Medipol Mega Üniversite Hastanesi",
+                    "Başakşehir Kayaşehir Şehir Hastanesi",
+                    "Private Başakşehir Hospital"
+                ],
+                "Zeytinburnu": [
+                    "Avrasya Hospital"
+                ],
+                "Şişli": [
+                    "Şişli Hamidiye Etfal Eğitim ve Araştırma Hastanesi",
+                    "Florence Nightingale Hastanesi"
+                ],
+                "Esenyurt": [
+                    "Esenyurt Devlet Hastanesi",
+                    "Doğa Hospital"
+                ],
+                "Ataşehir": [
+                    "Memorial Ataşehir Hastanesi",
+                    "Avicenna Ataşehir Hastanesi"
+                ],
+                "Kartal": [
+                    "Kartal Dr. Lütfi Kırdar Şehir Hastanesi",
+                    "Yavuz Sultan Selim Devlet Hastanesi"
+                ],
+                "Maltepe": [
+                    "Maltepe Üniversitesi Hastanesi",
+                    "Süreyya Paşa Göğüs Hastalıkları Hastanesi"
+                ],
+                "Pendik": [
+                    "Pendik Marmara Üniversitesi Eğitim ve Araştırma Hastanesi",
+                    "Emsey Hospital",
+                    "Pendik Devlet Hastanesi"
+                ],
+                "Tuzla": [
+                    "Okan Üniversitesi Hastanesi",
+                    "Tuzla Devlet Hastanesi"
+                ],
+                "Küçükçekmece": [
+                    "Acıbadem Halkalı Hastanesi",
+                    "Mehmet Akif Ersoy Kalp ve Damar Hastalıkları Hastanesi",
+                    "Kanuni Sultan Süleyman Eğitim ve Araştırma Hastanesi"
+                ],
+                "Bahçelievler": [
+                    "Memorial Bahçelievler Hastanesi",
+                    "Medical Park Bahçelievler Hastanesi"
+                ],
+                "Bayrampaşa": [
+                    "Bayrampaşa Devlet Hastanesi",
+                    "Bayrampaşa Kolan Hospital"
+                ],
+                "Esenler": [
+                    "Esenler Kadın Doğum ve Çocuk Hastalıkları Hastanesi"
+                ],
+                "Ümraniye": [
+                    "Ümraniye Eğitim ve Araştırma Hastanesi",
+                    "İstanbul Medipol Mega Üniversite Hastanesi",
+                    "Hisar Intercontinental Hospital"
+                ],
+                "Eyüpsultan": [
+                    "Eyüp Devlet Hastanesi"
+                ],
+                "Arnavutköy": [
+                    "Arnavutköy Devlet Hastanesi"
+                ],
+                "Beylikdüzü": [
+                    "Beylikdüzü Devlet Hastanesi",
+                    "Beylikdüzü Kolan Hospital"
+                ],
+                "Çekmeköy": [
+                    "Çekmeköy Devlet Hastanesi"
+                ],
+                "Büyükçekmece": [
+                    "Büyükçekmece Devlet Hastanesi"
+                ],
+                "Sancaktepe": [
+                    "Sancaktepe Şehir Hastanesi",
+                    "Sancaktepe Eğitim ve Araştırma Hastanesi"
+                ],
+                "Silivri": [
+                    "Silivri Devlet Hastanesi"
+                ],
+                "Güngören": [
+                    "Güngören Devlet Hastanesi"
+                ],
+                "Sultanbeyli": [
+                    "Sultanbeyli Devlet Hastanesi"
+                ],
+                "Adalar": [
+                    "Adalar Devlet Hastanesi"
+                ],
+                "Şile": [
+                    "Şile Devlet Hastanesi"
+                ]
+            };
+
+            // hospitalDropdown.innerHTML = ""; // Clear current options
+
+            // Assuming districtValue is set and hospitals is an object with district keys
+            if (districtValue && hospitals[districtValue]) {
+                // Clear previous options
+                hospitalDropdown.innerHTML = '';
+
+                // Populate hospital dropdown based on selected district
+                hospitals[districtValue].forEach(function(hospital) {
+                    let option = document.createElement("option");
+                    option.text = hospital;
+                    hospitalDropdown.add(option);
+                });
+
+                hospitalContainer.style.display = "block"; // Show the hospital dropdown
+            } else {
+                hospitalContainer.style.display = "none"; // Hide the hospital dropdown if no district selected
+            }
+        }
+
+
+
+
+        // Add the city ID to the hidden input field
+        function addCityIDToForm(event) {
+            const cityDropdown = document.getElementById("cityDropdown");
+            const selectedOption = cityDropdown.options[cityDropdown.selectedIndex];
+            const cityIDInput = document.getElementById("cityID");
+
+            if (!cityDropdown.disabled) {
+                // Set cityID if dropdown is enabled
+                cityIDInput.value = selectedOption.getAttribute("data-cityid");
+            } else {
+                // Clear cityID if textbox is enabled
+                cityIDInput.value = "";
+            }
+        }
+    </script>
+    <script src="js/main.js"></script>
+    <script src="js/form.js"></script>
+</body>
+</html>
